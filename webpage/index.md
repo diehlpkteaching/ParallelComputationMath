@@ -9,7 +9,7 @@ output:
 
 Welcome to an exicting semster about Accerlerated C++ for computaitonal mathematics. Classes meet
 
-<center> TBA</center>
+<center>Tuesday and Thursday, 09:00 to 10:30,</center>
 
 and I hope you are able to attend. I will try to be available for discussion after classes, so you can get the most out of the class. Please find additonal information here:
 
@@ -24,7 +24,7 @@ and I hope you are able to attend. I will try to be available for discussion aft
 
 * [Lecture 1]()
 
-%## Project
+## Project
 
 * [Project description]()
 
