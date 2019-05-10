@@ -7,6 +7,12 @@ output:
 
 ## General information
 
+Welcome to an exicting semster about Accerlerated C++ for computaitonal mathematics. Classes meet
+
+<center> TBA</center>
+
+and I hope you are able to attend. I will try to be available for discussion after classes, so you can get the most out of the class. Please find additonal information here:
+
 * [Syllabus](syllabus.pdf)
 * [Timetable](timetable.pdf)
 
