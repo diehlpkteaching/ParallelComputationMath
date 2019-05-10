@@ -1,0 +1,25 @@
+Lecture,Topic
+1,Introduction and Getting started
+2,Working with strings and looping and counting
+3,Using sequential containers and strings I
+4,Using sequential containers and strings II
+5,Using libraries function
+6,Writing generic functions
+7,Linear algebra using BLAZE
+8,Defining new types
+9,Defining abstract data types I
+10,Defining abstract data types II
+11,Review of the finite element method
+12,Data structures for finite elements
+13,Numerical integration
+14,Midterm exam
+15,Assembly of the stiffness matrix
+16,Solving equations systems using BLAZE
+17,Concluding the finite element method
+18,Discussion of the course project
+19,VTK and Paraview for Scientific Visualization
+20,Parallel algorithms and execution policies
+21,Introduction to HPX I
+22,Introduction to HPX II
+23,Managing memory and low-level data structures
+24,Managing memory automatically 

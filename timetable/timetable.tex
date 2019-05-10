@@ -1,0 +1,40 @@
+\documentclass[11pt,letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage[hidelinks]{hyperref}
+\usepackage{lastpage,booktabs}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Fall 2019}
+\lhead{Timetable, Math 4977-3 Parallel computational mathematics}
+\rfoot{Page \thepage~of \pageref{LastPage}}
+\lfoot{Last updated: \today}
+
+\usepackage{fontspec}
+\setmainfont{Raleway}
+
+\usepackage{pgfplotstable}
+
+\usepackage[
+    type={CC},
+    modifier={by-nc-nd},
+    version={4.0},
+]{doclicense}
+
+\begin{document}
+
+
+\centering
+\pgfplotstabletypeset[
+col sep = comma,
+every head row/.style={before row=\toprule,after row=\midrule},
+every last row/.style={after row=\bottomrule},
+display columns/0/.style={string type},
+display columns/1/.style={string type}
+]
+{content.csv}
+
+\doclicenseThis
+\end{document}
