@@ -16,17 +16,17 @@ and I hope you are able to attend. I will try to be available for discussion aft
 * [Syllabus](syllabus.pdf)
 * [Timetable](timetable.pdf)
 
-## Homework
+%## Homework
 
-* [Exercise 1]()
+%* [Exercise 1]()
 
-## Slides
+%## Slides
 
-* [Lecture 1]()
+%* [Lecture 1]()
 
-## Project
+%## Project
 
-* [Project description]()
+%* [Project description]()
 
 ## References
 
