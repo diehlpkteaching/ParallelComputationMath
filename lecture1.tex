@@ -1,0 +1,220 @@
+\documentclass[12pt,t]{beamer}
+
+% usepackage
+\usepackage{template/dbt}
+
+\usepackage[
+    type={CC},
+    modifier={by-nc-nd},
+    version={4.0},
+]{doclicense} 
+
+% frame slide
+\title{\coursename}
+\subtitle{Lecture 1: Introduction and Getting started}
+
+\author{\href{}{}}
+\institute {
+    \href{}{\tt \scriptsize \today}
+}
+\date {
+ \tiny \url{https://www.cct.lsu.edu/~pdiehl/teaching/2019/4977/}
+\vspace{2cm}
+\doclicenseThis  
+  
+}
+
+
+\input{template/variables.tex}
+
+\usepackage{fontspec}
+\setmainfont{Raleway}
+
+\begin{document} {
+    \setbeamertemplate{footline}{}
+    \frame {
+        \titlepage
+    }
+}
+
+\frame{
+
+\tableofcontents
+
+}
+
+\AtBeginSection[]{
+  \begin{frame}
+  \vfill
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+    \usebeamerfont{title}\insertsectionhead\par%
+  \end{beamercolorbox}
+  \vfill
+  \end{frame}
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Administration/Organization}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Important dates}
+
+\begin{block}{Lectures}
+Tuesday and Thursday, 09:00 to 10:20, 130 LCKT
+\end{block}
+
+\begin{block}{Grading}
+\begin{itemize}
+\item Homework 30\%
+\item Project 20\%
+\item Midterm exam 20\%
+\item  Final exam 30\%
+\end{itemize}
+
+\end{block}
+
+\begin{block}{Exams}
+\begin{itemize}
+\item Midterm: 15.10 during the lecture
+\item Final: 12.10 from 12:30 to 2:30
+\end{itemize}
+\end{block}
+\centering
+More: \href{\coursesyllabus}{Syllabus} and \href{\coursetimeline}{Timeline}.
+\end{frame}
+
+
+\begin{frame}{Reading}
+
+\begin{block}{Course's books}
+\begin{itemize}
+\item Andrew, Koenig. Accelerated C++: practical programming by example. Pearson Education India, 2000.
+\item Stroustrup, Bjarne. Programming: principles and practice using C++. Pearson Education, 2014.
+\end{itemize}
+\end{block}
+
+\begin{block}{Assistance C++ basics }
+\begin{itemize}
+\item Stroustrup, Bjarne. A Tour of C++. Addison-Wesley Professional, 2018.
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}{Submitting home work}
+
+\begin{block}{Theory exercises}
+At the beginning of the lecture in printed form
+\end{block}
+
+\begin{block}{Programming exercises}
+We will use Github Class room for submission of the programming exercises and the course project. 
+
+\end{block}
+\end{frame}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Getting started}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{A small C++ program}
+
+\lstinputlisting{code/lecture1-1.cpp}
+
+\begin{block}{Compile}
+\lstinputlisting[language=bash,firstline=2, lastline=2]{code/lecture1-1.sh}
+\end{block}
+
+
+\begin{block}{Run}
+\lstinputlisting[language=bash,firstline=3, lastline=3]{code/lecture1-1.sh}
+\end{block}
+
+
+\end{frame}
+
+
+\begin{frame}{Structure of a C++ program}
+
+\lstinputlisting{code/lecture1-1.cpp}
+
+\only<1>{
+\begin{block}{Comments}
+\begin{itemize}
+\item A one line comment starts with $//$ 
+\item A comment over multiple lines starts with $/*$  and ends with $*/$
+\item Comments are important to understand the program, especially if the code is shared
+\end{itemize}
+\end{block}
+}
+\only<2>{
+\begin{block}{Include directives}
+\begin{itemize}
+\item Is needed to include functionality of the C++ standard library, e.g. IO, which is not part of the core language
+\item To include functionality of external libraries or structure your own code
+\end{itemize}
+\end{block}
+}
+\only<3>{
+\begin{block}{Main function}
+\begin{itemize}
+\item Every C++ needs a function called main returning an integer value
+\item Return zero means success and any other value indicates failure
+\item When we execute any C++ program the main function is invoked and all instructions are executed
+\end{itemize}
+\end{block}
+}
+\only<4>{
+\begin{block}{\lstinline|return| statement }
+\begin{itemize}
+\item The value of the return statement is passed to the program, which called the function
+\item One function can have multiple return statements
+\end{itemize}
+\end{block}
+}
+\end{frame}
+
+\section{Working with strings}
+
+
+\begin{frame}{Reading strings}
+\only<1>{
+\lstinputlisting{code/lecture1-2.cpp}
+}
+\only<2>{
+\lstinputlisting[firstline=3, lastline=3]{code/lecture1-2.cpp}
+\lstinputlisting[firstline=9, lastline=9]{code/lecture1-2.cpp}
+\begin{block}{Variables: Definition}
+\begin{itemize}
+\item Variables have a name (name) and a type (\lstinline|std:string|)
+\item We need to include the string type, since it is not in the core language
+\item We just defined the variable and currently it is a empty or null string
+\end{itemize}
+\end{block}
+}
+\only<3>{
+\lstinputlisting[firstline=10, lastline=10]{code/lecture1-2.cpp}
+\begin{block}{Variables: Initialization}
+\begin{itemize}
+\item Now we initialize the string by reading from \lstinline|std:cin| and assigning the value to it
+\item The \lstinline|<<| operator writes a string to \lstinline|std:cout|
+\item The \lstinline|>>| operator reads a string to \lstinline|std:cin|
+\end{itemize}
+\end{block}
+Variables can be defined in three different ways:
+\begin{itemize}
+\item \lstinline|std::string = "Peter Pan";|
+\item \lstinline|std::string; // empty string|
+\item \lstinline|std::string stars(10,'*')| // string of three stars
+\end{itemize}
+\vspace{0.25cm}
+More details: \tiny\url{https://en.cppreference.com/w/cpp/string/basic_string}
+}
+
+
+\end{frame}
+
+\end{document}

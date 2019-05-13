@@ -1,0 +1,50 @@
+\documentclass[12pt,t]{beamer}
+
+% usepackage
+\usepackage{template/dbt}
+
+\input{template/variables.tex}
+
+\usepackage{fontspec}
+\setmainfont{Raleway}
+
+% frame slide
+\title{\coursename}
+\subtitle{Lecture X: }
+
+\author{\href{}{}}
+\institute {
+    \href{}{\tt \scriptsize \today}
+}
+\date {
+ \tiny \url{\courseurl}
+}
+
+\begin{document} {
+    \setbeamertemplate{footline}{}
+    \frame {
+        \titlepage
+    }
+}
+
+\frame{
+
+\tableofcontents
+
+}
+
+\AtBeginSection[]{
+  \begin{frame}
+  \vfill
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+    \usebeamerfont{title}\insertsectionhead\par%
+  \end{beamercolorbox}
+  \vfill
+  \end{frame}
+}
+
+
+
+
+\end{document}
