@@ -18,15 +18,12 @@ and I hope you are able to attend. I will try to be available for discussion aft
 
 ## Homework
 
-* [Exercise 1]()
 
 ## Slides
 
-* [Lecture 1]()
 
 ## Project
 
-* [Project description]()
 
 ## References
 
