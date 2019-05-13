@@ -7,9 +7,9 @@ output:
 
 ## General information
 
-Welcome to an exciting semester about Accerlerated C++ for computational mathematics. Classes meet
+Welcome to an exciting semester about accerlerated C++ for computational mathematics. Classes meet
 
-<center>Tuesday and Thursday, 09:00 to 10:30,</center>
+<center>Tuesday and Thursday, 09:00 to 10:20, 130 LCKT</center>
 
 and I hope you are able to attend. I will try to be available for discussion after classes, so you can get the most out of the class. Please find additional information here:
 
