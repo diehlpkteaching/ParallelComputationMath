@@ -1,13 +1,35 @@
 \documentclass[12pt,t]{beamer}
 
 % usepackage
-\usepackage{template/dbt}
+%\usepackage{template/dbt}
+\usepackage{listings}
+
+\definecolor{comments}{RGB}{81,81,81}
+\definecolor{keywords}{RGB}{255,0,90}
+
+% lstlisting
+\lstset{
+    language=C,
+    basicstyle=\footnotesize\ttfamily,
+    keywordstyle=\color{keywords},
+    showspaces=false,
+    showstringspaces=false,
+    commentstyle=\color{blue}\emph,
+    frame=single,
+    rulecolor=\color{comments},
+    rulesepcolor=\color{comments},
+    %backgroundcolor = \color{lightgray}
+}
+
+\usetheme{default}
 
 \usepackage[
     type={CC},
     modifier={by-nc-nd},
     version={4.0},
 ]{doclicense} 
+
+\input{template/variables.tex}
 
 % frame slide
 \title{\coursename}
@@ -25,7 +47,7 @@
 }
 
 
-\input{template/variables.tex}
+
 
 \usepackage{fontspec}
 \setmainfont{Raleway}
