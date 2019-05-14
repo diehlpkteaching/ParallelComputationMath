@@ -14,10 +14,10 @@
     keywordstyle=\color{keywords},
     showspaces=false,
     showstringspaces=false,
-    commentstyle=\color{blue}\emph,
-    frame=single,
-    rulecolor=\color{comments},
-    rulesepcolor=\color{comments},
+    commentstyle=\color{blue}\emph
+    %frame=single,
+    %rulecolor=\color{comments},
+    %rulesepcolor=\color{comments},
     %backgroundcolor = \color{lightgray}
 }
 
@@ -230,12 +230,148 @@ Variables can be defined in three different ways:
 \begin{itemize}
 \item \lstinline|std::string = "Peter Pan";|
 \item \lstinline|std::string; // empty string|
-\item \lstinline|std::string stars(10,'*')| // string of three stars
+\item \lstinline|std::string stars(3,'*')| // string of three stars
 \end{itemize}
 \vspace{0.25cm}
 More details: \tiny\url{https://en.cppreference.com/w/cpp/string/basic_string}
 }
 
+
+\end{frame}
+
+
+\section{Looping and counting}
+
+
+\begin{frame}{Using loops and counting}
+\lstinputlisting[firstline=5, lastline=15]{code/lecture1-2.cpp}
+\begin{block}{Output}
+\centering
+**************** \\
+*\; \; \; \; \; \; \; \; \; \; \; \;* \\
+*  Hi, M4997-3!\;\;\, * \\
+*\; \; \; \; \; \; \; \; \; \; \; \;* \\
+****************
+\end{block}
+\end{frame}
+
+\begin{frame}{More functionality of strings }
+\lstinputlisting[firstline=12, lastline=12]{code/lecture1-3.cpp}
+\begin{block}{Concatenation}
+\lstinline|+| operator combines string
+\end{block}
+\begin{block}{Defining constants}
+\lstinline|const| operator to make the promise that we will not change the value later
+\end{block}
+\lstinputlisting[firstline=15, lastline=15]{code/lecture1-3.cpp}
+\begin{block}{Getting the size}
+\lstinline|.size()| operator to get the string's size
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{The while statement}
+\begin{lstlisting}
+size_t pad = 1;
+const std::string::size_type cols 
+	= greeting.size() + pad * 2 + 2;
+
+while (c != cols ) {
+// do formatting and printing
+}
+\end{lstlisting}
+\only<1>{
+\begin{block}{Condition}
+\begin{itemize}
+\item \lstinline|r != rows| the statement  within the curly braces will be repeated while the condition is true
+\item \lstinline|!=| is the inequality operator and once \lstinline|r| is equal to \lstinline|rows| the loop stops
+\end{itemize}
+
+\end{block}
+
+
+}
+\only<2>{
+\begin{block}{Storing sizes}
+\lstinline|size_t| is the type of any \lstinline|sizeof| expression and as is guaranteed to be able to express the maximum size of any object in C++
+\end{block}
+\begin{block}{Increment}
+\lstinline|++r| is equivalent to \lstinline|r = r+1|
+\end{block}
+}
+\end{frame}
+
+\begin{frame}[fragile]{The loop statement}
+\begin{lstlisting}
+const size_t rows = pad * 2 + 3;
+
+for(size_t r = 0; r != rows; r++){
+
+//do formatting and printing
+
+}
+\end{lstlisting}
+\begin{block}{Condition}
+\begin{itemize}
+\item The variable r is only available inside the loop's body
+\item The loop will execute the statements in the curly braces until r is equal to rows
+\item The value of r is incremented after all statements are executed
+\end{itemize}
+\end{block}
+
+
+\end{frame}
+
+
+\begin{frame}[fragile]Conditionals}
+\begin{lstlisting}
+if ( r == pad + 1 && c == pad + 1){
+	std::cout << greeting;
+    c += greeting.size();
+} else
+{
+// do something
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}{Operators}
+\begin{block}{Logical operators}
+\begin{itemize}
+\item \lstinline|&&| Logical and
+\item \lstinline|||| Logial or
+\item \lstinline|!x| Logical negation 
+\end{itemize}
+\end{block}
+\begin{block}{Comparison operators}
+\begin{itemize}
+\item \lstinline|==|  Compares to equal
+\item \lstinline|!=| Compares to unequal
+\item \lstinline|<| Compares to be less
+\item \lstinline|>| Compares to be higher
+\item \lstinline|<=| Compares to be less or equal
+\item \lstinline|>=| Compares to be higher or equal
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}{Built-in types}
+\begin{block}{Integer types}
+\begin{itemize}
+\item \lstinline|bool| Representation of truth values: \lstinline|true| or \lstinline|false| 
+\item \lstinline|unsigned| Integral type for non-negative values only 
+\item \lstinline|short| Integral type that must hold at least 32 bits
+\item \lstinline|long| Integral type that must hold at least 64 bits
+\item \lstinline|size_t| Unsigned Integral type
+\end{itemize}
+\end{block}
+
+\begin{block}{Floating points}
+\begin{itemize}
+\item \lstinline|float| Single precision floating point type
+\item \lstinline|double| Double precision floating point type
+\item \lstinline|long double| Extended precision floating point type
+\end{itemize}
+\end{block}
 
 \end{frame}
 
