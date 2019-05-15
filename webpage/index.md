@@ -18,6 +18,7 @@ and I hope you are able to attend. I will try to be available for discussion aft
 
 ## Homework
 
+* [Exercise 1](exercise1.pdf)
 
 ## Slides
 
@@ -25,7 +26,6 @@ and I hope you are able to attend. I will try to be available for discussion aft
 
 ## Project
 
-* [Exercise 1](exercise1.pdf)
 
 ## References
 
