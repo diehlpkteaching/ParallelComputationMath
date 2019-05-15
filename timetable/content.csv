@@ -9,17 +9,18 @@ Lecture,Topic
 8,Defining new types
 9,Defining abstract data types I
 10,Defining abstract data types II
-11,Review of the finite element method
-12,Data structures for finite elements
-13,Numerical integration
+11,Parallel algorithms and execution policies 
+12,Introduction to HPX I
+13,Introduction to HPX II
 14,Midterm exam
-15,Assembly of the stiffness matrix
-16,Solving equations systems using BLAZE
-17,Concluding the finite element method
-18,Discussion of the course project
-19,VTK and Paraview for Scientific Visualization
-20,Parallel algorithms and execution policies
-21,Introduction to HPX I
-22,Introduction to HPX II
-23,Managing memory and low-level data structures
-24,Managing memory automatically 
+15,Implementing the Finite Element Method in parallel
+16,Data structures for finite elements
+17,Assembly of the stiffness matrix
+18,Solving equations systems using BLAZE
+19,Concluding the finite element method
+20,VTK and Paraview for Scientific Visualization
+21,Discussion of the course project
+22,Managing memory and low-level data structures
+23,Managing memory automatically
+24,Summary
+
