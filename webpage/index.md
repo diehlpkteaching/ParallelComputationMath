@@ -18,6 +18,7 @@ and I hope you are able to attend. I will try to be available for discussion aft
 
 ## Homework
 
+* [Exercise 1](exercise1.pdf)
 
 ## Slides
 
@@ -25,19 +26,18 @@ and I hope you are able to attend. I will try to be available for discussion aft
 
 ## Project
 
-* [Exercise 1](exercise1.pdf)
 
 ## References
 
 * Andrew, Koenig. Accelerated C++: practical programming by example. Pearson Education India, 2000.
 * Stroustrup, Bjarne. Programming: principles and practice using C++. Pearson Education, 2014.
 
-## Useful links for programming
+## Useful links 
 
 * [C++ reference](https://en.cppreference.com/w/)
 * [HPX reference](https://stellar-group.github.io/hpx/docs/sphinx/latest/html/index.html)
 * [Blaze reference](https://bitbucket.org/blaze-lib/blaze/wiki/Getting_Started)
 * [Learn git interactive](https://learngitbranching.js.org/)
 * [Online C++ compiler](https://wandbox.org/)
-
+* [How to use Github Classroom](https://www.diehlpk.de/blog/githubclassroom/)
 
