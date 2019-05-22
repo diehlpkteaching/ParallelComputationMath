@@ -1,0 +1,9 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: diehlpk/teaching
+    steps:
+      - checkout
+      - run: find -name "*.cpp" -exec g++ "{}" -o "{}".exec ";"
+      - run: find -name "*.cpp" -exec cppcheck --enable=warning,performance "{}" ";"
