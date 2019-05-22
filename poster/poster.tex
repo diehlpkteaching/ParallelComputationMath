@@ -1,0 +1,74 @@
+\documentclass[25pt, letter, portrait]{tikzposter}
+\usepackage[utf8]{inputenc}
+ 
+\title{Math 4977-3 Parallel computational mathematics}
+\author{Fall 2019}
+%\date{\today}
+%\institute{ShareLaTeX Institute}
+ 
+\usetheme{simple}
+
+ 
+\begin{document}
+ 
+\maketitle
+
+\begin{columns}
+    \column{0.5}
+    \block{}{Text and more text}
+ 
+    \column{0.5}
+    \block{General information}{
+    \centering
+	\begin{tabular}{ll}
+	\textbf{Time}: & Tuesday and Thursday, 09:00 to 10:20 \\   
+	\textbf{Location}: & 130 LCKT  \\
+    \textbf{Instructor}: & Dr. Patrick Diehl \\
+    \textbf{Contact}: & patrickdiehl@lsu.edu	
+	\end{tabular}	    
+    }
+ 
+\end{columns}
+
+
+\block{Course description}{
+This course will focus on the parallel implementation of computational mathematics problems using modern accelerated C++. The aim of this course is to learn how to quickly write useful efficient C++ programs. The students will not learn low-level C/C++ instead they will learn how to use high-level data structures, iterators, generic strings, and streams (including interactive and file I/O) of the C++ ISO Standard library. In addition, highly-optimized linear algebra libraries are introduced since the course teaches to solve problems, instead of explaining low-level C++and computer science algorithms, like sorting algorithms, which are provided in the C++ standard library.\\
+
+
+The first part, provides a brief overview of the containers, strings, streams, input/output, and the numeric library of the C++ standard library. For linear algebra, we will look into Blaze which is an open-source, high-performance C++ math library for dense and sparse arithmetic.The second part will solve computational mathematics problems based-on the the previous introduced features of the C++ standard library.The third part will focus on the parallel features provided by the C++ standard library. Here,the implemented computational problems in the second part of the course will be parallized using the C++ standard library for parallelism and concurrency.Since programming skills can only be improved by doing, there will be weekly programming exercises and a small project. After this course students have a basic overview of the C++ standard library to solve efficiently computational mathematics problems without using low-level C/C++.
+}
+
+\block{Textbooks}{
+\centering
+\begin{tabular}{l}
+ Andrew, Koenig. Accelerated C++: practical programming by example. Pearson Education India, 2000.  \\
+ Stroustrup, Bjarne. Programming: principles and practice using C++. Pearson Education, 2014.
+\end{tabular}
+}
+
+\block{Grading}{
+
+\begin{minipage}{0.35\textwidth}
+\hspace{2cm}
+\begin{itemize}
+\item Quizzes and homework 30\%
+\item Project 20\%
+\item Midterm exam 20\%
+\item Final exam 30\%
+\end{itemize}
+\end{minipage}
+\begin{minipage}{0.5\textwidth}
+Overall, in the end of the semester 90\% of all points or more will give you an ‘A’, 80\% or more a ‘B’, 70\% or more a ‘C’, and 60\% or more results in a ‘D’. Below that you’ll fail the course, but I’m sure that will not happen to anyone
+\end{minipage}
+}
+
+\block{}
+{
+        \begin{tikzfigure}
+            \includegraphics[width=0.2\textwidth]{qrcode2019.png}
+        \end{tikzfigure}
+}
+
+
+\end{document}
+
