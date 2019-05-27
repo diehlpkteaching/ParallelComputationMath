@@ -1,0 +1,475 @@
+\documentclass[12pt]{beamer}
+
+% usepackage
+%\usepackage{template/dbt}
+\usepackage{listings}
+
+\usepackage{xfrac}
+
+\usepackage{tikz}
+
+\definecolor{comments}{RGB}{81,81,81}
+\definecolor{keywords}{RGB}{255,0,90}
+
+% lstlisting
+\lstset{
+    language=C,
+    basicstyle=\footnotesize\ttfamily,
+    keywordstyle=\color{keywords},
+    showspaces=false,
+    showstringspaces=false,
+    commentstyle=\color{blue}\emph
+    %frame=single,
+    %rulecolor=\color{comments},
+    %rulesepcolor=\color{comments},
+    %backgroundcolor = \color{lightgray}
+}
+
+\usetheme{default}
+
+\usepackage[
+    type={CC},
+    modifier={by-nc-nd},
+    version={4.0},
+]{doclicense} 
+
+\input{template/variables.tex}
+
+% frame slide
+\title{\coursename}
+\subtitle{Lecture 2: Monte Carlo, Vectors, and}
+
+\author{\href{}{}}
+\institute {
+    \href{}{\tt \scriptsize \today}
+}
+\date {
+ \tiny \url{\courseurl}
+\vspace{2cm}
+\doclicenseThis  
+  
+}
+
+
+
+
+\usepackage{fontspec}
+\setmainfont{Raleway}
+
+\begin{document} {
+    \setbeamertemplate{footline}{}
+    \frame {
+        \titlepage
+    }
+}
+
+\frame{
+
+\tableofcontents
+
+}
+
+\AtBeginSection[]{
+  \begin{frame}
+  \vfill
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+    \usebeamerfont{title}\insertsectionhead\par%
+  \end{beamercolorbox}
+  \vfill
+  \end{frame}
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Reminder}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Lecture 1}
+\begin{block}{What you should know from last lecture}
+\begin{itemize}
+\item Structure of a C++ program
+\item \lstinline|std::string|
+\begin{itemize}
+\item Reading strings \lstinline|std::cin|
+\item Writing strings \lstinline|std:cout|
+\end{itemize}
+\item Looping and counting
+\begin{itemize}
+\item \lstinline|while|
+\item \lstinline|for|
+\end{itemize}
+\item Conditionals \lstinline|if|
+\item Operators
+\item Built-in types
+\end{itemize}
+\end{block}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Monte Carlo methods}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Monte Carlo method}
+
+\textbf{Monte Carlo methods} are computational algorithms which rely on repeated random sampling to obtain numerical results. More details~\cite{shonkwiler2009explorations}.
+
+\begin{block}{Three problem classes~\cite{kroese2014monte}:}
+\begin{enumerate}
+\item Optimization
+\item Numerical integration
+\item Probability distributions
+\end{enumerate}
+\end{block}
+
+\begin{block}{General pattern:}
+\begin{enumerate}
+\item Define the input parameters
+\item Randomly chose input parameters   
+\item Do deterministic computations on the inputs
+\item Aggregate the results
+\end{enumerate}
+\end{block}
+\end{frame}
+
+\begin{frame}{Example: Estimate the value of $\pi$}
+
+\begin{columns}
+
+\begin{column}{0.3\textwidth}
+\centering
+\only<1>{
+\begin{tikzpicture}
+\draw (0,0) -- (2,0) -- (2,2) -- (0,2) -- cycle;
+\end{tikzpicture}
+}
+\only<2>{
+\begin{tikzpicture}
+\draw (0,0) -- (2,0) -- (2,2) -- (0,2) -- cycle;
+\draw (1,1) circle (1cm);
+\end{tikzpicture}
+}
+\end{column}
+\begin{column}{0.7\textwidth}
+\begin{block}{Ingredients}
+\begin{itemize}
+\item Unit square $1\times 1$ 
+\item circle with the radius of $r=\sfrac{1}{2}$
+\item Area of the circle $A_c=\pi r^2 = \sfrac{\pi}{4} $ 
+\item Area of the square $A_s = 1 \cdot 1 = 1$
+\item Recall: $A_c=\sfrac{\pi}{4}\rightarrow \pi = 4A_c$
+\item Hint:   $\sfrac{A_c}{A_s} = A_c$ because $A_s=1$
+\end{itemize}
+\end{block}
+\end{column}
+\end{columns}
+%\vspace{1cm}
+Now compute PI by using the two areas:
+\begin{align*}
+\pi \approx 4 \sfrac{A_c}{A_s}
+\end{align*}
+The areas can be approximated by using $N$ random samples $(x,y)$ and count the points inside the circle $N_c$ 
+\begin{align*}
+\pi \approx 4 \sfrac{N_c}{N}
+\end{align*}
+\end{frame}
+
+
+\begin{frame}{Algorithm}
+\begin{enumerate}
+\item Generate random coordinates $(x,y)\in \mathbb{R}^2$
+\item Check if $x^2+y^2 \leq 1$
+\begin{itemize}
+\item Update $N_c$ if $\leq 1$
+\end{itemize}
+\item Increment $n$ the interval  
+\item If $n$ < $n_{\text{total}}$ go to 1
+\item Calculate $\pi \approx 4 \sfrac{N_c}{n}$
+\item Print result
+\end{enumerate}
+\vspace{0.25cm}
+\textcolor{blue}{Interactive question:} \\
+\vspace{0.125cm}
+Which features of C++ do we need? \\
+\vspace{0.25cm}
+\only<2>{
+
+\lstinline|for|, \lstinline|if|, \lstinline|std::cout|, and random numbers
+}
+\end{frame}
+
+\begin{frame}{Random numbers\footnote{\tiny\url{https://en.cppreference.com/w/cpp/numeric/random/srand}}}
+
+\lstinputlisting{code/lecture2-random.cpp}
+
+\end{frame}
+
+\begin{frame}{Uniform distributed random numbers\footnote{\tiny\url{https://en.cppreference.com/w/cpp/numeric/random/uniform_int_distribution}} \footnote{\tiny\url{https://en.cppreference.com/w/cpp/numeric/random/uniform_real_distribution}}}
+
+\lstinputlisting{code/lecture2-distrandom.cpp}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Containers \& Algorithms}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Computation of the average\footnote{\tiny\url{https://en.cppreference.com/w/cpp/io/manip/setprecision/}}}
+
+
+\lstinputlisting{code/lecture2-average.cpp}
+
+\end{frame}
+
+\begin{frame}{Reading multiple values}
+
+\begin{block}{Recall: Reading one value}
+\lstinline| std::cin >> x|
+\end{block}
+
+\begin{block}{Reading multiple values}
+\lstinputlisting[firstline=7, lastline=13]{code/lecture2-average.cpp}
+\end{block}
+
+Note that the \lstinline|while| loops stops by inserting \lstinline|\n|
+
+\end{frame}
+
+\begin{frame}{What about computing the median?}
+
+\begin{block}{We have to:}
+\begin{itemize}
+\item We have to store all values without knowing the amount in advance
+\item We have to sort all the values 
+\item We have to select the middle value(s) efficiently
+\end{itemize}
+
+\end{block}
+\pause
+\begin{block}{What we will use:}
+\begin{itemize}
+\item Containers: \lstinline| std::vector | to store the elements
+\item Algorithm, like sorting or accumulate
+\item Iterators for accessing elements
+\end{itemize}
+
+\end{block}
+
+\end{frame}
+
+\begin{frame}{Advanced computing of the average}
+
+\lstinputlisting{code/lecture2-averageContainers.cpp}
+
+\end{frame}
+
+\begin{frame}{Initialization of Vectors\footnote{\tiny{\url{https://en.cppreference.com/w/cpp/container/vector}}}}
+
+\begin{block}{Initialization of an empty vector}
+\begin{itemize}
+\item \lstinline| std::vector<double> values;| 
+\item \lstinline| values.empty() | will return \lstinline|true|
+\item \lstinline| values.size() | will return zero
+\end{itemize}
+\end{block}
+
+\begin{block}{Initialization}
+\begin{itemize}
+\item \lstinline| std::vector<double> v = \{1, 2.5\}; |
+\item \lstinline| values.empty() | will return \lstinline|false|
+\item \lstinline| values.size() | will return one
+\end{itemize}
+\end{block}
+
+\textcolor{red}{Note that C++ starts counting by 0 and the length is always number of elements minus one!}
+
+\end{frame}
+
+\begin{frame}{Manipulating vectors}
+
+\begin{block}{Inserting}
+\begin{itemize}
+\item \lstinline| values.push_back(3.5); | append 3.5 at the end
+\item \lstinline| values[3] = 1.5; | replaces the third element by 1.5
+\end{itemize}
+\end{block}
+
+\begin{block}{Accessing}
+\begin{itemize}
+\item \lstinline| values[i] | returns element $i$
+\item \lstinline| values.first() | returns the first element
+\item \lstinline| values.last() | return the last element
+\end{itemize}
+\end{block}
+
+\begin{block}{Deleting}
+\begin{itemize}
+\item \lstinline|values.pop_back(); | deletes the last element
+\item \lstinline|values.erase(i)| deletes the $i$-th element 
+\end{itemize}
+\end{block}
+
+\end{frame}
+
+
+\begin{frame}{Algorithms}
+
+\begin{block}{Accumulate\footnote{\tiny\url{https://en.cppreference.com/w/cpp/algorithm/accumulate}}}
+\lstinline| double sum = std::accumulate(v.begin(), v.end(), 0.0f); |
+\begin{itemize}
+\item The first two arguments define the range of the vector
+\item The third is the initial value of the sum 
+\item The header \lstinline|\#include <numerics>| provides this functionality
+\end{itemize}
+\end{block}
+
+\begin{block}{Sorting\footnote{\tiny\url{https://en.cppreference.com/w/cpp/algorithm/sort}}}
+\lstinline|std::sort(s.begin(), s.end());|
+\begin{itemize}
+\item The header \lstinline|\#include <algorithm>| provides this functionality
+\end{itemize}
+\end{block}
+
+\end{frame}
+
+\begin{frame}[fragile]{Looping over a vector}
+
+\begin{block}{Long form}
+\begin{lstlisting}
+for( size_t i = 0; i < value.size() ; i++)
+{
+	v[i] *= 2
+}
+\end{lstlisting}
+\end{block}
+
+
+\begin{block}{Short form}
+\begin{lstlisting}
+for (auto& v : values)
+{
+	v *= 2
+}
+\end{lstlisting}
+\end{block}
+\begin{itemize}
+\item \lstinline|auto| is equivalent to \lstinline|double v : values|\footnote{\tiny\url{https://en.cppreference.com/w/cpp/language/auto}} 
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Recall: Advanced computing of the average}
+
+\lstinputlisting{code/lecture2-averageContainers.cpp}
+
+\end{frame}
+
+\begin{frame}[fragile]{Computing the median}
+
+\begin{block}{Code}
+\begin{lstlisting}
+
+typedef std::vector<double>::size_type vec_sz;
+vec_sz = values.size();
+double median = 0;
+
+if( size % 2 == 0 ) 
+	median = 0.5*(values[mid] + values[mid-1]);
+else
+	median = values[mid];
+\end{lstlisting}
+\end{block}
+
+\begin{block}{Features}
+\begin{itemize}
+\item \lstinline|typedef|\footnote{\tiny\url{https://en.cppreference.com/w/cpp/language/typedef}} is useful to not write large expression again
+\item Conditional parameter\footnote{\tiny\url{https://en.cppreference.com/w/cpp/language/operator_other}} \lstinline|median = size % 2 == 0 ? true : false; |
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}{Example: Advanced computing of the average}
+
+\lstinputlisting{code/lecture2-median.cpp}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Functions}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[fragile]{Function definition\footnote{\tiny\url{https://en.cppreference.com/w/c/language/function_definition}}}
+
+\begin{block}{Example: maximum}
+\begin{lstlisting}
+int max(int a, int b)
+{
+return return a>b?a:b;
+}
+
+\end{lstlisting}
+\end{block}
+\begin{block}{Each function has}
+\begin{itemize}
+\item a name \lstinline|max|
+\item a return type \lstinline|int max()|
+\item a return value \lstinline|return a>b?a:b;|
+\item some function parameters \lstinline| max(int a, int b)| or none \lstinline| max(void) |
+\end{itemize}
+\end{block}
+Function are defined between \lstinline|#include| and \lstinline|int main (void)|
+\end{frame}
+
+\begin{frame}[fragile]{Function definition for the median}
+
+\begin{block}{Function definition}
+\begin{lstlisting}
+double median(std::vector<double> values)
+{
+std::sort(values.begin(),values.end());
+vec_sz mid = values.size() / 2;
+double median = values.size() % 2 == 0 ? 
+    0.5*(values[mid]+values[mid-1]) : values[mid];
+    
+return median;
+}
+\end{lstlisting}
+\end{block}
+
+\begin{block}{Example}
+
+\lstinline|double median = median(values)|
+
+\end{block}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Summary}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Summary}
+\begin{block}{After this lecture, you should know}
+\begin{itemize}
+\item Monte Carlo Methods
+\item Random numbers
+\item Containers like \lstinline|std::vector|
+\item Functions
+\end{itemize}
+
+\end{block}
+
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{References}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[t, allowframebreaks]
+\frametitle{References}
+\bibliographystyle{plain}
+\bibliography{bib}
+\end{frame}
+
+\end{document}

@@ -269,7 +269,7 @@ More details: \tiny\url{https://en.cppreference.com/w/cpp/string/basic_string}
 \end{block}
 \end{frame}
 
-\begin{frame}[fragile]{The while statement}
+\begin{frame}[fragile]{The while statement\footnote{\tiny\url{https://en.cppreference.com/w/cpp/language/while}}}
 \begin{lstlisting}
 size_t pad = 1;
 const std::string::size_type cols 
@@ -294,13 +294,11 @@ while (c != cols ) {
 \begin{block}{Storing sizes}
 \lstinline|size_t| is the type of any \lstinline|sizeof| expression and as is guaranteed to be able to express the maximum size of any object in C++
 \end{block}
-\begin{block}{Increment}
-\lstinline|++r| is equivalent to \lstinline|r = r+1|
-\end{block}
+
 }
 \end{frame}
 
-\begin{frame}[fragile]{The loop statement}
+\begin{frame}[fragile]{The loop statement\footnote{\tiny\url{https://en.cppreference.com/w/cpp/language/for}}}
 \begin{lstlisting}
 const size_t rows = pad * 2 + 3;
 
@@ -315,6 +313,7 @@ for(size_t r = 0; r != rows; r++){
 \item The variable r is only available inside the loop's body
 \item The loop will execute the statements in the curly braces until r is equal to rows
 \item The value of r is incremented after all statements are executed
+\item \lstinline|r++| is equivalent to \lstinline|r = r+1|
 \end{itemize}
 \end{block}
 
@@ -322,7 +321,7 @@ for(size_t r = 0; r != rows; r++){
 \end{frame}
 
 
-\begin{frame}[fragile]{Conditionals}
+\begin{frame}[fragile]{Conditionals\footnote{\tiny\url{https://en.cppreference.com/w/cpp/language/if}}}
 \begin{lstlisting}
 if ( r == pad + 1 && c == pad + 1){
 	std::cout << greeting;
@@ -345,7 +344,7 @@ if ( r == pad + 1 && c == pad + 1){
 \end{block}
 \end{frame}
 
-\begin{frame}{Operators}
+\begin{frame}{Operators\footnote{\tiny\url{https://en.cppreference.com/w/cpp/language/operator_precedence}}}
 \begin{block}{Logical operators}
 \begin{itemize}
 \item \lstinline|&&| Logical and
@@ -365,7 +364,7 @@ if ( r == pad + 1 && c == pad + 1){
 \end{block}
 \end{frame}
 
-\begin{frame}{Built-in types}
+\begin{frame}{Built-in types\footnote{\tiny\url{https://en.cppreference.com/w/cpp/language/types}}}
 \begin{block}{Integer types}
 \begin{itemize}
 \item \lstinline|bool| Representation of truth values: \lstinline|true| or \lstinline|false| 
@@ -383,6 +382,26 @@ if ( r == pad + 1 && c == pad + 1){
 \item \lstinline|long double| Extended precision floating point type
 \end{itemize}
 \end{block}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Summary}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Summary}
+\begin{block}{After this lecture, you should know}
+\begin{itemize}
+\item Structure of a C++ program
+\item Handling strings
+\item Loops and counting
+\item Conditionals
+\item Operators
+\item Built-in types
+\end{itemize}
+
+\end{block}
+
 
 \end{frame}
 
