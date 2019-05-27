@@ -23,7 +23,8 @@ and I hope you are able to attend. I will try to be available for discussion aft
 ## Slides
 
 * [Lecture 1](lecture1.pdf)
-
+* [Lecture 2](lecture2.pdf)
+    
 ## Project
 
 
