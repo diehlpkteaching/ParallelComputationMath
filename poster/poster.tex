@@ -12,8 +12,12 @@
 
 \usetheme{simple}
 
- \usepackage{fontspec}
+\usepackage{ifxetex}
+
+\ifxetex
+\usepackage{fontspec}
 \setmainfont{Raleway}
+\fi
 
 \usepackage[
     type={CC},

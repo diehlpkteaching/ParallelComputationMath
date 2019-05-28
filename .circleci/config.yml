@@ -7,4 +7,9 @@ jobs:
       - checkout
       - run: find -name "*.cpp" -exec g++ "{}" -o "{}".exec ";"
       - run: find -name "*.cpp" -exec cppcheck --enable=warning,performance "{}" ";"
-      - run: find -name "lecture*.tex" -exec latexmk -pdflatex=xelatex -pdf "{}" ";"
+      - run: mkdir final 
+      - run: find -name "lecture*.tex" -exec latexmk -pdf "{}" ";"
+      - run: cp lecture*.pdf final
+      - store_artifcats:
+          path: final
+          destination: lectures

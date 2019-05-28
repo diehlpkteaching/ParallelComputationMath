@@ -12,8 +12,12 @@
 \rfoot{Page \thepage~of \pageref{LastPage}}
 \lfoot{Last updated: \today}
 
+\usepackage{ifxetex}
+
+\ifxetex
 \usepackage{fontspec}
 \setmainfont{Raleway}
+\fi
 
 \usepackage{pgfplotstable}
 
