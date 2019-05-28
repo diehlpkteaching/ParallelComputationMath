@@ -1,5 +1,7 @@
 \documentclass[12pt]{beamer}
 
+\beamertemplatenavigationsymbolsempty
+
 % usepackage
 %\usepackage{template/dbt}
 \usepackage{listings}
@@ -37,12 +39,12 @@
 
 % frame slide
 \title{\coursename}
-\subtitle{Lecture 2: Monte Carlo, Vectors, and}
+\subtitle{Lecture 2: Monte Carlo, Vectors, and Algorithms}
 
-\author{\href{}{}}
-\institute {
-    \href{}{\tt \scriptsize \today}
-}
+%\author{\href{}{}}
+%\institute {
+%    \href{}{\tt \scriptsize \today}
+%}
 \date {
  \tiny \url{\courseurl}
 \vspace{2cm}
@@ -202,7 +204,7 @@ Which features of C++ do we need? \\
 \begin{frame}{Random numbers\footnote{\tiny\url{https://en.cppreference.com/w/cpp/numeric/random/srand}}}
 
 \lstinputlisting{code/lecture2-random.cpp}
-
+More details: Section~3.2~\cite{knuth1997art2}
 \end{frame}
 
 \begin{frame}{Uniform distributed random numbers\footnote{\tiny\url{https://en.cppreference.com/w/cpp/numeric/random/uniform_int_distribution}} \footnote{\tiny\url{https://en.cppreference.com/w/cpp/numeric/random/uniform_real_distribution}}}
@@ -306,7 +308,7 @@ Note that the \lstinline|while| loops stops by inserting \lstinline|\n|
 \begin{block}{Deleting}
 \begin{itemize}
 \item \lstinline|values.pop_back(); | deletes the last element
-\item \lstinline|values.erase(i)| deletes the $i$-th element 
+\item \lstinline|values.erase(values.start()+i)| deletes the $i$-th element 
 \end{itemize}
 \end{block}
 
@@ -457,7 +459,6 @@ return median;
 \item Containers like \lstinline|std::vector|
 \item Functions
 \end{itemize}
-
 \end{block}
 
 

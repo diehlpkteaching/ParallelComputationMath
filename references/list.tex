@@ -1,0 +1,40 @@
+\documentclass[11pt,letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=1in]{geometry}
+\usepackage[hidelinks]{hyperref}
+\usepackage{lastpage}
+
+
+\input{../template/variables.tex}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{Fall 2019}
+\lhead{\coursename~Parallel computational mathematics}
+\rfoot{Page \thepage~of \pageref{LastPage}}
+\lfoot{Last updated: \today}
+
+\usepackage{ifxetex}
+
+\ifxetex
+\usepackage{fontspec}
+\setmainfont{Raleway}
+\fi
+
+\usepackage[
+    type={CC},
+    modifier={by-nc-nd},
+    version={4.0},
+]{doclicense}
+
+
+
+\begin{document}
+
+\nocite{*}
+
+\bibliographystyle{plain}
+\bibliography{../bib}
+
+\end{document}

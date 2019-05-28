@@ -1,0 +1,249 @@
+\documentclass[12pt,t]{beamer}
+
+\beamertemplatenavigationsymbolsempty
+% usepackage
+%\usepackage{template/dbt}
+\usepackage{listings}
+
+\definecolor{comments}{RGB}{81,81,81}
+\definecolor{keywords}{RGB}{255,0,90}
+
+% lstlisting
+\lstset{
+    language=C,
+    basicstyle=\footnotesize\ttfamily,
+    keywordstyle=\color{keywords},
+    showspaces=false,
+    showstringspaces=false,
+    commentstyle=\color{blue}\emph,
+    showtabs=false,
+    showspaces=false,
+    showstringspaces=false,
+    %frame=single,
+    %rulecolor=\color{comments},
+    %rulesepcolor=\color{comments},
+    %backgroundcolor = \color{lightgray}
+}
+
+\usetheme{default}
+
+\usepackage[
+    type={CC},
+    modifier={by-nc-nd},
+    version={4.0},
+]{doclicense} 
+
+\input{template/variables.tex}
+
+% frame slide
+\title{\coursename}
+\subtitle{Lecture 3: Iterators, Lists, and using library algorithms}
+
+%\author{\href{}{}}
+%\institute {
+%    \href{}{\tt \scriptsize \today}
+%}
+\date {
+ \tiny \url{https://www.cct.lsu.edu/~pdiehl/teaching/2019/4977/}
+\vspace{2cm}
+\doclicenseThis  
+  
+}
+
+
+
+\usepackage{ifxetex}
+
+\ifxetex
+\usepackage{fontspec}
+\setmainfont{Raleway}
+\fi
+
+\begin{document} {
+    \setbeamertemplate{footline}{}
+    \frame {
+        \titlepage
+    }
+}
+
+\frame{
+
+\tableofcontents
+
+}
+
+\AtBeginSection[]{
+  \begin{frame}
+  \vfill
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+    \usebeamerfont{title}\insertsectionhead\par%
+  \end{beamercolorbox}
+  \vfill
+  \end{frame}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Reminder}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Lecture 2}
+\begin{block}{What you should know from last lecture}
+\begin{itemize}
+\item Monte Carlo Methods
+\item Random numbers
+\item Containers like \lstinline|std::vector|
+\item Functions
+\end{itemize}
+\end{block}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Iterators}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Iterators}
+When we know that we access the elements of the vector sequentially, we can let the compiler know that we are doing this by using iterators.
+\vspace{1cm}
+\begin{block}{Iterators are values that}
+\begin{itemize}
+\item identifies a container and an element in the container
+\item let us access the value stored in that element
+\item provides operations for moving between elements
+\item are needed for the algorithms of the standard library
+\end{itemize}
+\end{block}
+
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Iterating over vectors}
+
+\begin{block}{Easiest}
+\begin{lstlisting}[language=C]
+std::vector<int> values;
+for(size_t i = 0 ; i < values.size(); i++)
+{
+  std::cout << values[i] << std::endl;
+}
+\end{lstlisting}
+\end{block}
+
+\begin{block}{Using the \lstinline|size_type|\footnote{\tiny\url{https://en.cppreference.com/w/cpp/types/size_t}}}
+\begin{lstlisting}[language=C]
+std::vector<int> values;
+std::vector<int>::size_type i = 0;
+for(; i < values.size(); i++)
+{
+   std::cout << values[i] << std::endl;
+}
+\end{lstlisting}
+
+
+\end{block}
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Advanced iterating over vectors}
+
+\begin{block}{Example}
+\begin{lstlisting}
+for(
+ std::vector<int>::const_iterator iter = values.begin();
+ iter != values.end(); 
+ ++iter
+)
+{
+   std::cout << *iter << std::endl;
+}
+\end{lstlisting}
+\end{block}
+\begin{block}{Features}
+\begin{itemize}
+\item \lstinline|const_iterator| allows read-only access
+\item \lstinline|++iter| increments the iterator to the next element
+\item Dereference the iterator \lstinline|*iter| to access the value
+\end{itemize}
+\end{block}
+
+
+\end{frame}
+
+\begin{frame}[fragile]{Erasing elements with iterators gets easier }
+
+\begin{block}{Using the basic way }
+\begin{lstlisting}
+std::vector<int> values = {1,2,3};
+values.erase(values.begin()+i)
+\end{lstlisting}
+\end{block}
+
+\begin{block}{Using iterators}
+\begin{lstlisting}
+values.erase(iter)
+\end{lstlisting}
+\end{block}
+Note that with an iterator there is no need to compute the position anymore!
+
+\begin{block}{Useful feature}
+\lstinline| iter = values.erase(iter)|
+\end{block}
+Returns the iterator pointing to the element after the erasure.
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Lists}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Lists vs Vectors}
+
+\begin{block}{Vectors}
+\begin{itemize}
+\item Are sufficient for small amount of elements (around 7000)
+\item Is optimized to access elements arbitrary
+\item Performs well adding one element by time to its end
+\end{itemize}
+\end{block}
+
+\begin{block}{Lists}
+\begin{itemize}
+\item Are slower for small amount of elements
+\item Are optimized to insert and delete elements anywhere
+\end{itemize}
+\end{block}
+\begin{block}{Complexity}
+\begin{itemize}
+\item Inserting/Removing: Vector $\mathcal{O}(n^2)$ vs List $\mathcal{O}(n)$~\cite{Wirth:1978:ADS:540029,knuth1997art}
+\end{itemize}
+\end{block}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Representing numbers in hardware}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Library algorithms}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Summary}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{References}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[t, allowframebreaks]
+\frametitle{References}
+\bibliographystyle{plain}
+\bibliography{bib}
+\end{frame}
+
+
+\end{document}

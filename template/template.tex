@@ -1,24 +1,61 @@
 \documentclass[12pt,t]{beamer}
 
+\beamertemplatenavigationsymbolsempty
+
 % usepackage
-\usepackage{template/dbt}
+%\usepackage{template/dbt}
+\usepackage{listings}
+
+\definecolor{comments}{RGB}{81,81,81}
+\definecolor{keywords}{RGB}{255,0,90}
+
+% lstlisting
+\lstset{
+    language=C,
+    basicstyle=\footnotesize\ttfamily,
+    keywordstyle=\color{keywords},
+    showspaces=false,
+    showstringspaces=false,
+    commentstyle=\color{blue}\emph
+    %frame=single,
+    %rulecolor=\color{comments},
+    %rulesepcolor=\color{comments},
+    %backgroundcolor = \color{lightgray}
+}
+
+\usetheme{default}
+
+\usepackage[
+    type={CC},
+    modifier={by-nc-nd},
+    version={4.0},
+]{doclicense} 
 
 \input{template/variables.tex}
 
-\usepackage{fontspec}
-\setmainfont{Raleway}
-
 % frame slide
 \title{\coursename}
-\subtitle{Lecture X: }
+\subtitle{Lecture 1: Introduction and Getting started}
 
-\author{\href{}{}}
-\institute {
-    \href{}{\tt \scriptsize \today}
-}
+%\author{\href{}{}}
+%\institute {
+%    \href{}{\tt \scriptsize \today}
+%}
 \date {
- \tiny \url{\courseurl}
+ \tiny \url{https://www.cct.lsu.edu/~pdiehl/teaching/2019/4977/}
+\vspace{2cm}
+\doclicenseThis  
+  
 }
+
+
+
+\usepackage{ifxetex}
+
+\ifxetex
+\usepackage{fontspec}
+\setmainfont{Raleway}
+\fi
 
 \begin{document} {
     \setbeamertemplate{footline}{}
