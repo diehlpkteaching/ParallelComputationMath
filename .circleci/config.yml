@@ -10,6 +10,6 @@ jobs:
       - run: mkdir final 
       - run: find -name "lecture*.tex" -exec latexmk -pdf "{}" ";"
       - run: cp lecture*.pdf final
-      - store_artifcats:
+      - store_artifacts:
           path: final
           destination: lectures
