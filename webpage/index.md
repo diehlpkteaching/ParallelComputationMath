@@ -37,7 +37,7 @@ TBA
 
 ## Useful links 
 
-* [C++ reference](https://en.cppreference.com/w/)
+* [C++ reference](https://en.cppreference.com/w/), [C++ reference](http://www.cplusplus.com/reference/)
 * [HPX reference](https://stellar-group.github.io/hpx/docs/sphinx/latest/html/index.html)
 * [Blaze reference](https://bitbucket.org/blaze-lib/blaze/wiki/Getting_Started)
 * [Learn git interactive](https://learngitbranching.js.org/)
