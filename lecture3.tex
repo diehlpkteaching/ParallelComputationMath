@@ -145,7 +145,8 @@ for(; i < values.size(); i++)
 \begin{block}{Example}
 \begin{lstlisting}
 for(
- std::vector<int>::const_iterator iter = values.begin();
+ std::vector<int>::const_iterator iter =
+ values.begin();
  iter != values.end(); 
  ++iter
 )
@@ -301,7 +302,6 @@ l.remove_if(IsOdd); // remove all odd numbers
 
 \begin{frame}[fragile]{Searching for existence of elements}
 \begin{block}{Find\footnote{\tiny\url{https://en.cppreference.com/w/cpp/algorithm/find}}}
-\vspace{-0.5cm}
 \begin{lstlisting}
 int n1 = 3;
 std::vector<int> v{0, 1, 2, 3, 4}; 
@@ -311,7 +311,6 @@ auto result1 =
 \end{block}
 
 \begin{block}{Find\_if\footnote{\tiny\url{http://www.cplusplus.com/reference/algorithm/find_if/}}}
-\vspace{-0.5cm}
 \begin{lstlisting}
 //Define function
 bool IsOdd (int i) {
@@ -330,7 +329,6 @@ std::vector<int>::iterator it =
 Find a substring within a string
 
 \begin{block}{Check for the substring }
-\vspace{-0.5cm}
 \begin{lstlisting}
 std::string name = "Math 4997-3";
 std::string exp = "4997";
@@ -340,7 +338,6 @@ std::search(name.begin(), name.end(),
 \end{block}
 
 \begin{block}{Get the leading position\footnote{\tiny\url{https://en.cppreference.com/w/cpp/utility/functional/boyer_moore_searcher}}}
-\vspace{-0.5cm}
 \begin{lstlisting}
 auto it = std::search(name.begin(), name.end(),
 	std::boyer_moore_searcher(
@@ -400,7 +397,6 @@ b.insert(b.end(),a.begin(),a.end());
 \begin{frame}[fragile]{Filling vectors}
 
 \begin{block}{Fill vector with one value\footnote{\tiny\url{https://en.cppreference.com/w/cpp/algorithm/fill}}}
-\vspace{-0.5cm}
 \begin{lstlisting}
 std::vector<int> v{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 //Replace all elements by -1
@@ -409,7 +405,6 @@ std::fill(v.begin(), v.end(), -1);
 \end{block}
 
 \begin{block}{Replacing the first 5 elements\footnote{\tiny\url{https://en.cppreference.com/w/cpp/algorithm/fill_n}}}
-\vspace{-0.5cm}
 \begin{lstlisting}
 //Replace the first 5 elements by -1
 std::fill_n(v1.begin(), 5, -1);
@@ -417,7 +412,6 @@ std::fill_n(v1.begin(), 5, -1);
 \end{block}
 
 \begin{block}{Replacing the last 5 elements\footnote{\tiny\url{https://en.cppreference.com/w/cpp/iterator/back_inserter}}}
-\vspace{-0.5cm}
 \begin{lstlisting}
 //Replace the first 5 elements by -1
 std::fill_n(std::back_inserter(v), 5, -1);
@@ -475,8 +469,78 @@ More details about IEEE 754~\cite{goldberg1991every,4610935}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{IO}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[fragile]{Writing files\footnote{\tiny\url{https://en.cppreference.com/w/cpp/io/basic_ofstream}}}
+
+\begin{lstlisting}
+// basic file operations
+#include <iostream>
+#include <fstream>
+
+int main () {
+  std::ofstream myfile;
+  myfile.open ("example.txt", std::ios::out);
+  myfile << "Writing this to a file.\n";
+  myfile.close();
+  return 0;
+}
+\end{lstlisting}
+
+\begin{block}{Mode\footnote{\tiny\url{https://en.cppreference.com/w/cpp/io/ios_base/openmode}}}
+\begin{itemize}
+\item \lstinline|out| Open for writing (Default)
+\item \lstinline|app| Append to the end 
+\end{itemize}
+
+\end{block}
+
+\end{frame}
+
+\begin{frame}[fragile]{Reading files\footnote{\tiny\url{https://en.cppreference.com/w/cpp/io/basic_ifstream}}~\footnote{\tiny\url{https://en.cppreference.com/w/cpp/io/basic_fstream}}}
+
+\begin{lstlisting}
+#include <iostream>
+#include <fstream>
+#include <string>
+
+int main () {
+  string line;
+  ifstream myfile ("example.txt");
+  if (myfile.is_open())
+  {
+    while ( getline (myfile,line) )
+    {
+      cout << line << '\n';
+    }
+    myfile.close();
+  }
+  return 0;
+}
+\end{lstlisting}
+
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Summary}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Summary}
+\begin{block}{After this lecture, you should know}
+\begin{itemize}
+\item Iterators
+\item Lists
+\item Library algorithms
+\item Numerical limits
+\item Reading and Writing files
+\end{itemize}
+\end{block}
+
+
+\end{frame}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{References}
