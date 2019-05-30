@@ -99,10 +99,10 @@
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Iterators}
+\section{Iterators \lstinline|\#include<iterator>|}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}{Iterators}
+\begin{frame}{Iterators: \lstinline|\#include<iterator>|}
 When we know that we access the elements of the vector sequentially, we can let the compiler know that we are doing this by using iterators.
 \vspace{1cm}
 \begin{block}{Iterators are values that}
@@ -124,9 +124,7 @@ When we know that we access the elements of the vector sequentially, we can let 
 \begin{lstlisting}[language=C]
 std::vector<int> values;
 for(size_t i = 0 ; i < values.size(); i++)
-{
   std::cout << values[i] << std::endl;
-}
 \end{lstlisting}
 \end{block}
 
@@ -135,12 +133,8 @@ for(size_t i = 0 ; i < values.size(); i++)
 std::vector<int> values;
 std::vector<int>::size_type i = 0;
 for(; i < values.size(); i++)
-{
    std::cout << values[i] << std::endl;
-}
 \end{lstlisting}
-
-
 \end{block}
 
 \end{frame}
@@ -195,12 +189,12 @@ Returns the iterator pointing to the element after the erasure.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Lists}
+\section{Lists \lstinline|\#include<list>|}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}{Lists vs Vectors}
 
-\begin{block}{Vectors}
+\begin{block}{Vectors \lstinline|\#include<vector>|}
 \begin{itemize}
 \item Are sufficient for small amount of elements (around 7000)
 \item Is optimized to access elements arbitrary
@@ -208,7 +202,7 @@ Returns the iterator pointing to the element after the erasure.
 \end{itemize}
 \end{block}
 
-\begin{block}{Lists}
+\begin{block}{Lists \lstinline|\#include<list>|  }
 \begin{itemize}
 \item Are slower for small amount of elements
 \item Are optimized to insert and delete elements anywhere
@@ -228,30 +222,9 @@ Returns the iterator pointing to the element after the erasure.
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Library algorithms}
+\section{Library algorithms \lstinline|\#include<algorithm>|}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Iterator adaptors}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{frame}{Appending}
-
-\end{frame}
-
-\begin{frame}{Prepending}
-
-\end{frame}
-
-\begin{frame}{Insert before}
-
-\end{frame}
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Algorithms}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}[fragile]{Sorting\footnote{\tiny\url{https://en.cppreference.com/w/cpp/algorithm/sort}}}
 
@@ -328,6 +301,7 @@ l.remove_if(IsOdd); // remove all odd numbers
 
 \begin{frame}[fragile]{Searching for existence of elements}
 \begin{block}{Find\footnote{\tiny\url{https://en.cppreference.com/w/cpp/algorithm/find}}}
+\vspace{-0.5cm}
 \begin{lstlisting}
 int n1 = 3;
 std::vector<int> v{0, 1, 2, 3, 4}; 
@@ -337,6 +311,7 @@ auto result1 =
 \end{block}
 
 \begin{block}{Find\_if\footnote{\tiny\url{http://www.cplusplus.com/reference/algorithm/find_if/}}}
+\vspace{-0.5cm}
 \begin{lstlisting}
 //Define function
 bool IsOdd (int i) {
@@ -351,7 +326,28 @@ std::vector<int>::iterator it =
 \end{frame}
 
 
-\begin{frame}{Search}
+\begin{frame}[fragile]{Search\footnote{\tiny\url{https://en.cppreference.com/w/cpp/algorithm/search}}}
+Find a substring within a string
+
+\begin{block}{Check for the substring }
+\vspace{-0.5cm}
+\begin{lstlisting}
+std::string name = "Math 4997-3";
+std::string exp = "4997";
+std::search(name.begin(), name.end(), 
+	exp.begin(), exp.end()) != name.end();
+\end{lstlisting}
+\end{block}
+
+\begin{block}{Get the leading position\footnote{\tiny\url{https://en.cppreference.com/w/cpp/utility/functional/boyer_moore_searcher}}}
+\vspace{-0.5cm}
+\begin{lstlisting}
+auto it = std::search(name.begin(), name.end(),
+	std::boyer_moore_searcher(
+	exp.begin(), exp.end()));
+std::cout << it - name.begin() << std::endl;
+\end{lstlisting}
+\end{block}
 
 \end{frame}
 
@@ -370,7 +366,7 @@ for(vit it = a.begin(); it != a.end(); ++it)
 \end{lstlisting}
 \end{block}
 
-\begin{block}{With library algorithm}
+\begin{block}{With library algorithm\footnote{\tiny\url{https://en.cppreference.com/w/cpp/algorithm/copy}}}
 \begin{lstlisting}
 std::copy(a.begin(),a.end(),b)
 \end{lstlisting}
@@ -401,24 +397,58 @@ b.insert(b.end(),a.begin(),a.end());
 
 \end{frame}
 
-\begin{frame}{Remove\_copy}
+\begin{frame}[fragile]{Filling vectors}
+
+\begin{block}{Fill vector with one value\footnote{\tiny\url{https://en.cppreference.com/w/cpp/algorithm/fill}}}
+\vspace{-0.5cm}
+\begin{lstlisting}
+std::vector<int> v{0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+//Replace all elements by -1
+std::fill(v.begin(), v.end(), -1);
+\end{lstlisting}
+\end{block}
+
+\begin{block}{Replacing the first 5 elements\footnote{\tiny\url{https://en.cppreference.com/w/cpp/algorithm/fill_n}}}
+\vspace{-0.5cm}
+\begin{lstlisting}
+//Replace the first 5 elements by -1
+std::fill_n(v1.begin(), 5, -1);
+\end{lstlisting}
+\end{block}
+
+\begin{block}{Replacing the last 5 elements\footnote{\tiny\url{https://en.cppreference.com/w/cpp/iterator/back_inserter}}}
+\vspace{-0.5cm}
+\begin{lstlisting}
+//Replace the first 5 elements by -1
+std::fill_n(std::back_inserter(v), 5, -1);
+\end{lstlisting}
+\end{block}
 
 \end{frame}
 
-\begin{frame}{Remove\_copy\_if}
 
-\end{frame}
+\begin{frame}[fragile]{Transform\footnote{\tiny\url{https://en.cppreference.com/w/cpp/algorithm/transform}}}
 
-\begin{frame}{Transform}
+\begin{block}{Convert to upper case letters}
+\begin{lstlisting}
+std::string s("hello");
+    std::transform(s.begin(), s.end(), s.begin(),
+    [](unsigned char c) -> 
+    unsigned char { return std::toupper(c); });
+\end{lstlisting}
+\end{block}
+
 
 \end{frame}
 
 \begin{frame}{Partition}
 
+\lstinputlisting[firstline=3, lastline=20]{code/lecture3-partition.cpp}
+
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Numeric limits}
+\section{Numeric limits \lstinline|\#include<limits>|}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}{Limits}
