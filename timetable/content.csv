@@ -2,25 +2,25 @@ Lecture,Topic, Chapter(s)
 1,Introduction | Basics of C++ Strings | Looping , 1 \& 2
 2,Monte Carlo methods | Random numbers | Containers | Functions, 3 \& 4
 3,Iterators | Lists | library algorithms, 5 \& 6
-4,Using sequential containers and strings II,
-5,Using libraries function,
-6,Writing generic functions,
-7,Linear algebra using BLAZE,
-8,Defining new types,
-9,Defining abstract data types I,
-10,Defining abstract data types II,
-11,Parallel algorithms and execution policies, 
-12,Introduction to HPX I,
-13,Introduction to HPX II,
-14,Midterm exam,
-15,Distributed computations I,
-16,Distributed computations II,
-17,Implementation of Monte Carlo Methods,
-18,Implementation of N-body problems,
-19,Implementation of the fast Fourier Transform (FFT),
-20,VTK and Paraview for Scientific Visualization,
-21,Associative containers, 7
-22,Managing memory and low-level data structures, 10
+4,N-body simulations | Structs | Generic functions , 8 
+5, Classes | Operator overloading, 9
+6,CMake | External libraries , --
+7,Finite Element Method, --
+8,Implementing the Finite Element Method | Linear Algebra using Blaze , --
+9,Managing Memory and low-level data structures, 10
+10,Defining abstract data types, 11
+11,Discuss the course project, -- 
+12,Lambda functions | Advanced loops, --
+13,Shared memory parallalization | execution policies, --
+14,Midterm exam, --
+15,Introduction to HPX,--
+16,HPX Parallel for loops | Futurization, --
+17,Distributed programming I,--
+18,Distributed programming II,--
+19,Parallel implementation of Monte Carlo and $N$-Body simulations, --
+20,Parallel implementation of the finite element method, --
+21,Distributed implementation of $N$-Body simulations, --
+22,Discuss course project, --
 23,Managing memory automatically, 14
 24,Summary, --
 
