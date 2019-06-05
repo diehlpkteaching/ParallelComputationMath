@@ -42,6 +42,7 @@ TBA
 * [C++ reference](https://en.cppreference.com/w/), [C++ reference](http://www.cplusplus.com/reference/)
 * [HPX reference](https://stellar-group.github.io/hpx/docs/sphinx/latest/html/index.html)
 * [Blaze reference](https://bitbucket.org/blaze-lib/blaze/wiki/Getting_Started)
+* [Learn vim interactive](https://www.openvim.com/)
 * [Learn git interactive](https://learngitbranching.js.org/)
 * [Online C++ compiler](https://wandbox.org/)
 * [How to use Github Classroom](https://www.diehlpk.de/blog/githubclassroom/)
