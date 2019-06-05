@@ -46,4 +46,4 @@ TBA
 * [Learn git interactive](https://learngitbranching.js.org/)
 * [Online C++ compiler](https://wandbox.org/)
 * [How to use Github Classroom](https://www.diehlpk.de/blog/githubclassroom/)
-
+* [How to use Jupyter notebooks](https://www.diehlpk.de/blog/jupyter-notebooks/)
