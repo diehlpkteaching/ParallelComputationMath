@@ -142,16 +142,16 @@ $\mathbf{u}_1 \times \mathbf{u}_2 = \vert\mathbf{u}_1 \vert \vert\mathbf{u}_2 \v
 \end{frame}
 
 \begin{frame}{Stepping back: Two-body problem}
-Let $m_1,m_2$ be the masses of two gravitational bodies at the positions $\mathbf{r}_1,\mathbf{r}_2\in\mathbb{R}^3$
+Let $m_i,m_j$ be the masses of two gravitational bodies at the positions $\mathbf{r}_i,\mathbf{r}_j\in\mathbb{R}^3$
 
 \begin{block}{Three key laws:}
 \begin{enumerate}
-\item The Law of Gravitation: The force of $m_1$ acting on $m_2$ is \\
-$\mathbf{F}_{12}= G m_1 m_2 \frac{\mathbf{r}_1-\mathbf{r}_2}{\vert \mathbf{r}_1-\mathbf{r}_2 \vert^3}$
+\item The Law of Gravitation: The force of $m_i$ acting on $m_j$ is \\
+$\mathbf{F}_{ij}= G m_i m_j \frac{\mathbf{r}_j-\mathbf{i}_2}{\vert \mathbf{j}_1-\mathbf{r}_i \vert^3}$
 \item The Calculus: 
 \begin{enumerate}
-\item The velocity of $m_1$ is $\mathbf{v}_1 = \frac{d \mathbf{r}_1}{dt}$
-\item The acceleration of $m_1$ is $\mathbf{a}_1 \frac{d \mathbf{v}_1}{dt}$
+\item The velocity of $m_i$ is $\mathbf{v}_i = \frac{d \mathbf{r}_i}{dt}$
+\item The acceleration of $m_i$ is $\mathbf{a}_i \frac{d \mathbf{v}_i}{dt}$
 \end{enumerate}
 \item The second Law of Mechanics: \\
  $\mathbf{F}= m \mathbf{a}$ (Force is equal mass times acceleration)
@@ -167,10 +167,10 @@ Derivation for the first body:
 \begin{columns}
 \begin{column}{0.5\textwidth}
 \begin{align*}
-\mathbf{F}&=G m_1 m_2 \frac{\mathbf{r}_1-\mathbf{r}_2}{\vert \mathbf{r}_1-\mathbf{r}_2 \vert^3}  \\
-m_1 \mathbf{a}_i &= G m_1 m_2 \frac{\mathbf{r}_1-\mathbf{r}_2}{\vert \mathbf{r}_1-\mathbf{r}_2 \vert^3} \\
-\frac{d \mathbf{v}_1}{dt} & = G m_2 \frac{\mathbf{r}_1-\mathbf{r}_2}{\vert \mathbf{r}_1-\mathbf{r}_2 \vert^3} \\
-\frac{d^2 \mathbf{r}_1}{dt^2} & = G m_2 \frac{\mathbf{r}_1-\mathbf{r}_2}{\vert \mathbf{r}_1-\mathbf{r}_2 \vert^3}
+\mathbf{F}_{ij}&=G m_i m_j \frac{\mathbf{r}_j-\mathbf{r}_i}{\vert \mathbf{r}_j-\mathbf{r}_i \vert^3}  \\
+m_1 \mathbf{a}_i &= G m_i m_j \frac{\mathbf{r}_j-\mathbf{r}_i}{\vert \mathbf{r}_i-\mathbf{r}_j \vert^3} \\
+\frac{d \mathbf{v}_i}{dt} & = G m_j \frac{\mathbf{r}_j-\mathbf{r}_i}{\vert \mathbf{r}_j-\mathbf{r}_i \vert^3} \\
+\frac{d^2 \mathbf{r}_i}{dt^2} & = G m_j \frac{\mathbf{r}_j-\mathbf{r}_i}{\vert \mathbf{r}_j-\mathbf{r}_i \vert^3}
 \end{align*}
 \end{column}
 \begin{column}{0.5\textwidth}  %%<--- here
@@ -198,8 +198,8 @@ Note that we used Newton's law of universal gravitation~\cite{newton1833philosop
 
 \begin{frame}{The $N$-body problem}
 
-\begin{block}{Equation of motion}
-$ m_i \frac{d^2 \mathbf{r}_i}{d t^2} = \sum\limits_{j=1}^n G m_i m_j \frac{\mathbf{r}_j - \mathbf{r}_i}{\vert \mathbf{r}_j - \mathbf{r}_i\vert^3} $
+\begin{block}{The force for body $m_i$}
+$\mathbf{F}_i = \sum\limits_{j=1,i\neq j}^n \mathbf{F}_{ij} = \sum\limits_{j=1,,i\neq j}^n G  m_j \frac{\mathbf{r}_j - \mathbf{r}_i}{\vert \mathbf{r}_j - \mathbf{r}_i\vert^3} $
 \end{block}
 
 \begin{block}{Law of Conservation:}
@@ -214,7 +214,22 @@ $ T = \frac{1}{2} \sum\limits_{i=1}^n m_i \mathbf{v}_i \circ \mathbf{v}_i  , U= 
 More details: Simulations~\cite{aarseth2003gravitational} and Astrophysics~\cite{aarseth2008cambridge}.
 \end{frame}
 
-\begin{frame}[fragile]{Complexity}
+\begin{frame}{Algorithm}
+
+\begin{figure}
+\begin{tikzpicture}
+\draw (-3.75,0) rectangle (2,1) node[pos=.5] {Compute the forces};
+\draw[->](-0.75,0) -- (-0.75,-1);
+\draw (-3.75,-2) rectangle (2,-1) node[pos=.5] {Update the posotions};
+\draw[->](-0.75,-2) -- (-0.75,-3);
+\draw (-3.75,-4) rectangle (2,-3) node[pos=.5] {Collect statiscal information};
+\draw[->] (2,-3.5) -- (3,-3.5) -- (3,0.5) -- (2,0.5);
+\end{tikzpicture}
+\end{figure}
+
+\end{frame}
+
+\begin{frame}[fragile]{Complexity of force computation}
 
 \begin{block}{Force computation: Direct sum}
 \begin{lstlisting}
@@ -234,7 +249,57 @@ Robust, accurate, and completely general
 \item Computational cost for all bodies $\mathcal{O}(n^2)$ 
 \end{enumerate}
 \end{block}
-Tree-based codes reduce the computational costs to $\mathcal{O}(n\log(n))$. More details~\cite{knuth1997art}.
+Tree-based codes or the Barnes-Hut method~\cite{barnes1986hierarchical} reduce the computational costs to $\mathcal{O}(n\log(n))$. More details~\cite{knuth1997art}.
+\end{frame}
+
+\begin{frame}{Update of positions}
+Assume we have computed the forces already, using the direct sum approach and now we want to compute the evolution of the system over the time $T$:
+\begin{block}{Discretization in time:}
+\begin{itemize}
+\item $\Delta t$ the uniform time step size
+\item $t_0$ the beginning of the evolution
+\item $T$ the final time of the evolution
+\item $k$ the time steps such that $k\Delta t=T$
+\end{itemize}
+\end{block}
+Question: How can we compute the derivatives $dt$ and $dt^2$ of the velocity $\mathbf{v}$ and the acceleration $\mathbf{a}$ of a body?
+\end{frame}
+
+\begin{frame}{Finite difference and Euler method}
+
+\begin{block}{Finite difference}
+We can use a finite difference method to approximate the derivation by
+\begin{center}
+$u'(x) \approx \frac{u(x+h)-u(x)}{h}$
+\end{center}
+\end{block}
+
+\begin{block}{The Euler method}
+We use the finite difference scheme to approximate the derivations by
+\begin{align}
+\mathbf{a}_i(t_k) &= \frac{\mathbf{F}_i}{m_i} = \frac{\mathbf{v}_i(t_k)-\mathbf{v}_i(t_k-1)}{\Delta t} \label{eq:acc} \\
+\mathbf{v}_i(t_k) &= \frac{\mathbf{r}_i(t_{k+1})-\mathbf{r}_i(t_k)}{\Delta t}\label{eq:vel}
+\end{align}
+\end{block}
+\vspace*{-0.4cm}
+More details~\cite{strikwerda2004finite,leveque2007finite,euler1824institutionum}
+
+\end{frame}
+
+\begin{frame}{Compute the velocity and updated position}
+
+\begin{block}{Velocity}
+\begin{center}
+$ \mathbf{v}_i(t_k) = \mathbf{v}_i(t_{k-1}) + \Delta t \frac{\mathbf{F}_i}{m_i} $ using~\eqref{eq:acc}
+\end{center}
+\end{block}
+
+\begin{block}{Updated position}
+\begin{center}
+$\mathbf{r}_i(t_{k+1}) = \mathbf{r}_{t_k} + \Delta t \mathbf{v}_i(t_k)$ using~\eqref{eq:vel}
+\end{center}
+\end{block}
+Note that we used easy methods to update the positions and more sophisticated methods, \emph{e.g.}\ Crank--Nicolson method~\cite{crank1947practical}, are available
 \end{frame}
 
 
