@@ -26,6 +26,7 @@ and I hope you are able to attend. I will try to be available for discussion aft
 * [Lecture 1](lecture1.pdf)
 * [Lecture 2](lecture2.pdf)
 * [Lecture 3](lecture3.pdf)
+* [Lecture 4](lecture4.pdf)
 * [References](list.pdf)
     
 ## Project
