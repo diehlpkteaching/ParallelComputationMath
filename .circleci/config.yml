@@ -10,6 +10,8 @@ jobs:
       - run: mkdir final 
       - run: find -name "lecture*.tex" -exec latexmk -pdf "{}" ";"
       - run: cp lecture*.pdf final
+      - run: cd webpage && pandoc -s index.md --toc -c pandoc.css -o index.html
+      - run: cp webpage/index.html webpage/pandoc.css final
       - store_artifacts:
           path: final
           destination: lectures
