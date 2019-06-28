@@ -9,7 +9,7 @@ Lecture,Topic, Chapter(s)
 8,Implementing the Finite Element Method | Linear Algebra using Blaze , --
 9,Managing Memory and low-level data structures, 10
 10,Defining abstract data types, 11
-11,Discuss the course project, -- 
+11,Course project: smoothed particle hydrodynamics, -- 
 12,Lambda functions | Advanced loops, --
 13,Shared memory parallalization | execution policies, --
 14,Midterm exam, --
