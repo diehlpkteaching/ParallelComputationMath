@@ -20,6 +20,7 @@ and I hope you are able to attend. I will try to be available for discussion aft
 
 * [Exercise 1](exercise1.pdf)
 * [Exercise 2](exercise2.pdf)
+* [Exercise 3](exercise3.pdf)
 
 ## Slides
 
