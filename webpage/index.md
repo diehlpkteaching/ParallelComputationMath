@@ -1,5 +1,5 @@
 ---
-title: "Course: Math 4977-3 Parallel computational mathematics"
+title: "Course: Math 4997-3 Parallel computational mathematics"
 output:
   html_document:
     toc: yes
