@@ -11,7 +11,16 @@ Welcome to an exciting semester about accerlerated C++ for computational mathema
 
 <center>Tuesday and Thursday, 09:00 to 10:20, 130 LCKT</center>
 
-and I hope you are able to attend. I will try to be available for discussion after classes, so you can get the most out of the class. Please find additional information here:
+and I hope you are able to attend. I will try to be available for discussion after classes, so you can get the most out of the class. 
+
+Office hours will be 
+
+<center> Thursday, 11;00 to 12:00, 343, LCKT</center> 
+
+and I encourage you to visit my office and to discuss exercises and C++ related questions. 
+
+
+Please find additional information here:
 
 * [Syllabus](syllabus.pdf)
 * [Timetable](timetable.pdf)
