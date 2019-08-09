@@ -29,7 +29,7 @@ Please find additional information here:
 
 * [Exercise 1](exercise1.pdf)
 * [Exercise 2](exercise2.pdf)
-* [Exercise 3](exercise3.pdf)
+* [Exercise 3](exercise3.pdf), [Template Code](https://github.com/diehlpkteaching/N-Body)
 
 ## Slides
 
