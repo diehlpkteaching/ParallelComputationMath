@@ -1,19 +1,34 @@
 #include <vector>
 #include <algorithm>
 #include <iostream>
+#include <chrono>
 #include <execution>
-
-void print(int i)
-{
-std::cout << i << std::endl;
-}
+#include <numeric>
 
 int main(){
 
 
     std::vector<int> nums(1000000,0);
 
-    std::for_each(std::execution::par_unseq,nums.begin(), nums.end(), print);
+    {
+    auto t1 = std::chrono::high_resolution_clock::now();
+    auto result = std::accumulate(nums.begin(), nums.end(), 0.0);
+    auto t2 = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> ms = t2 - t1;
+    std::cout << std::fixed << "std::accumulate result " << result
+              << " took " << ms.count() << " ms\n";
+    }
+
+    {
+    auto t1 = std::chrono::high_resolution_clock::now();
+    auto result = std::reduce(
+                    std::execution::par,
+                    nums.begin(), nums.end());
+    auto t2 = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> ms = t2 - t1;
+    std::cout << "std::reduce result "
+              << result << " took " << ms.count() << " ms\n";
+    }
 
     return 0; 
 }
