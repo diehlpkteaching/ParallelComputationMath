@@ -1,0 +1,281 @@
+%Template
+%Copyright (C) 2019  Patrick Diehl
+%
+%This program is free software: you can redistribute it and/or modify
+%it under the terms of the GNU General Public License as published by
+%the Free Software Foundation, either version 3 of the License, or
+%(at your option) any later version.
+
+%This program is distributed in the hope that it will be useful,
+%but WITHOUT ANY WARRANTY; without even the implied warranty of
+%MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+%GNU General Public License for more details.
+
+%You should have received a copy of the GNU General Public License
+%along with this program.  If not, see <http://www.gnu.org/licenses/>.
+\documentclass[12pt,t]{beamer}
+
+\beamertemplatenavigationsymbolsempty
+
+% usepackage
+%\usepackage{template/dbt}
+\usepackage{listings}
+
+\definecolor{comments}{RGB}{81,81,81}
+\definecolor{keywords}{RGB}{255,0,90}
+
+% lstlisting
+\lstset{
+    language=C,
+    basicstyle=\footnotesize\ttfamily,
+    keywordstyle=\color{keywords},
+    showspaces=false,
+    showstringspaces=false,
+    commentstyle=\color{blue}\emph
+    %frame=single,
+    %rulecolor=\color{comments},
+    %rulesepcolor=\color{comments},
+    %backgroundcolor = \color{lightgray}
+}
+
+\usetheme{default}
+
+\usepackage[
+    type={CC},
+    modifier={by-nc-nd},
+    version={4.0},
+]{doclicense} 
+
+\usepackage{tikz}
+
+\input{template/variables.tex}
+
+% frame slide
+\title{\coursename}
+\subtitle{Lecture 7: Shared memory  parallelism}
+
+%\author{\href{}{}}
+%\institute {
+%    \href{}{\tt \scriptsize \today}
+%}
+\date {
+ \tiny \url{\courseurl}
+\vspace{2cm}
+\doclicenseThis  
+  
+}
+
+
+
+\usepackage{ifxetex}
+
+\ifxetex
+\usepackage{fontspec}
+\setmainfont{Raleway}
+\fi
+
+\begin{document} {
+    \setbeamertemplate{footline}{}
+    \frame {
+        \titlepage
+    }
+}
+
+\frame{
+
+\tableofcontents
+
+}
+
+\AtBeginSection[]{
+  \begin{frame}
+  \vfill
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+    \usebeamerfont{title}\insertsectionhead\par%
+  \end{beamercolorbox}
+  \vfill
+  \end{frame}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Reminder}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Lecture X}
+\begin{block}{What you should know from last lecture}
+\begin{itemize}
+\item Lamba functions
+\item Advanced loops
+\end{itemize}
+\end{block}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Shared memory parallelism}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Concept of shared memory papallelism~\cite{el2005advanced,hager2010introduction}}
+
+
+\begin{center}
+\begin{tikzpicture}
+%Threads
+\draw (0,3) rectangle (.5,3.5) node[pos=.5] {1};
+\draw (0.5,3) rectangle (1.0,3.5) node[pos=.5] {..};
+\draw (1.,3) rectangle (1.5,3.5) node[pos=.5] {n};
+
+\draw (2.5,3) rectangle (3.,3.5) node[pos=.5] {1};
+\draw (3.,3) rectangle (3.5,3.5) node[pos=.5] {..};
+\draw (3.5,3) rectangle (4,3.5) node[pos=.5] {n};
+
+\draw (0.75,2.5) -- (0.75,3.);
+\draw (3.25,2.5) -- (3.25,3.);
+
+%BUS
+\draw (0,1) rectangle (4,1.5) node[pos=.5] {System Bus};
+
+%CPU
+\draw (0,2) rectangle (1.5,2.5) node[pos=.5] {CPU 1};
+\draw (2.5,2) rectangle (4,2.5) node[pos=.5] {CPU 2};
+\draw (0.75,2) -- (0.75,1.5);
+\draw (3.25,2) -- (3.25,1.5);
+
+%Memory
+\draw (0,0) rectangle (4,0.5) node[pos=.5] {Memory};
+\draw (0.75,.5) -- (0.75,1.);
+\draw (3.25,.5) -- (3.25,1.);
+\end{tikzpicture}
+\end{center}
+
+\begin{block}{System design}
+\begin{itemize}
+\item uniform memory access (UMA)
+\item non-uniform memory access (NUMA)
+\end{itemize}
+\end{block}
+
+\end{frame}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Parallelism}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[fragile]{Parallel algorithms in C++ 17\footnote{\tiny\url{https://en.cppreference.com/w/cpp/experimental/parallelism}}}
+\begin{itemize}
+\item C++17 added support for parallel algorithms to the standard library, to help programs take advantage of parallel execution for improved performance.
+\item Parallelized versions of 69 algorithms from \lstinline|<algorithm>|, \lstinline|<numeric>| and \lstinline|<memory>| are available. 
+\end{itemize}
+
+\begin{block}{Recently new feature!}
+Only recently released compilers (gcc 9 and MSVC 19.14) implement these new features and some of them are still experimental.\\
+\vspace{0.5cm}
+Some special compiler flags are needed to use these features:
+
+\begin{lstlisting}[language=bash]
+g++ -std=c++1z -ltbb lecture7-loops.cpp 
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Example: Accumulate}
+
+\begin{lstlisting}
+std::vector<int> nums(1000000,0);
+\end{lstlisting}
+
+\begin{block}{Sequential\footnote{\tiny\url{https://en.cppreference.com/w/cpp/algorithm/accumulate}}}
+\begin{lstlisting}
+auto result = std::accumulate(nums.begin(), 
+                              nums.end(),
+                              0.0);
+\end{lstlisting}
+\end{block}
+
+\begin{block}{Parallel\footnote{\tiny\url{https://en.cppreference.com/w/cpp/experimental/reduce}}}
+\begin{lstlisting}
+auto result = std::reduce(
+              std::execution::par,
+              nums.begin(), nums.end());
+\end{lstlisting}
+\end{block}
+
+Important: \lstinline|std::execution::par| from \lstinline|#include<execution>|\footnote{\tiny\url{https://en.cppreference.com/w/cpp/experimental/execution_policy_tag}}
+\end{frame}
+
+
+\begin{frame}[fragile]{Execution time}
+
+\begin{block}{Time measurements}
+\begin{lstlisting}[language=bash]
+g++ -std=c++1z -ltbb lecture7-loops.cpp 
+./a.out
+std::accumulate result 0.000000 took 8164.458818 ms
+std::reduce result 0.000000 took 584.451218 ms
+\end{lstlisting}
+
+
+\end{block}
+
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Execution policies}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{frame}{Execution policies}
+
+\begin{itemize}
+\item \lstinline|std::execution::seq| \\
+The algorithm is executed sequential, like \lstinline|std::accumulate| in the previous example and using only once thread.
+\item \lstinline|std::execution::par| \\
+The algorithm is executed in parallel and used multiple threads.
+\item \lstinline| std::execution::par_unseq| \\
+The algorithm is executed in parallel and vectorization is used.
+\end{itemize}
+Note we will not cover vectorization in this course. \\
+\vspace{0.5cm}
+Fore more details: CppCon 2016: Bryce Adelstein Lelbach “The C++17 Parallel Algorithms Library and Beyond"\footnote{\tiny{\url{https://www.youtube.com/watch?v=Vck6kzWjY88}}}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Synchronization}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{}
+
+\end{frame}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Summary}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Summary}
+\begin{block}{After this lecture, you should know}
+\begin{itemize}
+\item Shared memory parallelism
+\item Parallel algorithms
+\item Execution policies
+\item Mutex
+\end{itemize}
+\end{block}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{References}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[t, allowframebreaks]
+\frametitle{References}
+\bibliographystyle{plain}
+\bibliography{bib}
+\end{frame}
+
+
+\end{document}
