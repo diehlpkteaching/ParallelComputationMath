@@ -8,7 +8,7 @@
 int main(){
 
 
-    std::vector<int> nums(1000000,0);
+    std::vector<double> nums(900000000,0);
 
     {
     auto t1 = std::chrono::high_resolution_clock::now();
