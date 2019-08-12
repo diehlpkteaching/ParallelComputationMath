@@ -160,7 +160,7 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Parallelism}
+\section{Parallel algorithms}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}[fragile]{Parallel algorithms in C++ 17\footnote{\tiny\url{https://en.cppreference.com/w/cpp/experimental/parallelism}}}
@@ -244,16 +244,85 @@ Fore more details: CppCon 2016: Bryce Adelstein Lelbach “The C++17 Parallel Al
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Synchronization}
+\section{Be aware of: Data races and Dead looks}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}{}
+\begin{frame}{Be aware of}
+
+\begin{center}
+With great power comes great responsibility!
+
+\end{center}
+
+
+\begin{block}{You are responsible}
+When using parallel execution policy, it is the programmer's responsibility to avoid
+\begin{itemize}
+\item data races
+\item deadlocks
+\end{itemize} 
+\end{block}
 
 \end{frame}
 
+\begin{frame}[fragile]{Race condition}
+
+\begin{lstlisting}
+//Compute the sum of the array a in parallel
+int a[] = {0,1};
+int sum = 0;
+std::for_each(std::execution::par, 
+              std::begin(a), 
+              std::end(a), [&](int i) {
+  sum += a[i]; // Error: Race condition
+});
+\end{lstlisting}
+
+\begin{block}{Data race:}
+A data race exists when multithreaded (or otherwise parallel) code that would access a shared resource could do so in such a way as to cause unexpected results.
+\end{block}
+
+\end{frame}
+
+\begin{frame}[fragile]{Solution I: data races}
+
+\begin{block}{\lstinline|std::atomic|\footnote{\tiny\url{https://en.cppreference.com/w/cpp/atomic/atomic}}}
+\begin{lstlisting}
+//Compute the sum of the array a in parallel
+int a[] = {0,1};
+std::atomic<int> sum{0};
+std::for_each(std::execution::par, 
+              std::begin(a), 
+              std::end(a), [&](int i) {
+  sum += a[i]; 
+});
+\end{lstlisting}
+\end{block}
+
+The atomic library\footnote{\tiny\url{https://en.cppreference.com/w/cpp/atomic}} provides components for fine-grained atomic operations allowing for lockless concurrent programming. Each atomic operation is indivisible with regards to any other atomic operation that involves the same object. Atomic objects are free of data races. 
+\end{frame}
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Solution 2: data races}
+\begin{block}{\lstinline|std::mutex|\footnote{\tiny\url{https://en.cppreference.com/w/cpp/thread/mutex}}}
+\begin{lstlisting}
+//Compute the sum of the array a in parallel
+int a[] = {0,1};
+int sum = 0;
+std::mutex m;
+std::for_each(std::execution::par, 
+              std::begin(a), 
+              std::end(a), [&](int i) {
+  m.lock();
+  sum += a[i];
+  m.unlock(); 
+});
+\end{lstlisting}
+\end{block}
+The mutex class is a synchronization primitive that can be used to protect shared data from being simultaneously accessed by multiple threads. 
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Summary}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Summary}
@@ -265,7 +334,15 @@ Fore more details: CppCon 2016: Bryce Adelstein Lelbach “The C++17 Parallel Al
 \item Mutex
 \end{itemize}
 \end{block}
+
+\begin{block}{Further reading:}
+C++ Lecture 3 - Modern Paralization Techniques\footnote{\tiny\url{https://www.youtube.com/watch?v=1DUW5Qw3eck}}: OpenMP for shared memory parallelism and the Message Passing Interface for distributed memory parallelism. Note that HPX which will we cover after the midterm is introduced there.
+\end{block}
+
 \end{frame}
+
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{References}
