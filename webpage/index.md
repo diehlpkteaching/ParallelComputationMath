@@ -59,7 +59,7 @@ TBA
 * [Online C++ compiler](https://wandbox.org/)
 * [How to use Github Classroom](https://www.diehlpk.de/blog/githubclassroom/)
 * [How to use Jupyter notebooks](https://www.diehlpk.de/blog/jupyter-notebooks/)
-
+* [C++ summer lecture](https://www.diehlpk.de/blog/cpp-lectures/)
 
 <p style="text-align:center;"> <img src="https://mirrors.creativecommons.org/presskit/buttons/80x15/svg/by-nc-nd.svg" alt="CC"> </p>
 
