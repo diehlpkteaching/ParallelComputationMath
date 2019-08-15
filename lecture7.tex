@@ -114,7 +114,86 @@
 \section{Shared memory parallelism}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}{Concept of shared memory parallelism~\cite{el2005advanced,hager2010introduction}}
+\begin{frame}{Definition of parallelism}
+
+\begin{itemize}
+\item We need multiple resources which can operate at the same time
+\item We have to have more than one task that can be performed at the same time
+\item We have to do multiple tasks on multiple resources the same time
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{Amdahl's Law (Strong scaling)~\cite{amdahl1967validity}}
+
+
+
+\begin{align*}
+S = \frac{1}{(1-P) + \frac{P}{N}}
+\end{align*}
+where $S$ is the speed up, $P$ the proportion of parallel code, and $N$ the numbers of threads.
+
+\begin{block}{Example}
+A program took 20 hours using a single thread and only the part took one hour can be run in parallel, we will get $P=0.95$. So the theoretical speed up is $\frac{1}{(1-0.95)}=20$.
+\end{block}
+\begin{center}
+\textcolor{blue}{Parallel computing with many threads is only beneficial for highly parallelizable programs.}
+\end{center}
+
+\end{frame}
+
+
+
+
+
+\begin{frame}{}
+\cite{el2005advanced,hager2010introduction}
+\end{frame}
+
+
+
+\begin{frame}{Uniform memory access (UMA)}
+
+\begin{center}
+\begin{tikzpicture}
+%Threads
+\draw (0,3) rectangle (.5,3.5) node[pos=.5] {1};
+\draw (0.5,3) rectangle (1.0,3.5) node[pos=.5] {..};
+\draw (1.,3) rectangle (1.5,3.5) node[pos=.5] {n};
+
+\draw (2.5,3) rectangle (3.,3.5) node[pos=.5] {1};
+\draw (3.,3) rectangle (3.5,3.5) node[pos=.5] {..};
+\draw (3.5,3) rectangle (4,3.5) node[pos=.5] {n};
+
+\draw (0.75,2.5) -- (0.75,3.);
+\draw (3.25,2.5) -- (3.25,3.);
+
+%BUS
+\draw (0,1) rectangle (4,1.5) node[pos=.5] {Bus};
+
+
+%CPU
+\draw (0,2) rectangle (1.5,2.5) node[pos=.5] {CPU 1};
+\draw (2.5,2) rectangle (4,2.5) node[pos=.5] {CPU 2};
+\draw (0.75,2) -- (0.75,1.5);
+\draw (3.25,2) -- (3.25,1.5);
+
+%Memory
+\draw (0,0) rectangle (4,0.5) node[pos=.5] {Memory};
+\draw (0.75,.5) -- (0.75,1.);
+\draw (3.25,.5) -- (3.25,1.);
+\end{tikzpicture}
+\end{center}
+
+\begin{block}{Access times}
+\begin{itemize}
+\item Memory access times are the same
+\end{itemize}
+\end{block}
+
+\end{frame}
+
+\begin{frame}{Non-uniform memory access (NUMA)}
 
 
 \begin{center}
@@ -132,7 +211,8 @@
 \draw (3.25,2.5) -- (3.25,3.);
 
 %BUS
-\draw (0,1) rectangle (4,1.5) node[pos=.5] {System Bus};
+\draw (0,1) rectangle (1.5,1.5) node[pos=.5] {Bus};
+\draw (2.5,1) rectangle (4,1.5) node[pos=.5] {Bus};
 
 %CPU
 \draw (0,2) rectangle (1.5,2.5) node[pos=.5] {CPU 1};
@@ -141,22 +221,23 @@
 \draw (3.25,2) -- (3.25,1.5);
 
 %Memory
-\draw (0,0) rectangle (4,0.5) node[pos=.5] {Memory};
+\draw (0,0) rectangle (1.5,0.5) node[pos=.5] {Memory};
+\draw (2.5,0) rectangle (4,0.5) node[pos=.5] {Memory};
 \draw (0.75,.5) -- (0.75,1.);
 \draw (3.25,.5) -- (3.25,1.);
 \end{tikzpicture}
 \end{center}
 
-\begin{block}{System design}
+Access time to the memory depends on the memory location relative to the CPU.
+
+\begin{block}{Access times}
 \begin{itemize}
-\item uniform memory access (UMA)
-\item non-uniform memory access (NUMA)
+\item Local memory access is fast
+\item Non-local memory access has some overhead
 \end{itemize}
 \end{block}
 
 \end{frame}
-
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -259,13 +340,14 @@ With great power comes great responsibility!
 When using parallel execution policy, it is the programmer's responsibility to avoid
 \begin{itemize}
 \item data races
+\item race conditions
 \item deadlocks
 \end{itemize} 
 \end{block}
 
 \end{frame}
 
-\begin{frame}[fragile]{Race condition}
+\begin{frame}[fragile]{Data race}
 
 \begin{lstlisting}
 //Compute the sum of the array a in parallel
@@ -274,7 +356,7 @@ int sum = 0;
 std::for_each(std::execution::par, 
               std::begin(a), 
               std::end(a), [&](int i) {
-  sum += a[i]; // Error: Race condition
+  sum += a[i]; // Error: Data race
 });
 \end{lstlisting}
 
@@ -321,6 +403,51 @@ std::for_each(std::execution::par,
 \end{block}
 The mutex class is a synchronization primitive that can be used to protect shared data from being simultaneously accessed by multiple threads. 
 \end{frame}
+
+
+\begin{frame}[fragile]{Race condition}
+
+\begin{lstlisting}
+
+if (x == 5)  // Checking x
+{
+   // Different thread could change x 
+      
+   y = x * 2; // Using x
+}
+// It is not sure if y is 10 or any other value.
+\end{lstlisting}
+
+\begin{block}{Race condition}
+A check of a shared variable within a parallel execution and another thread could change this variable before it is used.
+\end{block}
+
+\end{frame}
+
+\begin{frame}[fragile]{Solution: Race condition}
+
+
+\begin{lstlisting}
+std::mutex m;
+
+m.lock();
+if (x == 5)  // Checking x
+{
+   // Different thread could change x 
+      
+   y = x * 2; // Using x
+}
+m.unlock();
+// Now it is sure that y will be 10
+\end{lstlisting}
+
+\begin{block}{Race condition}
+A check of a shared variable within a parallel execution and another thread could change this variable before it is used.
+\end{block}
+
+
+\end{frame}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Summary}
