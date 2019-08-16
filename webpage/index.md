@@ -38,6 +38,7 @@ Please find additional information here:
 * [Lecture 3](lecture3.pdf)
 * [Lecture 4](lecture4.pdf)
 * [Lecture 5](lecture5.pdf)
+* [Lecture 7](lecture7.pdf)
 * [References](list.pdf)
     
 ## Project
