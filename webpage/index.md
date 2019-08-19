@@ -44,7 +44,7 @@ Please find additional information here:
     
 ## Project
 
-TBA
+As a course project, we will implement Smoothed-particle hydrodynamics ([SPH](https://en.wikipedia.org/wiki/Smoothed-particle_hydrodynamics)). We will cover the basic equations brielfy in lecture 8 and the template code is available [here](https://github.com/diehlpkteaching/SPH).
 
 ## References
 
