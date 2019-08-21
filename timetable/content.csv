@@ -4,9 +4,9 @@ Lecture,Topic, Chapter(s)
 3,Iterators | Lists | library algorithms, 5 \& 6
 4,N-body simulations | Structs | Generic functions , 8 
 5,Classes | Operator overloading | Introduction to CMake , 9
-6,Lambda functions | Advanced loops, --
-7,Shared memory parallelism | execution policies, --
-8,Smoothed Particle Hydrodynamics (Course project), -- 
+6,Shared memory parallelism | execution policies, --
+7,Asynchronous programming, --
+8,Bond-based peridyanmics (Course project), -- 
 9,Finite Element Method, --
 10,Implementing the Finite Element Method | Linear Algebra using Blaze , --
 11,Managing Memory and low-level data structures, 10

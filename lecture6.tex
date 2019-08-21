@@ -52,7 +52,7 @@
 
 % frame slide
 \title{\coursename}
-\subtitle{Lecture 7: Shared memory  parallelism}
+\subtitle{Lecture 6: Shared memory  parallelism}
 
 %\author{\href{}{}}
 %\institute {
@@ -101,11 +101,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Reminder}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Lecture X}
+\begin{frame}{Lecture 5}
 \begin{block}{What you should know from last lecture}
 \begin{itemize}
-\item Lamba functions
-\item Advanced loops
+\item Operator overloading
+\item Header and class files
+\item CMake
 \end{itemize}
 \end{block}
 \end{frame}
@@ -126,8 +127,6 @@
 
 \begin{frame}{Amdahl's Law (Strong scaling)~\cite{amdahl1967validity}}
 
-
-
 \begin{align*}
 S = \frac{1}{(1-P) + \frac{P}{N}}
 \end{align*}
@@ -143,14 +142,192 @@ A program took 20 hours using a single thread and only the part took one hour ca
 \end{frame}
 
 
+\begin{frame}{Example: Dot product}
 
+\begin{center}
+$S = \mathbf{X} \cdot \mathbf{V} = \sum\limits_i^N x_i y_i$
+\end{center}
+\vspace{-0.75cm}
+\begin{align*}
+\mathbf{X} = \lbrace x_1,x_2,\ldots,x_n \rbrace \\
+\mathbf{Y} = \lbrace y_1,y_2,\ldots,y_n \rbrace \\
+\end{align*}
+\vspace{-1.5cm}
+\begin{align*}
+S = (x_1y_1) + (x_2y_2) + \ldots + (x_n y_n)
+\end{align*}
+\vspace{-1.cm}
+\begin{block}{Flow chart: Sequential}
+\begin{tikzpicture}
+\draw (0,0) circle [radius=0.3] node {$\times$};
+\draw (2,0) circle [radius=0.3] node {$\times$};
+\draw (4,0) circle [radius=0.3] node {$\times$};
+\draw (6,0) circle [radius=0.3] node {$\times$};
+\draw (10,0) circle [radius=0.3] node {$\times$};
+\node[above] at (8,0) {$\ldots$} ;
 
+\draw (2,-1) circle [radius=0.3] node {$+$};
+\draw (4,-1) circle [radius=0.3] node {$+$};
+\draw (6,-1) circle [radius=0.3] node {$+$};
+\draw (10,-1) circle [radius=0.3] node {$+$};
+\node[above] at (8,-1) {$\ldots$} ;
 
-\begin{frame}{}
-\cite{el2005advanced,hager2010introduction}
+\draw[->](0,-0.3) -- (1.7,-1);
+\draw[->](2,-0.3) -- (2,-0.7);
+\draw[->](4,-0.3) -- (4,-0.7);
+\draw[->](6,-0.3) -- (6,-0.7);
+\draw[->](10,-0.3) -- (10,-0.7);
+
+\draw[->](2.3,-1) -- (3.7,-1.);
+\draw[->](4.3,-1) -- (5.7,-1.);
+\draw[->](6.3,-1) -- (7.7,-1.);
+\draw[->](8.3,-1) -- (9.7,-1.);
+
+\draw (-0.15,0.3) -- (-0.3,0.6);
+\node[above] at (-0.3,0.6) {$x_1$} ;
+\draw (2-0.15,0.3) -- (2-0.3,0.6);
+\node[above] at (2-0.3,0.6) {$x_2$} ;
+\draw (4-0.15,0.3) -- (4-0.3,0.6);
+\node[above] at (4-0.3,0.6) {$x_3$} ;
+\draw (6-0.15,0.3) -- (6-0.3,0.6);
+\node[above] at (6-0.3,0.6) {$x_4$} ;
+\draw (10-0.15,0.3) -- (10-0.3,0.6);
+\node[above] at (10-0.3,0.6) {$x_n$} ;
+
+\draw (0.15,0.3) -- (0.3,0.6);
+\node[above] at (0.3,0.6) {$y_1$} ;
+\draw (2+0.15,0.3) -- (2+0.3,0.6);
+\node[above] at (2+0.3,0.6) {$y_2$} ;
+\draw (4+0.15,0.3) -- (4+0.3,0.6);
+\node[above] at (4+0.3,0.6) {$y_3$} ;
+\draw (6+0.15,0.3) -- (6+0.3,0.6);
+\node[above] at (6+0.3,0.6) {$y_4$} ;
+\draw (10+0.15,0.3) -- (10+0.3,0.6);
+\node[above] at (10+0.3,0.6) {$y_n$} ;
+
+\draw[->](10,-1.3) -- (10,-1.6);
+\node[below] at (10,-1.6) {$s$} ;
+\end{tikzpicture}
+\end{block}
+
 \end{frame}
 
 
+
+\begin{frame}{Parallelism approaches}
+
+\begin{block}{Pipeline parallelism }
+\begin{itemize}
+\item Used in vector processors
+\item Data passes between successive stages
+\item Used in execution pipelines in all general microprocessors
+\item Exploits
+\begin{itemize}
+\item Fine grain parallelism 
+\item High clock speeds
+\item Latency hiding
+\end{itemize}
+\end{itemize}
+\end{block}
+
+\begin{tikzpicture}
+\draw (0,0) rectangle ++(0.75,0.75) node[pos=.5] {$+S$};
+\draw (1.5,0) rectangle ++(0.75,0.75) node[pos=.5] {$xy$}; 
+\draw (3.5,0) rectangle ++(2,0.75) node[pos=.5] {\text{get} $x_i$,$y_i$};
+
+\node[above] at (8,0.5*0.75) {$\mathbf{X} = \lbrace x_1,x_2,\ldots,x_n \rbrace$} ;
+\node[below] at (8,0.5*0.75) {$\mathbf{Y} = \lbrace y_1,y_2,\ldots,y_n \rbrace$} ;
+\node at (-1,0.5*0.75) {$S$} ;
+
+\draw[<-](-0.8,0.5*0.75) -- (0,0.5*0.75) ;
+\draw[<-](0.75,0.5*0.75) -- (1.5,0.5*0.75) ;
+\draw[<-](2.25,0.5*0.75) -- (3.5,0.5*0.75) ;
+\draw[<-](5.75,0.8*0.75) -- (6,0.8*0.75) ;
+\draw[<-](5.75,0.2*0.75) -- (6,0.2*0.75) ;
+
+\end{tikzpicture}
+
+More details~\cite{0072822562}
+\end{frame}
+
+
+\begin{frame}{Parallelism approaches}
+
+\begin{block}{Single instructions and multiple data (SIMD)}
+\begin{itemize}
+\item All perform same operation at the same time
+\item But may perform different operations at different times
+\item Each operates on separate data
+\item Used in accelerators on microprocessors
+\item Scales as long as data scales
+\end{itemize}
+\end{block}
+
+SIMD is part of Flynn's taxonomy, a classification of computer architectures, proposed by Michael J. Flynn in 1966~\cite{flynn1972some,duncan1990survey}.
+\end{frame}
+
+
+\begin{frame}{Flow chart: SIMD}
+
+\begin{columns}[T]
+\begin{column}{0.4\textwidth}
+\begin{block}{Algorithm}
+   \begin{enumerate}
+   \item $S=0$
+   \item Get $x_{i+1},y_{i+1}$
+   \item Compute $xy$
+   \item Add to $S$
+   \item More data, go to 2
+   \item Send $S$ to reduce
+   \item Stop
+   \end{enumerate}
+   \end{block}
+\end{column}
+\begin{column}{0.6\textwidth}  %%<--- here
+   \begin{tikzpicture}
+   \draw (0,0) rectangle ++(0.75,0.75) node[pos=.5] {$P_1$}; 
+   \draw (1.5,0) rectangle ++(0.75,0.75) node[pos=.5] {$P_2$}; 
+   \draw (3,0) rectangle ++(0.75,0.75) node[pos=.5] {$P_3$}; 
+   \draw (4.5,0) rectangle ++(0.75,0.75) node[pos=.5] {$P_4$}; 
+   
+   \draw (0.75,-2) rectangle ++(0.75,0.75) node[pos=.5] {$+$}; 
+   \draw (3.75,-2) rectangle ++(0.75,0.75) node[pos=.5] {$+$}; 
+   
+   \draw (2.25,-4) rectangle ++(0.75,0.75) node[pos=.5] {$+$}; 
+   
+   \draw[->] (0.75+0.5*0.75,-2) -- (2.25,-4+0.75) ;
+   \draw[->] (3.75+0.5*0.75,-2) -- (3,-4+0.75) ;
+   
+   \draw[->] (1.5+0.5*0.75,0) -- (1.5,-2+0.75) ;
+   \draw[->] (0.5*0.75,0) -- (0.75,-2+0.75) ; 
+   
+   \draw[->] (3+0.5*0.75,0) -- (3.75,-2+0.75) ;
+   \draw[->] (4.5+0.5*0.75,0) -- (4.5,-2+0.75) ; 
+   
+   \draw[->] (2.25+0.5*0.75,-4) -- (2.25+0.5*0.75,-4.5) ; 
+   
+   \draw[dashed] (0,-0.75) -- (5,-0.75) ;
+   \node[below,rotate=90] at (-.75,-2) {\small Reduction tree}; 
+   
+   \node at (0.5*0.75,1.5) {\tiny $X=\lbrace x_1,x_2 \rbrace$};
+   \node at (0.5*0.75,1.25) {\tiny $Y=\lbrace x_9,x_{10} \rbrace$};
+   \node at (1.5+0.5*0.75,1.5) {\tiny $X=\lbrace x_3,x_4 \rbrace$};
+   \node at (1.5+0.5*0.75,1.25) {\tiny $Y=\lbrace x_{11},x_{12} \rbrace$};
+   \node at (3.+0.5*0.75,1.5) {\tiny $X=\lbrace x_5,x_6 \rbrace$};
+   \node at (3.+0.5*0.75,1.25) {\tiny $Y=\lbrace x_{13},x_{14} \rbrace$}; 
+   \node at (4.5+0.5*0.75,1.5) {\tiny $X=\lbrace x_7,x_8 \rbrace$};
+   \node at (4.5+0.5*0.75,1.25) {\tiny $Y=\lbrace x_{15},x_{16} \rbrace$};
+   
+   \draw[->] (0.5*0.75,1.125) -- (0.5*0.75,0.75) ;
+   \draw[->] (1.5+0.5*0.75,1.125) -- (1.5+0.5*0.75,0.75) ;
+   \draw[->] (3.+0.5*0.75,1.125) -- (3.+0.5*0.75,0.75) ;
+   \draw[->] (4.5+0.5*0.75,1.125) -- (4.5+0.5*0.75,0.75) ;
+   \end{tikzpicture}
+\end{column}
+\end{columns}
+\vspace{0.25cm}
+Reduction tree: Exploits fine grain functions and need global communications
+\end{frame}
 
 \begin{frame}{Uniform memory access (UMA)}
 
@@ -190,7 +367,7 @@ A program took 20 hours using a single thread and only the part took one hour ca
 \item Memory access times are the same
 \end{itemize}
 \end{block}
-
+More details~\cite{el2005advanced,hager2010introduction}.
 \end{frame}
 
 \begin{frame}{Non-uniform memory access (NUMA)}
@@ -236,7 +413,6 @@ Access time to the memory depends on the memory location relative to the CPU.
 \item Non-local memory access has some overhead
 \end{itemize}
 \end{block}
-
 \end{frame}
 
 
@@ -448,6 +624,18 @@ A check of a shared variable within a parallel execution and another thread coul
 
 \end{frame}
 
+\begin{frame}{Deadlocks}
+Deadlock describes a situation where two or more threads are blocked forever, waiting for each other.
+
+\begin{block}{Example (Taken from\footnote{\tiny{\url{https://docs.oracle.com/javase/tutorial/essential/concurrency/deadlock.html}}})}
+Alphonse and Gaston are friends, and great believers in courtesy. A strict rule of courtesy is that when you bow to a friend, you must remain bowed until your friend has a chance to return the bow. Unfortunately, this rule does not account for the possibility that two friends might bow to each other at the same time.
+\end{block}
+\vspace{1cm}
+Example: lecture7-deadlocks.cpp
+
+\end{frame}
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Summary}
@@ -458,7 +646,7 @@ A check of a shared variable within a parallel execution and another thread coul
 \item Shared memory parallelism
 \item Parallel algorithms
 \item Execution policies
-\item Mutex
+\item Race condition, data race, and deadlocks
 \end{itemize}
 \end{block}
 

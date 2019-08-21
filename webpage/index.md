@@ -15,7 +15,7 @@ and I hope you are able to attend. I will try to be available for discussion aft
 
 Office hours will be 
 
-<center> Thursday, 11;00 to 12:00, 343, LCKT</center> 
+<center> Thursday, 11:00 to 12:00, 343, LCKT</center> 
 
 and I encourage you to visit my office and to discuss exercises and C++ related questions. 
 
@@ -30,6 +30,7 @@ Please find additional information here:
 * [Exercise 1](exercise1.pdf)
 * [Exercise 2](exercise2.pdf)
 * [Exercise 3](exercise3.pdf), [Template Code](https://github.com/diehlpkteaching/N-Body)
+* [Exercise 4](exercise4.pdf)
 
 ## Slides
 
@@ -38,11 +39,12 @@ Please find additional information here:
 * [Lecture 3](lecture3.pdf)
 * [Lecture 4](lecture4.pdf)
 * [Lecture 5](lecture5.pdf)
+* [Lecture 6](lecture6.pdf)
 * [References](list.pdf)
     
 ## Project
 
-TBA
+As a course project, we will implement bond-based peridyanmics ([PD](https://en.wikipedia.org/wiki/peridynamics)). We will cover the basic equations brielfy in lecture 8 and the template code is available [here](https://github.com/diehlpkteaching/PD).
 
 ## References
 
