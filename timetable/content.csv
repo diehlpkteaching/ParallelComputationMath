@@ -6,7 +6,7 @@ Lecture,Topic, Chapter(s)
 5,Classes | Operator overloading | Introduction to CMake , 9
 6,Shared memory parallelism | execution policies, --
 7,Asynchronous programming, --
-8,Smoothed Particle Hydrodynamics (Course project), -- 
+8,Bond-based peridyanmics (Course project), -- 
 9,Finite Element Method, --
 10,Implementing the Finite Element Method | Linear Algebra using Blaze , --
 11,Managing Memory and low-level data structures, 10
