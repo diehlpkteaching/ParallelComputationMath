@@ -1,0 +1,210 @@
+%Template
+%Copyright (C) 2019  Patrick Diehl
+%
+%This program is free software: you can redistribute it and/or modify
+%it under the terms of the GNU General Public License as published by
+%the Free Software Foundation, either version 3 of the License, or
+%(at your option) any later version.
+
+%This program is distributed in the hope that it will be useful,
+%but WITHOUT ANY WARRANTY; without even the implied warranty of
+%MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+%GNU General Public License for more details.
+
+%You should have received a copy of the GNU General Public License
+%along with this program.  If not, see <http://www.gnu.org/licenses/>.
+\documentclass[12pt,t]{beamer}
+
+\beamertemplatenavigationsymbolsempty
+
+% usepackage
+%\usepackage{template/dbt}
+\usepackage{listings}
+
+\definecolor{comments}{RGB}{81,81,81}
+\definecolor{keywords}{RGB}{255,0,90}
+
+% lstlisting
+\lstset{
+    language=C,
+    basicstyle=\footnotesize\ttfamily,
+    keywordstyle=\color{keywords},
+    showspaces=false,
+    showstringspaces=false,
+    commentstyle=\color{blue}\emph
+    %frame=single,
+    %rulecolor=\color{comments},
+    %rulesepcolor=\color{comments},
+    %backgroundcolor = \color{lightgray}
+}
+
+\usetheme{default}
+
+\usepackage[
+    type={CC},
+    modifier={by-nc-nd},
+    version={4.0},
+]{doclicense} 
+
+\input{template/variables.tex}
+
+% frame slide
+\title{\coursename}
+\subtitle{Lecture 7: Asynchronous programming }
+
+%\author{\href{}{}}
+%\institute {
+%    \href{}{\tt \scriptsize \today}
+%}
+\date {
+ \tiny \url{\courseurl}
+\vspace{2cm}
+\doclicenseThis  
+  
+}
+
+
+
+\usepackage{ifxetex}
+
+\ifxetex
+\usepackage{fontspec}
+\setmainfont{Raleway}
+\fi
+
+\begin{document} {
+    \setbeamertemplate{footline}{}
+    \frame {
+        \titlepage
+    }
+}
+
+\frame{
+
+\tableofcontents
+
+}
+
+\AtBeginSection[]{
+  \begin{frame}
+  \vfill
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+    \usebeamerfont{title}\insertsectionhead\par%
+  \end{beamercolorbox}
+  \vfill
+  \end{frame}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Reminder}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Lecture 6}
+\begin{block}{What you should know from last lecture}
+\begin{itemize}
+\item Shared memory parallelism
+\item Parallel algorithms and execution policies
+\item Data races and dead locks
+\end{itemize}
+\end{block}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Asynchronous programming}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Lambda functions}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[fragile]{Lambda expression\footnote{\tiny{\url{https://en.cppreference.com/w/cpp/language/lambda}}} }
+
+\begin{block}{Structure}
+\begin{lstlisting}
+[ capture clause ] (parameters) -> return-type  
+{   
+   definition of method   
+} 
+\end{lstlisting}
+\end{block}
+
+\begin{block}{Notes}
+\begin{itemize}
+\item Generally return-type in lambda expression are evaluated by compiler
+\item Capture clause:
+\begin{itemize}
+\item  \lstinline|[&]| : capture all external variable by reference
+\item  \lstinline|[=]| : capture all external variable by value
+\item  \lstinline|[a, &b]| : capture a by value and b by reference
+\end{itemize}
+\end{itemize}
+\end{block}
+\vspace{-0.2cm}
+\begin{center}
+More about the capture clauses in lecture 11/12.
+\end{center}
+\end{frame}
+
+\begin{frame}[fragile]{Practical example}
+\begin{lstlisting}
+std::vector<int> v {4, 1, 3, 5, 2, 3, 1, 7}; 
+
+\end{lstlisting}
+
+
+\begin{block}{Classical function}
+\begin{lstlisting}
+void print(int i){
+std::cout << i << std::endl;
+}
+std::for_each(v.begin(), v.end(), print); 
+\end{lstlisting}
+\end{block}
+
+\begin{block}{Lambda expression}
+\begin{lstlisting}
+std::for_each(v.begin(),v.end(),
+	[](int i){std::cout<< i << std::endl;})
+\end{lstlisting}
+\end{block}
+
+
+\end{frame}
+     
+\begin{frame}[fragile]{More examples}
+
+\begin{block}{\lstinline|find_if|\footnote{\tiny\url{https://en.cppreference.com/w/cpp/algorithm/find}}}
+\begin{lstlisting}
+    vector<int>:: iterator p = find_if(
+    v.begin(), 
+    	v.end(), 
+    	[](int i) 
+    { 
+        return i > 4; 
+    }); 
+    cout << "First number greater than 4 is : 
+    " << *p 
+    << endl;
+\end{lstlisting}
+\end{block}
+Many more algorithms are available in the \lstinline|#include <algorithm>|\footnote{\tiny\url{https://en.cppreference.com/w/cpp/algorithm}}
+\end{frame}
+     
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Summary}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Summary}
+\begin{block}{After this lecture, you should know}
+\begin{itemize}
+\item Asynchronous programming \lstinline|std::async| and \lstinline|std::future|
+\item Lambda functions
+\end{itemize}
+\end{block}
+\end{frame}
+
+
+\end{document}
