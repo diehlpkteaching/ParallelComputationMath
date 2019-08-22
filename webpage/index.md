@@ -40,6 +40,7 @@ Please find additional information here:
 * [Lecture 4](lecture4.pdf)
 * [Lecture 5](lecture5.pdf)
 * [Lecture 6](lecture6.pdf)
+* [Lecture 7](lecture7.pdf)
 * [References](list.pdf)
     
 ## Project
