@@ -31,6 +31,7 @@ Please find additional information here:
 * [Exercise 2](exercise2.pdf)
 * [Exercise 3](exercise3.pdf), [Template Code](https://github.com/diehlpkteaching/N-Body)
 * [Exercise 4](exercise4.pdf)
+* [Exercise 5](exercise5.pdf)
 
 ## Slides
 
