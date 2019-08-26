@@ -21,6 +21,16 @@
 %\usepackage{template/dbt}
 \usepackage{listings}
 
+\usepackage{tikz}
+\usetikzlibrary{positioning,arrows}
+\tikzset{
+ arrow/.style={-latex, shorten >=1ex, shorten <=1ex}
+ }
+\usepackage{mathtools}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.12}
+
+\usepackage{amsmath}
 \definecolor{comments}{RGB}{81,81,81}
 \definecolor{keywords}{RGB}{255,0,90}
 
@@ -72,6 +82,32 @@
 \setmainfont{Raleway}
 \fi
 
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\ftime}{[0,T]}
+\newcommand{\args}{(t,x(t,X')-x(t,X),X'-X)}
+\newcommand{\argsd}{(t,x(t,X_j)-x(t,X_i),X_j-X_i)}
+\newcommand{\x}{\Vert X'-X \Vert}
+\newcommand{\xd}{\Vert X_j-X_i \Vert}
+\newcommand{\J}{J\left(\frac{\x}{\epsilon}\right)}
+\newcommand{\dx}{{\Delta x}}
+\newcommand{\ratio}{\sfrac{\delta}{\dx}}
+
+%Sparse grid stuff
+\newcommand{\Model}{{\mathcal{M}}}
+\newcommand{\vl}{{\vec{l}}}
+\newcommand{\vi}{{\vec{i}}}
+\newcommand{\vli}{{\vl, \vi}}
+\newcommand{\vx}{{\mathbf{z}}}
+\newcommand{\unitd}{{[0, 1]^d}}
+\newcommand{\Real}{{\mathbb{R}}}
+\newcommand{\Order}{{\mathcal{O}}}
+\newcommand{\Il}{{\mathcal{I}_\vl}}
+\newcommand{\level}{{\ell}}
+\newcommand{\cV}{{\mathcal{V}}}
+\newcommand{\cW}{{\mathcal{W}}}
+
+
+
 \begin{document} {
     \setbeamertemplate{footline}{}
     \frame {
@@ -113,19 +149,371 @@
 \section{Classical continuum mechanics}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\begin{frame}{}
+
+\begin{figure}[!htbp]
+\begin{tikzpicture}
+\draw[fill=blue, opacity=0.5](1,1) circle (1);
+ \node at (1,2.35) {{\small $\Omega_0$}};
+ \draw[fill=blue,](1,1) circle (0.075);
+ \node at (1,0.725) {{\small $X$}};
+ \node at (6,1) {\includegraphics[scale=1.25]{images/deformation.pdf}};
+ \node at (6,2.35) {{\small $\Omega(t)$}};
+ \draw[fill=blue,](6,0.725) circle (0.075);
+ \node at (6,0.45) {{\small $x(t,X)$}};
+ \node at (3.75,2.45) {{\small $\phi:\Omega_0\rightarrow \R^3$}};
+ \draw [arrow, bend angle=45, bend left] (1.95,1.25) to (5.8,1);
+\end{tikzpicture}
+\caption[The continuum in the reference configuration $\Omega_0$ and after the deformation $\phi : \Omega_0 \rightarrow \R^3$ in the current configuration $\Omega(t)$ at time $t$.]{The continuum in the reference configuration $\Omega_0$ and after the deformation $\phi : \Omega_0 \rightarrow \R^3$ with $\det(\text{grad}\;\phi) > 0$ in the current configuration $\Omega(t)$ at time $t$.}
+\label{fig::chapter2:01}
+\end{figure}
+
+\begin{block}{Prerequisites}
+\begin{itemize}
+\item  A \index{material point}{material point} in the continuum is identified with its position $X \in \R^3$ in the so-called reference configuration $\Omega_0 \subset \R^3$.
+\item The \index{configuration! reference}{reference configuration} $\Omega_0$ is refers to the shape of the continuum at rest with no internal forces. 
+\end{itemize}
+
+\end{block}
+
+\end{frame}
+
+\begin{frame}{}
+\begin{block}{Prerequisites}
+\begin{itemize}
+\item  The deformation $\phi:[0,T]\times\R^3\rightarrow\R^3$ of a material point $X$ in the reference configuration $\Omega_0$ to the so-called \index{configuration! current}{current configuration} $\Omega(t)$ is given by
+\begin{align*}
+\phi(t,X) := id(X) + u(t,X) = x(t,X)
+\end{align*}
+\item where $u:[0,T]\times\R^3\rightarrow\R^3$ refers to the \index{displacement}{displacement}
+\begin{align*}
+u(t,X):= x(t,X) - X\,\text{.}
+\end{align*}
+\item The stretch $s:[0,T]\times\R^3\times\R^3\rightarrow\R^3$ between the material point $X$ and the material point $X'$ after the deformation $\phi$ in the configuration $\Omega(t)$ is defined by
+\begin{align*}
+s(t,X,X') := \phi(t,X') - \phi(t,X) \,\text{.}
+\end{align*}
+\end{itemize}
+
+\end{block}
+
+\end{frame}
+
+\begin{frame}{Notice}
+We just covered the prerequisites of classical continuum mechanics which are necessary to introduce the peridyanmic theory. For more details, we refer to \\
+\begin{itemize}
+\item Liu, I-Shih. Continuum mechanics. Springer Science \& Business Media, 2013. 
+\item Gurtin, Morton E. An introduction to continuum mechanics. Vol. 158. Academic press, 1982.
+\end{itemize}
+\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Peridyanmics}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\begin{frame}{What is peridynamics}
+
+\begin{itemize}
+\item A non-local generalization of continuum mechanics 
+\item Has a focus on discontinuous displacement as they arise in fracture mechanics.
+\item Models crack and fractures on a mesoscopic scale using Newton's second law (force equals mass times acceleration)
+\begin{align*}
+F = m \cdot a = m \cdot \ddot X
+\end{align*}
+\end{itemize}
+\small
+\begin{itemize}
+\item Silling, Stewart A. "Reformulation of elasticity theory for discontinuities and long-range forces." Journal of the Mechanics and Physics of Solids 48.1 (2000): 175-209.
+\item Silling, Stewart A., and Ebrahim Askari. "A meshfree method based on the peridynamic model of solid mechanics." Computers \& structures 83.17-18 (2005): 1526-1535.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Principle I}
+\begin{figure}[!htbp]
+\begin{tikzpicture}
+\draw[fill=blue, opacity=0.5](0,0) circle (1);
+ \node at (0,2.35) {{\small $\Omega_0$}};
+ \draw[fill=blue](0,0) circle (2pt);
+ \node at (0,-0.25) {{\small $X$}};
+ \draw (0,0) ellipse (3cm and 2cm);
+\draw [->] (0,0) to (0.95,0.225);
+\node at (1.125,0.25) {{\tiny $\delta$}};
+\node at (1.1,0.8) {{\tiny $B_\delta(X)$}};
+\draw (0,0.5) circle (2pt);
+\draw (0,-0.5) circle (2pt);
+\draw (0.5,0.0) circle (2pt);
+\draw (-0.5,0.0) circle (2pt);
+\end{tikzpicture}
+\caption{The continuum in the reference configuration $\Omega_0$ and the interaction zone $B_\delta(X)$ for material point $X$ with the horizon $\delta$.}
+\label{fig::chapter2:02}
+\end{figure}
+
+\end{frame}
+
+\begin{frame}{Principle II}
+
+\begin{block}{Acceleration $a:\ftime\times\R^3\rightarrow\R^3$}
+of a material point at position $X$ at time $t$ is given by
+\begin{align*}
+\rho(X)a(t,X)&:= \\
+&\int\limits_{B_\delta(X)} f\left(t,x(t,X')-x(t,X), X'-X\right)dX' + b(t,X)\,\text{,}
+\label{eq::chapter2:01}
+\end{align*}
+\end{block}
+where $f:[0,T]\times\R^3\times\R^3\rightarrow\R^3$ denotes a \index{pair-wise force function}{pair-wise force function}, $\rho(X)$ is the mass density and $b:[0,T]\times\mathbb{R}^3\rightarrow\mathbb{R}^3$ the external force. 
+\end{frame}
+
+
+\begin{frame}{Important fundamental assumptions}
+\begin{enumerate}
+\item The medium is continuous (equal to a continuous mass density field exists)
+\item Internal forces are contact forces (equal to that material points only interact if they are separated by zero distance.
+\item Conservation laws of mechanics apply (conservation of mass, linear momentum, and angular momentum).
+\end{enumerate}
+
+\begin{block}{Conservation of linear momentum}
+\vspace*{-0.5cm}
+\begin{align*}
+&f(t,-(x(t,X')-x(t,X)),-(X'-X))= \\ &-f(t,x(t,X')-x(t,X), X'-X)
+\end{align*}
+
+\end{block}
+\vspace*{-0.5cm}
+\begin{block}{Conservation of angular momentum}
+\vspace*{-0.5cm}
+\begin{align*}
+(x(t,X')-x(t,X)+X'-X) \times f\left(t,x(t,X')-x(t,X), X'-X\right) = 0
+\end{align*}
+\end{block}
+
+\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Discretization}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\begin{frame}{EMU nodal discretization (EMU ND)}
+
+\begin{block}{Assumptions}
+\begin{itemize}
+\item All material points $X$ are placed at the nodes $\mathbf{X}:=\lbrace X_i \in \mathbb{R}^3\vert i=1,\ldots,n\rbrace$ of a regular grid in the reference configuration $\Omega_0$.
+\item The discrete \index{nodal spacing}{nodal spacing} $\dx$ between $X_i$ and $X_j$ is defined as $\dx = \Vert X_j - X_i \Vert$.
+\item  The discrete interaction zone $B_\delta(X_i)$ of $X_i$ is given by $B_\delta(X_i):=\lbrace X_j \vert \,\vert\vert X_j-X_i\vert\vert \leq \delta\rbrace$.
+\item For all material points at the nodes $\mathbf{X}:=\lbrace X_i \in \mathbb{R}^3\vert i=1,\ldots,n\rbrace$ a surrounding volume $\mathbf{V}:=\lbrace\ \mathbf{V}_i \in \mathbb{R}\vert i=1,\ldots,n\rbrace$ is assumed.
+\item These volumes are non overlapping $\mathbf{V}_i \cap \mathbf{V}_j = \emptyset$ and recover the volume of the volume of the reference configuration $\sum_{i=1}^n \mathbf{V}_i = \mathbf{V}_{\Omega_0}$.
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}{Discrete equation of motion}
+\begin{center}
+\begin{tikzpicture}
+\shade[ball color = blue] (2,2) circle(1pt);
+\shade[ball color = green] (1,1.5) circle(1pt);
+\shade[ball color = green] (1,2.0) circle(1pt);
+\shade[ball color = green] (1,2.5) circle(1pt);
+\shade[ball color = green] (3,1.5) circle(1pt);
+\shade[ball color = green] (3,2.0) circle(1pt);
+\shade[ball color = green] (3,2.5) circle(1pt);
+\shade[ball color = green] (1.5,1) circle(1pt);
+\shade[ball color = green] (2.0,1) circle(1pt);
+\shade[ball color = green] (2.5,1.) circle(1pt);
+\shade[ball color = green] (1.5,3) circle(1pt);
+\shade[ball color = green] (2.0,3) circle(1pt);
+\shade[ball color = green] (2.5,3) circle(1pt);
+ \foreach \x in {0.5,3.5}
+ \foreach \y in {0.5,1,1.5,2,2.5,3,3.5}
+ \shade[ball color = gray](\x,\y) circle (1pt);
+ \foreach \x in {1,1.5,2,2.5,3}
+ \foreach \y in {0.5,3.5}
+ \shade[ball color = gray](\x,\y) circle (1pt);
+ \foreach \x in {1.5,2,2.5}
+ \foreach \y in {1.5,2.5}
+ \shade[ball color = gray](\x,\y) circle (1pt);
+ \foreach \x in {1,3}
+ \foreach \y in {1,3}
+ \shade[ball color = gray](\x,\y) circle (1pt);
+ \shade[ball color = gray](1.5,2) circle (1pt);
+ \shade[ball color = gray](2.5,2) circle (1pt);
+ \foreach \x in {0.5,1,1.5,2,2.5,3,3.5,4.0}
+ \draw(\x-0.25,0.25) -- (\x-0.25,4-0.25);
+ \foreach \x in {0.5,1,1.5,2,2.5,3,3.5,4.0}
+ \draw(0.25,\x-0.25) -- (4-0.25,\x-0.25);
+ \draw(2,2) circle(30pt);
+\node at (2.05,1.85) {\tiny{$X_i$}};
+\end{tikzpicture}
+\end{center}
+
+\begin{align*}
+\rho(X_i)a(t,X_i)&=\sum\limits_{X_j\in B_\delta(X_i)} \\ &f\left(t,x(t,X_j)-x(t,X_i), X_j-X_i\right)d\mathbf{V}_j + b(t,X_i)
+\end{align*}
+
+\end{frame}
+
+\begin{frame}{}
+Note that we computed the acceleration of a material point $a(t,X)$ and we need to compute the displacement $u(t,X)$ by a
+\begin{block}{Central difference scheme}
+\begin{align*}
+u&(t+1,X) = \\  2 u(t,X) &- u(t-1,X) + \Delta t^2 \left(\sum\limits_{X_j\in B_\delta(X_i)} (t,X_i,X_j)+b(t,X)\right)
+\end{align*}
+\end{block}
+to compute the actual displacement $x(t,X):= id(X)+ u(t,X)$.
+
+\end{frame}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Material models}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Prototype Microelastic Brittle (PMB) model}
+In this model the assumption is made that the pair-wise force $f$ only depends on the relative normalized bond stretch $s:[0,T]\times\mathbb{R}^3\times\mathbb{R}^3\rightarrow\mathbb{R}$
+\begin{align*}
+s(t,x(t,X')&-x(t,X),X'-X):= \\ &\frac{\vert\vert x(t,X')-x(t,X))\vert\vert - \vert\vert X'-X\vert\vert}{\vert\vert X'-X\vert\vert}\,\text{.} 
+\end{align*}
+where 
+\begin{itemize}
+\item X'-X is the vector between the material points in the reference configuration,
+\item x(t,X')-x(t,X) is the vector between the material point in the current configuration.
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}{Pair-wise bond force $f$}
+
+\begin{align*}
+f(t,x(t,X')&-x(t,X),X'-X):= \notag\\ & \textcolor{blue}{c} \, s(t,x(t,X')-x(t,X),X'-X)\frac{x(t,X')-x(t,X)}{\Vert x(t,X')-x(t,X)\Vert}
+\end{align*}
+with a material dependent \index{stiffness constant}{stiffness constant} $\textcolor{blue}{c}$.
+
+\begin{block}{More details:}
+\small
+\begin{itemize}
+\item  Silling, Stewart A., and Ebrahim Askari. "A meshfree method based on the peridynamic model of solid mechanics." Computers \& structures 83.17-18 (2005): 1526-1535.
+\item Parks, Michael L., et al. "Implementing peridynamics within a molecular dynamics code." Computer Physics Communications 179.11 (2008): 777-783.
+\end{itemize}
+
+\end{block}
+\end{frame}
+
+\begin{frame}{}
+\begin{figure}[H]
+\begin{tikzpicture}
+ \begin{axis}[xlabel=$s$, axis lines=middle,ticks=none ,grid=major,ymax=0.75, ylabel=$f$]
+ \addplot[domain=0:1,thick] {0.5 * x};
+ \draw[gray,thick] (0.4,0.2) -- (0.6,0.2);
+ \draw[gray,thick] (0.6,0.2) -- (0.6,0.3);
+ \node at (0.525,0.225) {{\small \textcolor{blue}{$c$}}};
+ \end{axis}
+\end{tikzpicture}
+\caption[Sketch of the pair-wise linear valued force function $f$ with the stiffness constant $c$ as slope.]{Sketch of the pair-wise linear valued force function $f$ with the stiffness constant \textcolor{blue}{$c$} as slope.}
+\label{fig::force::sketch}
+\end{figure}
+\begin{center}
+\textcolor{blue}{Note that there is no notion of failure/damage in the current material model.}
+\end{center}
+\end{frame}
+
+\begin{frame}{Introducing failure}
+Introduce a scalar valued history dependent function $\mu:[0,T]\times\mathbb{R}^3\times\mathbb{R}^3\rightarrow\mathbb{N}$ to the computation of the pair-wise force
+\begin{align*}
+&f(t,x(t,X')-x(t,X),X'-X):= \notag\\ & \textcolor{blue}{c} s(t,x(t,X')-x(t,X),X'-X) \\&\mu\args \frac{x(t,X')-x(t,X)}{\Vert x(t,X')-x(t,X)\Vert}\,\text{.} 
+\end{align*}
+with
+\begin{align}
+\mu(t,x(t,X')&-x(t,X),X'-X):= \\&
+ \left\{
+ \begin{aligned}
+ & 1 \quad s(t,x(t,X')-x(t,X),X'-X) < \textcolor{blue}{s_{c}} \\
+ %& \qquad -\alpha s_\text{smin}(t') \forall 0 \leq t' \leq t
+%\\[1ex]
+ & 0 \quad \text{otherwise}
+\end{aligned}
+ \right.
+\end{align}
+\end{frame}
+
+\begin{frame}{}
+\begin{figure}[H]
+\begin{tikzpicture}
+ \begin{axis}[xlabel=$s$, axis lines=middle ,grid=major,ymax=0.75, ylabel=$f$,xtick={1}, xticklabels={\textcolor{blue}{$s_c$}},yticklabels={,,}]
+ \addplot[domain=0:1,thick] {0.5 * x};
+ \addplot[domain=1:1.5,thick] {0 * x};
+ \draw[gray,thick] (0.4,0.2) -- (0.6,0.2);
+ \draw[gray,thick] (0.6,0.2) -- (0.6,0.3);
+ \draw[gray,thick,dashed] (1,0) -- (1,0.5);
+ \node at (0.525,0.225) {{\small \textcolor{blue}{$c$}}};
+ \end{axis}
+\end{tikzpicture}
+\caption[Sketch of the pair-wise linear valued force function $f$ with the stiffness constant $c$ as slope and the critical bond stretch $s_c$.]{Sketch of the pair-wise linear valued force function $f$ with the stiffness constant \textcolor{blue}{$c$} as slope and the critical bond stretch \textcolor{blue}{$s_c$}.}
+\label{fig::force::sketch::critical}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Definition of damage}
+With the scalar valued history dependent function $\mu$ the notion of damage $d(t,X):[0,T]\times\R^3\rightarrow\R$ can be introduced via
+\begin{align*}
+d(t,X):= 1- \frac{\displaystyle\int\limits_{B_\delta(X)}\mu\args dX'}{\displaystyle\int\limits_{B_\delta(X)}dX'}\,\text{.}
+\label{eq::damage:nodal}
+\end{align*}
+To express damage in words, it is the ratio of the active (non-broken) bonds and the amount of bonds in the reference configuration within the neighborhood.
+\end{frame}
+
+
+
+\begin{frame}{Relation to classical continuum mechanics}
+\begin{block}{Stiffness constant}
+\begin{align*}
+c - \frac{18K}{\pi\delta}
+\end{align*}
+\end{block}
+\vspace{-0.25cm}
+\begin{block}{Stiffness constant}
+\begin{align*}
+s_c = \frac{5}{12} \sqrt{\frac{K_{Ic}}{K^2\delta}}
+\end{align*}
+\end{block}
+\vspace{-0.25cm}
+With
+\begin{itemize}
+\item $K$ is the bulk modulus
+\item $K_Ic$ is the critical stress intensity factor
+\end{itemize}
+\end{frame}
+
+
+
+\begin{frame}{Notice}
+We just covered the basics of peridynamics which are necessary to implement peridyanmics for the course project. Fore more details we refer to 
+\begin{itemize}
+\item Bobaru, Florin, et al., eds. Handbook of peridynamic modeling. CRC press, 2016.
+\item Madenci E, Oterkus E. Peridynamic Theory. InPeridynamic Theory and Its Applications 2014 (pp. 19-43). Springer, New York, NY.
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Implementation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Algorithm}
+
+\begin{enumerate}
+\item Read the input files
+\item Compute the neighborhoods $B_\delta$
+\item While $t_n \leq T$
+\begin{enumerate}
+\item Update the boundary conditions 
+\item Compute the pair-wise forces $f$
+\item Compute the acceleration $a$
+\item Approximate the displacement
+\item Compute the new positions
+\item Output the simulation data
+\item Update the time step $t_n = t_n + 1$
+\item Update the time $t=\Delta t * t_n$
+\end{enumerate} 
+\end{enumerate}
+
+\end{frame}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -139,7 +527,19 @@
 \item Material models 
 \end{itemize}
 \end{block}
+
+\begin{center}
+\textcolor{red}{Note that this lecture is not relevant for the exams, but you should understand the content to implement the course project.}
+\end{center}
 \end{frame}
 
+
+
+\begin{frame}{Disclaimer}
+Some of the material, \emph{e.g.}\ figures, plots, equations, and sentences, were adapted from P. Diehl, Modeling and Simulation of cracks and fractures with peridynamics in brittle materials, Doktorarbeit, University of Bonn, 2017.\\
+
+
+
+\end{frame}
 
 \end{document}
