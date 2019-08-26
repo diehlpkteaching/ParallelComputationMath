@@ -42,11 +42,12 @@ Please find additional information here:
 * [Lecture 5](lecture5.pdf)
 * [Lecture 6](lecture6.pdf)
 * [Lecture 7](lecture7.pdf)
+* [Lecture 8 (Course project)](lecture8.pdf) 
 * [References](list.pdf)
     
 ## Project
 
-As a course project, we will implement bond-based peridyanmics ([PD](https://en.wikipedia.org/wiki/peridynamics)). We will cover the basic equations brielfy in lecture 8 and the template code is available [here](https://github.com/diehlpkteaching/PD).
+As a course project, we will implement bond-based peridyanmics ([PD](https://en.wikipedia.org/wiki/peridynamics)). We will cover the basic equations brielfy in [lecture 8](lecture8.pdf) and the template code is available [here](https://github.com/diehlpkteaching/PD).
 
 ## References
 
