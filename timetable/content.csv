@@ -3,18 +3,18 @@ Lecture,Topic, Chapter(s)
 2,Monte Carlo methods | Random numbers | Containers | Functions, 3 \& 4
 3,Iterators | Lists | library algorithms, 5 \& 6
 4,N-body simulations | Structs | Generic functions , 8 
-5, Classes | Operator overloading, 9
-6,CMake | External libraries , --
-7,Finite Element Method, --
-8,Implementing the Finite Element Method | Linear Algebra using Blaze , --
-9,Managing Memory and low-level data structures, 10
-10,Defining abstract data types, 11
-11,Course project: smoothed particle hydrodynamics, -- 
-12,Lambda functions | Advanced loops, --
-13,Shared memory parallalization | execution policies, --
+5,Classes | Operator overloading | Introduction to CMake , 9
+6,Shared memory parallelism | execution policies, --
+7,Asynchronous programming, --
+8,Bond-based peridyanmics (Course project), -- 
+9,Finite Element Method, --
+10,Implementing the Finite Element Method | Linear Algebra using Blaze , --
+11,Managing Memory and low-level data structures, 10
+12,Defining abstract data types, 11
+13,Recap of the lecture content | Questions \& Answers, --
 14,Midterm exam, --
-15,Introduction to HPX,--
-16,HPX Parallel for loops | Futurization, --
+15,Introduction to HPX I,--
+16,Introduction to HPX II,--
 17,Distributed programming I,--
 18,Distributed programming II,--
 19,Parallel implementation of Monte Carlo and $N$-Body simulations, --

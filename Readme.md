@@ -1,6 +1,10 @@
 # Parallel Computational Mathematics [![CircleCI](https://circleci.com/gh/diehlpkteaching/ParallelComputationMath.svg?style=svg)](https://circleci.com/gh/diehlpkteaching/ParallelComputationMath)
 
-## Templates 
+## Exercises
+
+The exercises are available [here](https://github.com/diehlpkteaching/ParallelComputationMathExercise).
+
+## Programming exercises 
 
 Templates as Jupyter notebooks and C++ files are available 
 

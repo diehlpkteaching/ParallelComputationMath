@@ -1,5 +1,5 @@
 ---
-title: "Course: Math 4977-3 Parallel computational mathematics"
+title: "Course: Math 4997-3 Parallel computational mathematics"
 output:
   html_document:
     toc: yes
@@ -11,7 +11,16 @@ Welcome to an exciting semester about accerlerated C++ for computational mathema
 
 <center>Tuesday and Thursday, 09:00 to 10:20, 130 LCKT</center>
 
-and I hope you are able to attend. I will try to be available for discussion after classes, so you can get the most out of the class. Please find additional information here:
+and I hope you are able to attend. I will try to be available for discussion after classes, so you can get the most out of the class. 
+
+Office hours will be 
+
+<center> Thursday, 11:00 to 12:00, 343, LCKT</center> 
+
+and I encourage you to visit my office and to discuss exercises and C++ related questions. 
+
+
+Please find additional information here:
 
 * [Syllabus](syllabus.pdf)
 * [Timetable](timetable.pdf)
@@ -20,7 +29,9 @@ and I hope you are able to attend. I will try to be available for discussion aft
 
 * [Exercise 1](exercise1.pdf)
 * [Exercise 2](exercise2.pdf)
-* [Exercise 3](exercise3.pdf)
+* [Exercise 3](exercise3.pdf), [Template Code](https://github.com/diehlpkteaching/N-Body)
+* [Exercise 4](exercise4.pdf)
+* [Exercise 5](exercise5.pdf)
 
 ## Slides
 
@@ -28,11 +39,15 @@ and I hope you are able to attend. I will try to be available for discussion aft
 * [Lecture 2](lecture2.pdf)
 * [Lecture 3](lecture3.pdf)
 * [Lecture 4](lecture4.pdf)
+* [Lecture 5](lecture5.pdf)
+* [Lecture 6](lecture6.pdf)
+* [Lecture 7](lecture7.pdf)
+* [Lecture 8 (Course project)](lecture8.pdf) 
 * [References](list.pdf)
     
 ## Project
 
-TBA
+As a course project, we will implement bond-based peridyanmics ([PD](https://en.wikipedia.org/wiki/peridynamics)). We will cover the basic equations brielfy in [lecture 8](lecture8.pdf) and the template code is available [here](https://github.com/diehlpkteaching/PD).
 
 ## References
 
@@ -49,7 +64,7 @@ TBA
 * [Online C++ compiler](https://wandbox.org/)
 * [How to use Github Classroom](https://www.diehlpk.de/blog/githubclassroom/)
 * [How to use Jupyter notebooks](https://www.diehlpk.de/blog/jupyter-notebooks/)
-
+* [C++ summer lecture](https://www.diehlpk.de/blog/cpp-lectures/)
 
 <p style="text-align:center;"> <img src="https://mirrors.creativecommons.org/presskit/buttons/80x15/svg/by-nc-nd.svg" alt="CC"> </p>
 

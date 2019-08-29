@@ -1,0 +1,559 @@
+%Template
+%Copyright (C) 2019  Patrick Diehl
+%
+%This program is free software: you can redistribute it and/or modify
+%it under the terms of the GNU General Public License as published by
+%the Free Software Foundation, either version 3 of the License, or
+%(at your option) any later version.
+
+%This program is distributed in the hope that it will be useful,
+%but WITHOUT ANY WARRANTY; without even the implied warranty of
+%MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+%GNU General Public License for more details.
+
+%You should have received a copy of the GNU General Public License
+%along with this program.  If not, see <http://www.gnu.org/licenses/>.
+\documentclass[12pt,t]{beamer}
+
+\beamertemplatenavigationsymbolsempty
+
+% usepackage
+%\usepackage{template/dbt}
+\usepackage{listings}
+
+\definecolor{comments}{RGB}{81,81,81}
+\definecolor{keywords}{RGB}{255,0,90}
+
+% lstlisting
+\lstset{
+    language=C,
+    basicstyle=\footnotesize\ttfamily,
+    keywordstyle=\color{keywords},
+    showspaces=false,
+    showstringspaces=false,
+    commentstyle=\color{blue}\emph
+    %frame=single,
+    %rulecolor=\color{comments},
+    %rulesepcolor=\color{comments},
+    %backgroundcolor = \color{lightgray}
+}
+
+\usetheme{default}
+
+\usepackage[
+    type={CC},
+    modifier={by-nc-nd},
+    version={4.0},
+]{doclicense} 
+
+\input{template/variables.tex}
+
+% frame slide
+\title{\coursename}
+\subtitle{Lecture 5: Operator overloading and structuring programs}
+
+%\author{\href{}{}}
+%\institute {
+%    \href{}{\tt \scriptsize \today}
+%}
+\date {
+ \tiny \url{\courseurl}
+\vspace{2cm}
+\doclicenseThis  
+  
+}
+
+
+
+\usepackage{ifxetex}
+
+\ifxetex
+\usepackage{fontspec}
+\setmainfont{Raleway}
+\fi
+
+\begin{document} {
+    \setbeamertemplate{footline}{}
+    \frame {
+        \titlepage
+    }
+}
+
+\frame{
+
+\tableofcontents
+
+}
+
+\AtBeginSection[]{
+  \begin{frame}
+  \vfill
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+    \usebeamerfont{title}\insertsectionhead\par%
+  \end{beamercolorbox}
+  \vfill
+  \end{frame}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Reminder}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Lecture 4}
+\begin{block}{What you should know from last lecture}
+\begin{itemize}
+\item $N$-Body simulations
+\item Struct
+\item Generic programming (Templates)
+\end{itemize}
+\end{block}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Operator overloading}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[fragile]{Example}
+
+\begin{block}{Vector}
+\begin{lstlisting}
+template<typename T>
+struct vector {
+T x;
+T y;
+T z;
+};
+\end{lstlisting}
+\end{block}
+
+\begin{block}{Addition of two vectors}
+\begin{lstlisting}
+vector<double> a;
+vector<double> b;
+std::cout << a + b << std::endl;
+\end{lstlisting}
+\end{block}
+\pause
+\begin{block}{Compilation error}
+\begin{lstlisting}[language=bash]
+error: no match for ‘operator+’ 
+(operand types are ‘vector’ and ‘vector’)
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Operator overloading\footnote{\tiny\url{https://en.cppreference.com/w/cpp/language/operators}}}
+
+\begin{lstlisting}
+template<typename T>
+struct vector {
+T x;
+T y;
+T z;
+// Overload the addition operator
+vector<T> operator+(const vector<T> rhs){
+return vector<T>( x + rhs.x, y + rhs.y, z + rhs.z );
+}
+};
+
+\end{lstlisting}
+
+\begin{block}{Following operators can be overloaded}
+\begin{itemize}
+\item 38 operators can be overloaded
+\item 40 operators can be overloaded, since C++ 20
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Can we compile now?}
+\begin{lstlisting}
+template<typename T>
+struct vector {
+T x;
+T y;
+T z;
+// Overload the addition operator
+vector<T> operator+(const vector<T> rhs){
+return vector<T>( x + rhs.x, y + rhs.y, z + rhs.z );
+}
+};
+\end{lstlisting}
+\pause
+\begin{block}{D'oh!}
+\begin{lstlisting}
+error: no match for ‘operator<<’ 
+(operand types are ‘std::ostream 
+{aka std::basic_ostream}’ and ‘vector’)
+     std::cout << a + b << std::endl;
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Overload the next parameter}
+\begin{lstlisting}
+template<typename T>
+struct vector {
+T x, y, z;
+vector(T x, T y, T z) : x(x),y(y),z(z) {};
+// Overload the addition operator
+vector<T> operator+(const vector<T> rhs){
+return vector<T>( x + rhs.x, y + rhs.y, z + rhs.z );
+}
+//Overload the output operator
+friend ostream& operator
+	<<(ostream& os, const vector<T>& vec)
+{
+    os << vec.x << " " << vec.y << " " <<  vec.z;
+    return os;
+}
+};
+\end{lstlisting}
+\begin{center}
+We will have a closer look to \lstinline|friend| in the next section.
+\end{center}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Structure of code}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Header files}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Organization of code}
+\begin{block}{C++ provides two fundamental ways to organize the code}
+\begin{itemize}
+\item Functions or so-called subroutines, \emph{e.g}. \lstinline|double norm()|
+\item Data structures, \emph{e.g}. \lstinline|struct|
+\end{itemize}
+\end{block}
+we have learned so far. A new opportunity is to split the code into different files to make all files \textit{shorter} and separate the code by its \textit{functionality}. \\
+\vspace{0.25cm}
+Let us look into header files\footnote{\tiny\url{https://docs.microsoft.com/en-us/cpp/cpp/header-files-cpp?view=vs-2019}} first and later at classes to do this.
+
+\end{frame}
+
+\begin{frame}[fragile]{Header file}
+\begin{itemize}
+\item A common naming convention is that header files end with \textit{.h} or \textit{.hpp}, e.g. \textit{average.h}
+\item We include them into our code by using \lstinline|#include<average.h>|
+\item Note the inclusions form the C++ standard library do not end with \textit{.h} or \textit{.hpp}
+\end{itemize}
+
+\begin{block}{Example of the average.h file}
+\begin{lstlisting}
+// Median of the elements of a vector
+namespace util {
+
+}
+\end{lstlisting}
+\end{block}
+Namespaces\footnote{\tiny\url{https://en.cppreference.com/w/cpp/language/namespace}} \lstinline|namespace| are used to provide naming conflicts
+and structure in large projects.
+\end{frame}
+
+\begin{frame}[fragile]{Adding code to the header file}
+\begin{lstlisting}
+// Average of the elements of a vector
+#include <vector>
+#include <algorithm>
+
+namespace util {
+
+double average(std::vector<double> vec){
+return std::accumulate(vec.begin(), vec.end(), 0.0f) 
+	/ vec.size();
+}
+
+}
+\end{lstlisting}
+\begin{block}{Usage}
+\begin{lstlisting}
+#include <average.h>
+double res = util::average(vector);
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+
+\begin{frame}[fragile]{Include gards}
+\begin{lstlisting}
+#ifndef UTIL_H // include guard
+#define UTIL_H
+
+// Average of the elements of a vector
+#include <vector>
+#include <algorithm>
+
+namespace util {
+
+double average(std::vector<double> vec){
+return std::accumulate(vec.begin(), vec.end(), 0.0f) 
+	/ vec.size();
+}
+
+}
+#endif
+\end{lstlisting}
+Include gards avoid that functions or data structures are multiple defined. Short from: \lstinline|#pragma once|
+\end{frame}
+
+\begin{frame}{Remarks for header files}
+Following things are considered as good practice:
+\begin{itemize}
+\item Each header file provides exactly one functionality 
+\item Each header file includes all its dependencies
+\end{itemize}
+\vspace{0.25cm}
+Following things should not be in header files and be considered as bad practice:
+\begin{itemize}
+\item built-in type definitions at namespace or global scope
+\item non-inline function definitions
+\item non-const variable definitions
+\item aggregate definitions
+\item unnamed namespaces
+\item using directives
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{Compilation with header files}
+
+\begin{block}{Folder structure}
+\begin{lstlisting}
+sources/
+    main.cpp
+includes/
+    average.h
+\end{lstlisting}
+\end{block}
+
+\begin{block}{File main.cpp}
+\begin{lstlisting}
+#include<main.h>
+
+int main(void){
+    std::cout << util::average(vec) << std::endl;
+}
+\end{lstlisting}
+\end{block}
+
+\begin{block}{Compilation}
+\begin{lstlisting}
+g++ -o main -I ../includes main.cpp
+\end{lstlisting}
+\end{block}
+
+\end{frame}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Class types}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[fragile]{Definition of a \lstinline|class| type\footnote{\tiny\url{https://en.cppreference.com/w/cpp/language/classes}}}
+
+\begin{lstlisting}
+class vector2 {
+
+private:
+
+double x , y , z;
+
+public:
+
+vector2(double x = 0, double y=0, double z=0)
+	: x(x) , y(y) ,z(z) {}
+double norm(){ return std::sqrt(x*x+y*y+z*z);}
+};
+\end{lstlisting}
+
+
+\begin{block}{Access specifier:}
+\begin{itemize}
+\item \lstinline|public| --  members are accessible from outside the class
+\item \lstinline|private| -- members cannot be accessed from outside 
+\end{itemize}
+
+\end{block}
+
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Definition of classes}
+\begin{lstlisting}
+class vector2 {
+private:
+double x , y , z;
+public:
+vector2(double x = 0, double y=0, double z=0)
+	: x(x) , y(y) ,z(z) {}
+double norm(){ return std::sqrt(x*x+y*y+z*z);}
+};
+
+int main()
+{
+   
+    vector2 vec = vector2();
+
+    return 0;
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Structuring of classes}
+
+\begin{block}{Header file (vector.h)}
+\begin{lstlisting}
+class vector2 {
+
+private:
+
+double x , y , z;
+
+public:
+vector2(double x = 0, double y=0, double z=0);
+
+double norm();
+};
+\end{lstlisting}
+\end{block}
+In a header file the attributes and the member function of the class are defined.
+\end{frame}
+
+
+\begin{frame}[fragile]{Structuring of classes}
+
+\begin{block}{Class file (vector.cpp)}
+\begin{lstlisting}
+#include "vector2.h"
+
+vector2::vector2(double x, double y, double z)
+{
+    x = x; x = y; z = z;
+}
+
+double vector2::norm(){return std::sqrt(x*x+y*y+z*z)}
+\end{lstlisting}
+\end{block}
+\begin{itemize}
+\item In the cpp file the implementation of the members functions and the constructor is defined.
+\item The corresponding header file needs to be included.
+\item The header file has to been included to access the \lstinline|public| member functions and attributes of the class.
+\item The class file needs to be compiled before it can be used.
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{Usage and compilation}
+\begin{lstlisting}
+#include <vector2.h>
+
+int main()
+{
+   
+    vector2 vec = vector2();
+
+    return 0;
+}
+\end{lstlisting}
+
+\begin{block}{Compilation}
+\begin{lstlisting}[language=bash]
+g++ -c vector2.cpp
+g++ main.cpp vector2.o
+\end{lstlisting}
+\end{block}
+\begin{center}
+We do not want to do this for several files or?
+\end{center}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{CMake}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{CMake\footnote{\tiny\url{https://cmake.org/}}}
+
+CMake is a cross-platform free and open-source software tool for managing the build process of software using a compiler-independent method. It supports directory hierarchies and applications that depend on multiple libraries. It is used in conjunction with native build environments such as Make, Ninja, Apple's Xcode, and Microsoft Visual Studio. It has minimal dependencies, requiring only a C++ compiler on its own build system. 
+
+\end{frame}
+
+\begin{frame}[fragile]{Compile a single cpp file}
+\begin{block}{Content: CMakeLists.txt}
+\begin{lstlisting}[language=bash]
+cmake_minimum_required(VERSION 3.10.1)
+project (hello_world)
+add_executable(hello main.cpp)
+\end{lstlisting}
+\end{block}
+
+\begin{block}{Running cmake}
+\begin{lstlisting}[language=bash]
+mkdir build 
+cd build
+cmake ..
+make
+./hello
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Compiling a class file and a main file}
+
+\begin{block}{Folder structure}
+\begin{lstlisting}[language=bash]
+ .
+ |-- CMakeLists.txt
+ |-- build
+ |-- include
+ |   \-- vector2.h
+ \-- src
+     |-- vector2.cpp
+     \-- main.cpp
+ 3 directories, 4 files
+\end{lstlisting}
+\end{block}
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Corresponding CMakeLists.txt}
+\begin{lstlisting}[language=bash]
+project(directory_test)
+ 
+#Bring the headers, such as Student.h into the project
+include_directories(include)
+ 
+#Manually adding all sources 
+#set(SOURCES src/mainapp.cpp src/Student.cpp)
+ 
+#Adding sources easier
+file(GLOB SOURCES "src/*.cpp")
+ 
+add_executable(testStudent ${SOURCES})
+\end{lstlisting}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Summary}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Summary}
+\begin{block}{After this lecture, you should know}
+\begin{itemize}
+\item Operator overloading
+\item Splitting class types in header and class files
+\item Building projects using CMake
+\end{itemize}
+\end{block}
+\end{frame}
+
+
+
+\end{document}
