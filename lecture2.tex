@@ -295,7 +295,7 @@ Note that the \lstinline|while| loops stops by inserting \lstinline|\n|
 \begin{itemize}
 \item \lstinline| std::vector<double> v = \{1, 2.5\}; |
 \item \lstinline| values.empty() | will return \lstinline|false|
-\item \lstinline| values.size() | will return one
+\item \lstinline| values.size() | will return two
 \end{itemize}
 \end{block}
 
@@ -388,7 +388,7 @@ for (auto& v : values)
 \begin{lstlisting}
 
 typedef std::vector<double>::size_type vec_sz;
-vec_sz = values.size();
+vec_sz size = values.size();
 double median = 0;
 
 if( size % 2 == 0 ) 
