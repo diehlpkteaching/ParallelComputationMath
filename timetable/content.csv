@@ -6,9 +6,9 @@ Lecture,Topic, Chapter(s)
 5,Classes | Operator overloading | Introduction to CMake , 9
 6,Shared memory parallelism | execution policies, --
 7,Asynchronous programming, --
-8,Bond-based peridyanmics (Course project), -- 
-9,Finite Element Method, --
-10,Implementing the Finite Element Method | Linear Algebra using Blaze , --
+8,Bond-based peridynamics (Course project), -- 
+9,Linear Algebra using Blaze, --
+10,Conjugate gradient method, --
 11,Managing Memory and low-level data structures, 10
 12,Defining abstract data types, 11
 13,Recap of the lecture content | Questions \& Answers, --
