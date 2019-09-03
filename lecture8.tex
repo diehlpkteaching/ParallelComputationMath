@@ -82,6 +82,12 @@
 \setmainfont{Raleway}
 \fi
 
+\ifluatex
+\usepackage{fontspec}
+\setmainfont{Raleway}
+\fi
+
+
 \newcommand{\R}{\mathbb{R}}
 \newcommand{\ftime}{[0,T]}
 \newcommand{\args}{(t,x(t,X')-x(t,X),X'-X)}
