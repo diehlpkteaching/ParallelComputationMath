@@ -245,35 +245,38 @@ Returns the iterator pointing to the element after the erasure.
 \begin{frame}[fragile]{Sorting\footnote{\tiny\url{https://en.cppreference.com/w/cpp/algorithm/sort}}}
 
 \begin{block}{Sorting using $<$}
+\vspace{-0.25cm}
 \begin{lstlisting}
  std::sort(s.begin(), s.end());
 \end{lstlisting}
 \end{block}
 
 \begin{block}{Sorting using $>$\footnote{\tiny\url{https://en.cppreference.com/w/cpp/utility/functional/greater}}}
+\vspace{-0.25cm}
 \begin{lstlisting}
  std::sort(s.begin(), s.end(), std::greater<int>());
 \end{lstlisting}
 \end{block}
-
+\vspace{-0.25cm}
 \begin{block}{Advanced sorting using a lambda expression\footnote{\tiny\url{https://en.cppreference.com/w/cpp/language/lambda}} }
+\vspace{-0.25cm}
 \begin{lstlisting}
     std::sort(s.begin(), s.end(), [](int a, int b) {
-        return a > b; 
+        return a > b; } );
 \end{lstlisting}
 \end{block}
 We will look into lambda expression later in more detail
-
 \end{frame}
 
 \begin{frame}[fragile]{Accumulate}
 
 \begin{block}{Sum\footnote{\tiny\url{https://en.cppreference.com/w/cpp/algorithm/accumulate}}}
+\vspace{-0.25cm}
 \begin{lstlisting}
 int sum = std::accumulate(v.begin(), v.end(), 0);
 \end{lstlisting}
 \end{block}
-
+\vspace{-0.25cm}
 \begin{block}{Multiplication\footnote{\tiny\url{https://en.cppreference.com/w/cpp/utility/functional/multiplies}}}
 \begin{lstlisting}
 int product = 
@@ -300,7 +303,7 @@ std::list<int> l = { 1,100,2,3,10,1,11,-1,12 };
 l.remove(1); // remove both elements equal to 1
 \end{lstlisting}
 \end{block}
-
+\vspace{-0.25cm}
 \begin{block}{Remove\_if\footnote{\tiny\url{http://www.cplusplus.com/reference/algorithm/remove_if/}}}
 \begin{lstlisting}
 //Define function
