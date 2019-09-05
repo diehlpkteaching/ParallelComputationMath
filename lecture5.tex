@@ -536,12 +536,12 @@ project(directory_test)
 include_directories(include)
  
 #Manually adding all sources 
-#set(SOURCES src/mainapp.cpp src/Student.cpp)
+#set(SOURCES src/main.cpp src/vector2.cpp)
  
 #Adding sources easier
 file(GLOB SOURCES "src/*.cpp")
  
-add_executable(testStudent ${SOURCES})
+add_executable(test ${SOURCES})
 \end{lstlisting}
 \end{frame}
 
