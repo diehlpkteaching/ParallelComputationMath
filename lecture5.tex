@@ -17,6 +17,10 @@
 
 \beamertemplatenavigationsymbolsempty
 
+\addtobeamertemplate{block begin}{}{}
+
+\addtobeamertemplate{block end}{\vspace{-0.125cm}}{\vspace{-0.125cm}}
+
 % usepackage
 %\usepackage{template/dbt}
 \usepackage{listings}
@@ -270,14 +274,14 @@ namespace util {
 
 double average(std::vector<double> vec){
 return std::accumulate(vec.begin(), vec.end(), 0.0f) 
-	/ vec.size();
+     / vec.size();
 }
 
 }
 \end{lstlisting}
 \begin{block}{Usage}
 \begin{lstlisting}
-#include <average.h>
+#include "average.h"
 double res = util::average(vector);
 \end{lstlisting}
 \end{block}
@@ -297,9 +301,8 @@ namespace util {
 
 double average(std::vector<double> vec){
 return std::accumulate(vec.begin(), vec.end(), 0.0f) 
-	/ vec.size();
+    / vec.size();
 }
-
 }
 #endif
 \end{lstlisting}
@@ -338,7 +341,7 @@ includes/
 
 \begin{block}{File main.cpp}
 \begin{lstlisting}
-#include<main.h>
+#include<average.h>
 
 int main(void){
     std::cout << util::average(vec) << std::endl;
@@ -372,7 +375,7 @@ double x , y , z;
 public:
 
 vector2(double x = 0, double y=0, double z=0)
-	: x(x) , y(y) ,z(z) {}
+    : x(x) , y(y) ,z(z) {}
 double norm(){ return std::sqrt(x*x+y*y+z*z);}
 };
 \end{lstlisting}
@@ -457,7 +460,7 @@ double vector2::norm(){return std::sqrt(x*x+y*y+z*z)}
 
 \begin{frame}[fragile]{Usage and compilation}
 \begin{lstlisting}
-#include <vector2.h>
+#include "vector2.h"
 
 int main()
 {
