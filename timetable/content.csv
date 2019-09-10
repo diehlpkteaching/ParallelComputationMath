@@ -8,7 +8,7 @@ Lecture,Topic, Chapter(s)
 7,Asynchronous programming, --
 8,Bond-based peridynamics (Course project), -- 
 9,Linear Algebra using Blaze, --
-10,Conjugate gradient method, --
+10,Solvers | Conjugate gradient method, --
 11,Managing Memory and low-level data structures, 10
 12,Defining abstract data types, 11
 13,Recap of the lecture content | Questions \& Answers, --
