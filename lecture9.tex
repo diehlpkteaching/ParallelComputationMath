@@ -1,0 +1,583 @@
+%Template
+%Copyright (C) 2019  Patrick Diehl
+%
+%This program is free software: you can redistribute it and/or modify
+%it under the terms of the GNU General Public License as published by
+%the Free Software Foundation, either version 3 of the License, or
+%(at your option) any later version.
+
+%This program is distributed in the hope that it will be useful,
+%but WITHOUT ANY WARRANTY; without even the implied warranty of
+%MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+%GNU General Public License for more details.
+
+%You should have received a copy of the GNU General Public License
+%along with this program.  If not, see <http://www.gnu.org/licenses/>.
+\documentclass[12pt,t]{beamer}
+
+\beamertemplatenavigationsymbolsempty
+
+% usepackage
+%\usepackage{template/dbt}
+\usepackage{listings}
+
+\definecolor{comments}{RGB}{81,81,81}
+\definecolor{keywords}{RGB}{255,0,90}
+
+% lstlisting
+\lstset{
+    language=C,
+    basicstyle=\footnotesize\ttfamily,
+    keywordstyle=\color{keywords},
+    showspaces=false,
+    showstringspaces=false,
+    commentstyle=\color{blue}\emph
+    %frame=single,
+    %rulecolor=\color{comments},
+    %rulesepcolor=\color{comments},
+    %backgroundcolor = \color{lightgray}
+}
+
+\usetheme{default}
+
+\usepackage[
+    type={CC},
+    modifier={by-nc-nd},
+    version={4.0},
+]{doclicense} 
+
+\input{template/variables.tex}
+
+% frame slide
+\title{\coursename}
+\subtitle{Lecture 9: Linear algebra with Blaze}
+
+%\author{\href{}{}}
+%\institute {
+%    \href{}{\tt \scriptsize \today}
+%}
+\date {
+ \tiny \url{\courseurl}
+\vspace{2cm}
+\doclicenseThis  
+  
+}
+
+
+
+\usepackage{ifxetex}
+
+\ifxetex
+\usepackage{fontspec}
+\setmainfont{Raleway}
+\fi
+
+\ifluatex
+\usepackage{fontspec}
+\setmainfont{Raleway}
+\fi
+
+
+\begin{document} {
+    \setbeamertemplate{footline}{}
+    \frame {
+        \titlepage
+    }
+}
+
+\frame{
+
+\tableofcontents
+
+}
+
+\AtBeginSection[]{
+  \begin{frame}
+  \vfill
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+    \usebeamerfont{title}\insertsectionhead\par%
+  \end{beamercolorbox}
+  \vfill
+  \end{frame}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Reminder}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Lecture 8}
+\begin{block}{What you should know from last lecture}
+\begin{itemize}
+\item Bond-based Peridynamics (Course project)
+\end{itemize}
+\end{block}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Vectors and Matrices}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{frame}{Vector space~\cite{hefferonlinear,scheick1997linear}}
+A vector space (or a linear space) is a collection of so-called vectors $\mathbf{v}\in \mathbb{R}^n$. Vectors can be added or scaled (multiplied by a scalar value).
+
+\begin{center}
+$\mathbf{v} = \lbrace v_1,v_2,\ldots,v_n \rbrace $ \\
+$\mathbf{w} = \lbrace w_1,w_2,\ldots,w_n \rbrace $
+\end{center}
+
+\begin{block}{Addition}
+\begin{center}
+$\mathbf{v} + \mathbf{w} = \lbrace v_1+w_1,v_2+w_2,\ldots,v_n+w_n \rbrace $
+\end{center}
+\end{block}
+
+\begin{block}{Scaling}
+\begin{center}
+$ 2 \mathbf{v} = \lbrace 2v_1,2v_2,\ldots,2v_n \rbrace $
+\end{center}
+\end{block}
+
+\end{frame}
+
+\begin{frame}{Vector II}
+
+\begin{block}{Column vector}
+\begin{center}
+$\mathbf{v} = \left\lbrace \begin{matrix}
+v_1 \\ \vdots \\ v_n 
+\end{matrix} \right\rbrace$
+\end{center}
+\end{block}
+
+\begin{block}{Row vector}
+\begin{center}
+$\mathbf{v}^T = \lbrace v_1,\ldots v_n\rbrace$
+\end{center}
+\end{block}
+
+\end{frame}
+
+
+\begin{frame}{Matrix}
+A matrix $\mathbf{A}\in \mathbb{R}^{n,m}$ has $n$ rows and $m$ columns
+\begin{center}
+$
+\mathbf{A} = \begin{pmatrix}
+a_{1,1} & \ldots & a_{1,m} \\
+\vdots & \ldots & \vdots \\
+a_{n,1} & \ldots & a_{n,m} 
+\end{pmatrix}
+$
+\end{center}
+
+\begin{block}{Scaling}
+\begin{center}
+$ 2 \mathbf{A} = \begin{pmatrix}
+2a_{1,1} & \ldots & 2a_{1,m} \\
+\vdots & \ldots & \vdots \\
+2a_{n,1} & \ldots & 2a_{n,m} 
+\end{pmatrix} $
+\end{center}
+\end{block}
+
+\end{frame}
+
+\begin{frame}{Matrix II}
+
+\begin{block}{Addition}
+\begin{center}
+$ \mathbf{A} + \mathbf{B}  = \begin{pmatrix}
+a_{1,1} + b_{1,1}  & \ldots & a_{1,m} + b_{1,m} \\
+\vdots & \ldots & \vdots \\
+a_{n,1} + b_{n,1} & \ldots & a_{n,m} + b_{n,m} 
+\end{pmatrix} $
+\end{center}
+\end{block}
+
+\begin{block}{Matrix vector multiplication}
+\begin{center}
+$ \mathbf{A}  \mathbf{v}  = \left\lbrace\begin{matrix}
+a_{1,1} * b_{1} + & \ldots & + a_{1,m} * b_{n} \\
+\vdots & \ldots & \vdots \\
+a_{n,1} * b_{1} + & \ldots & + a_{n,m} * b_{n} 
+\end{matrix} \right\rbrace $
+\end{center}
+\end{block}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Applications}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{frame}{Communication}
+We have a group of people $P_1,\ldots,P_n$, if person $P_1$ has contact with person $P_2$, we can model this information by setting the matrix element $a_{1,2}=1$. By doing this for all people in our group, we will get some matrix \\
+
+\begin{center}
+$
+M = \left\lbrace\begin{matrix}
+0 & 1 & 0 & 1 \\
+0 & 0 & 1 & 0 \\
+1 & 0 & 0 & 1 \\
+1 & 1 & 0 & 0
+\end{matrix} \right\rbrace
+$
+\end{center}
+This matrix will tell us that $P_1$ has contact with $P_2$ and $P_4$, $P_2$ with $P_3$ and so on. \\
+Now we define
+\begin{center}
+$M^2 = m^2_{i,j}$,  
+\end{center}
+for example $m^2_{3,2}=a_{3,1}a_{1,2}+a_{3,2}a_{2,2}+a_{3,4}a_{4,2}$.
+\end{frame}
+
+\begin{frame}{Communication}
+We now can compute 
+
+\begin{center}
+$
+M^2 = \left\lbrace\begin{matrix}
+1 &  1 & 1 &  0 \\
+1 & 0 & 0  & 1 \\
+1 & 2 & 0 & 1 \\
+0 & 1 & 1 & 1
+\end{matrix} \right\rbrace
+$
+\end{center}
+and see that person $P_3$ can send some message to Person $P_2$ in two cycles. 
+
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Blaze}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Blaze\footnote{\tiny\url{https://bitbucket.org/blaze-lib/blaze/src/master/}}}
+Blaze is an open-source, high-performance C++ math library for dense and sparse arithmetic. With its state-of-the-art Smart Expression Template implementation Blaze combines the elegance and ease of use of a domain-specific language with HPC-grade performance, making it one of the most intuitive and fastest C++ math libraries available.
+\vspace{1cm}
+
+More details about the implementation details~\cite{doi:10.1137/110830125,6266939}.
+\end{frame}
+
+
+
+\begin{frame}[fragile]{Installation\footnote{\tiny\url{https://bitbucket.org/blaze-lib/blaze/wiki/Configuration\%20and\%20Installation}}}
+
+
+\begin{block}{CMake}
+\begin{lstlisting}[language=bash]
+tar -xvf blaze-3.6.tar.gz
+cd blaze-3.6
+cmake -DCMAKE_INSTALL_PREFIX=/home/patrick/blaze
+make install
+\end{lstlisting}
+\end{block}
+
+\begin{block}{Manual}
+\begin{lstlisting}[language=bash]
+tar -xvf blaze-3.6.tar.gz
+cd blaze-3.6
+cp -r ./blaze /home/patrick/blaze
+\end{lstlisting}
+\end{block}
+
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Compilation\footnote{\tiny\url{https://bitbucket.org/blaze-lib/blaze/wiki/Configuration\%20and\%20Installation}}}
+
+\begin{block}{CMake}
+\begin{lstlisting}[language=bash]
+find_package( blaze )
+if( blaze_FOUND )
+   add_library( blaze_target INTERFACE )
+   target_link_libraries( blaze_target 
+                          INTERFACE blaze::blaze )
+endif()
+\end{lstlisting}
+\end{block}
+
+\begin{block}{Compiler}
+\begin{lstlisting}
+g++ -I/usr/home/diehlpk/blaze BlazeTest.cpp
+\end{lstlisting}
+\end{block}
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Parallelism\footnote{\tiny\url{https://bitbucket.org/blaze-lib/blaze/wiki/Shared\%20Memory\%20Parallelization}}}
+
+\begin{block}{C++11 Thread Setup}
+Add following arguments to the compiler
+\begin{lstlisting}
+-std=c++11 -DBLAZE_USE_CPP_THREADS
+\end{lstlisting}
+and set the number of threads
+\begin{lstlisting}
+export BLAZE_NUM_THREADS=4  // Unix systems
+\end{lstlisting}
+\end{block}
+
+\begin{block}{HPX}
+Add following arguments to the compiler
+\begin{lstlisting}
+-DBLAZE_USE_HPX_THREADS
+\end{lstlisting}
+and set the number of threads
+\begin{lstlisting}
+./a.out --hpx:threads=4
+\end{lstlisting}
+\end{block}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Blaze's API}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[fragile]{Vector\footnote{\tiny\url{https://bitbucket.org/blaze-lib/blaze/wiki/Vectors}}}
+\begin{lstlisting}
+using blaze::DynamicVector;
+using blaze::columnVector;
+using blaze::rowVector;
+
+// Setup of the 3-dimensional dense column vector
+DynamicVector<int,columnVector> a{ 1, 2, 3 };
+
+// Setup of the 3-dimensional dense row vector
+DynamicVector<int,rowVector> b{ 4, 5, 6 };
+
+// Instantiation of a 3-dimensional column vector
+blaze::DynamicVector<int> c( 3UL );
+
+// Set all elements of the vector c to 5
+c = 5;
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Vector operations\footnote{\tiny\url{https://bitbucket.org/blaze-lib/blaze/wiki/Vector\%20Operations}}}
+\begin{lstlisting}
+// Get the size of the vector
+auto size = c.size();
+
+// Access the i-th element
+auto value = c[i];
+
+// Loop over the vector
+for( size_t i=0UL; i< c.size(); ++i )
+   std::cout << c[i] << std::endl;
+   
+// Iterate over a vector
+blaze::CompressedVector<int> d{ 0, 2, 0, 0};
+for( CompressedVector<int>::Iterator it=d.begin(); 
+  it!=d.end(); ++it ) 
+    std::cout << it->value() << std::endl;
+
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Vector operations II\footnote{\tiny\url{https://en.cppreference.com/w/cpp/numeric/complex}}}
+\begin{lstlisting}
+blaze::DynamicVector<double> a, b;
+
+// Computes the sine of each element of the vector
+b = sin( a );  
+// Computes the base e exponential of each element
+b = exp( a ); 
+// Computes the exponential value of each element
+b = pow( a, 1.2 );   
+// Computes the absolute value of each element
+b = abs( a ); 
+// Complex numbers
+using blaze::StaticVector;
+using cplx = std::complex<double>;
+StaticVector<cplx,1UL> a{ cplx(-2.0,-1.0)};
+double b = imag( a ); //Get the imaginary part 
+\end{lstlisting}
+\end{frame}
+
+
+
+\begin{frame}[fragile]{Dense Matrix\footnote{\tiny\url{https://bitbucket.org/blaze-lib/blaze/wiki/Matrix\%20Types}}}
+\begin{lstlisting}
+// Definition of a 3x4 matrix 
+// Values are not initialized
+blaze::DynamicMatrix<int> A( 3UL, 4UL );
+
+// Definition of a 3x4 matrix
+// with 0 rows and columns
+blaze::StaticMatrix<int,3UL,4UL> A;
+
+// Definition of column-major matrix
+// with 0 rows and columns
+blaze::DynamicMatrix<double,blaze::columnMajor> C;
+
+
+
+\end{lstlisting}
+
+\begin{block}{Remarks:}
+\begin{itemize}
+\item Default is row-major matrices:
+\item Static Matrix are small and size known at compile time
+\end{itemize}
+\end{block}
+\end{frame}
+
+
+\begin{frame}[fragile]{Sparse matrix}
+\begin{lstlisting}
+// Definition of a 3x4 integral row-major matrix
+blaze::CompressedMatrix<int> A( 3UL, 4UL );
+
+
+// Definition of a 3x3 identity matrix
+blaze::IdentityMatrix<int> A( 3UL );
+
+// Definition of a 3x5 zero matrix
+blaze::ZeroMatrix<int> A( 3UL, 5UL );
+\end{lstlisting}
+
+\begin{center}
+\textcolor{blue}{Sparse matrices are used, if you have only few non-zero entries}.
+\end{center}
+\end{frame}
+
+\begin{frame}[fragile]{Matrix operation\footnote{\tiny\url{https://bitbucket.org/blaze-lib/blaze/wiki/Arithmetic\%20Operations}}}
+\begin{lstlisting}
+
+// Access elements
+M1(0,0) = 1;
+
+// Total amount of elements
+size( M2 );
+
+// Number of rows
+M2.rows(); 
+
+// Number of columns
+M2.columns(); 
+
+// Computes the element-wise absolute value
+abs( A );
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Matrix operation II\footnote{\tiny\url{https://bitbucket.org/blaze-lib/blaze/wiki/Matrix\%20Operations\#!element-access}}}
+\begin{lstlisting}
+// Traversing the matrix 
+blaze::CompressedMatrix<int> M1( 4UL, 4UL );
+
+for( size_t i=0UL; i<M1.rows(); ++i ) {
+   for( size_t j=0UL; j<M1.columns(); ++j ) {
+      ... = M1(i,j);
+   }
+}
+
+// Traversing the matrix by Iterator
+for( size_t i=0UL; i<A.rows(); ++i ) {
+   for( CompressedMatrix<int,rowMajor>::Iterator it=
+      A.begin(i); it!=A.end(i); ++it ) {
+      it->value() = ...;  
+   }
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Arithmetic operation\footnote{\tiny\url{https://bitbucket.org/blaze-lib/blaze/wiki/Arithmetic\%20Operations}}}
+\begin{lstlisting}
+blaze::StaticVector<int,3UL> v1{ 3, 2, 5, -4, 1, 6 };
+// Addition
+blaze::StaticVector<int,3UL> res = v1 + v1;
+// Subtraction
+blaze::StaticVector<int,3UL> res = v1 - 2 * v1;
+
+blaze::DynamicMatrix<float,rowMajor> M1( 7UL, 3UL );
+// Addition
+blaze::DynamicMatrix<float,rowMajor> res = M1 + M1;
+// Subtraction
+blaze::DynamicMatrix<float,rowMajor> res = 2*M1 - M1;
+\end{lstlisting}
+\end{frame}
+
+
+
+\begin{frame}[fragile]{Matrix decomposition\footnote{\tiny\url{https://bitbucket.org/blaze-lib/blaze/wiki/Matrix\%20Operations\#!matrix-decomposition}}}
+\begin{lstlisting}
+blaze::DynamicMatrix<double,blaze::rowMajor> A;
+// ... Resizing and initialization
+
+blaze::DynamicMatrix<double,blaze::rowMajor> L, U, P;
+
+// LU decomposition of a row-major matrix
+lu( A, L, U, P );  
+
+assert( A == L * U * P );
+\end{lstlisting}
+
+\begin{block}{Decompositions}
+\begin{itemize}
+\item Cholesky 
+\item QR/RQ
+\item QL/LQ
+\end{itemize}
+\end{block}
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Eigen values\footnote{\tiny\url{https://bitbucket.org/blaze-lib/blaze/wiki/Matrix\%20Operations\#!eigenvalueseigenvectors}}$^,$\footnote{\tiny\url{https://bitbucket.org/blaze-lib/blaze/wiki/Symmetric\%20Matrices}}}
+\begin{lstlisting}
+
+// The symmetric matrix A
+SymmetricMatrix< DynamicMatrix<double,rowMajor>> 
+    A( 5UL, 5UL );  
+// ... Initialization
+
+// The vector for the real eigenvalues
+DynamicVector<double,columnVector> w( 5UL );    
+// The matrix for the left eigenvectors   
+DynamicMatrix<double,rowMajor>     V( 5UL, 5UL );  
+
+eigen( A, w, V );
+\end{lstlisting}
+
+\begin{center}
+Adapters may be more efficient and less memory consuming.
+\end{center}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Summary}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Summary}
+\begin{block}{After this lecture, you should know}
+\begin{itemize}
+\item Vectors and matrices
+\item How to use Blaze for matrix and vector operations
+\item How to compile a program using a external library
+\end{itemize}
+\end{block}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{References}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[t, allowframebreaks]
+\frametitle{References}
+\bibliographystyle{plain}
+\bibliography{bib}
+\end{frame}
+
+
+\end{document}

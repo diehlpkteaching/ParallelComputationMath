@@ -43,6 +43,7 @@ Please find additional information here:
 * [Lecture 6](lecture6.pdf)
 * [Lecture 7](lecture7.pdf)
 * [Lecture 8 (Course project)](lecture8.pdf) 
+* [Lecture 9](lecture9.pdf)
 * [References](list.pdf)
     
 ## Project
