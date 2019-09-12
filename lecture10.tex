@@ -50,7 +50,7 @@
 
 % frame slide
 \title{\coursename}
-\subtitle{Lecture 1: Introduction and Getting started}
+\subtitle{Lecture 9: Solvers, Conjugate gradient method, and BlazeIterative}
 
 %\author{\href{}{}}
 %\institute {
@@ -105,13 +105,93 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Reminder}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Lecture X}
+\begin{frame}{Lecture 9}
 \begin{block}{What you should know from last lecture}
 \begin{itemize}
-\item 
+\item Vectors and matrices
+\item How to use Blaze for matrix and vector operations
+\item How to compile a program using a external library
 \end{itemize}
 \end{block}
 \end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Solving linear equation systems}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Conjugate gradient method}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Blaze Iterative}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{frame}[fragile]{About BlazeIterative\footnote{\tiny\url{https://github.com/STEllAR-GROUP/BlazeIterative}}}
+This is a set of iterative linear system solvers intended for use with the Blaze library, a high-performance C++ linear algebra library. The API is currently based on a tag-dispatch system to choose a particular algorithm.
+
+\begin{block}{Usage}
+\begin{lstlisting}[language=bash]
+#Install
+tar -xvf blaze_iterative.gz
+cd blaze_iterative
+cp -r ./blaze_iterative /home/patrick/
+
+#Compile
+g++ -I/home/diehlpk/blaze 
+    -I/home/patrick/blaze_iterative BlazeTest.cpp
+\end{lstlisting}
+\end{block}
+
+
+\end{frame}
+
+\begin{frame}[fragile]{Conjugate gradient example}
+\begin{lstlisting}
+#include "BlazeIterative.hpp"
+
+using namespace blaze;
+using namespace blaze::iterative;
+
+std::size_t N = 10;
+DynamicMatrix<double,false> A(N,N, 0.0);
+DynamicVector<double> b(N, 0.0);
+DynamicVector<double> x1(N, 0.);
+
+//Initialize the matrix
+
+// Solve the system
+ConjugateGradientTag tag;
+auto x2 = solve(A,b,tag);
+
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}{Available algorithms}
+
+\begin{block}{Solvers}
+\begin{itemize}
+\item Conjugate Gradient
+\item Preconditioned CG
+\item BiCGSTAB
+\item Generalized minimal residual method (GMRES),
+\end{itemize}
+\end{block}
+
+
+\begin{block}{Eigenvalues}
+\begin{itemize}
+\item Lanczos
+\end{itemize}
+\end{block}
+More details about solvers~\cite{barrett1994templates}.
+\end{frame}
+
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Summary}
@@ -119,9 +199,21 @@
 \begin{frame}{Summary}
 \begin{block}{After this lecture, you should know}
 \begin{itemize}
-\item 
+\item Linear equation systems
+\item Conjugate gradient method
+\item BlazeIterative
 \end{itemize}
 \end{block}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{References}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[t, allowframebreaks]
+\frametitle{References}
+\bibliographystyle{plain}
+\bibliography{bib}
 \end{frame}
 
 
