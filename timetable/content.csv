@@ -6,15 +6,15 @@ Lecture,Topic, Chapter(s)
 5,Classes | Operator overloading | Introduction to CMake , 9
 6,Shared memory parallelism | execution policies, --
 7,Asynchronous programming, --
-8,Bond-based peridynamics (Course project), -- 
-9,Linear Algebra using Blaze, --
-10,Solvers | Conjugate gradient method, --
-11,Managing Memory and low-level data structures, 10
-12,Defining abstract data types, 11
-13,Recap of the lecture content | Questions \& Answers, --
+8,Introduction to parallel programming (Dr. Kaiser), --
+9,Bond-based peridynamics (Course project), -- 
+10,Linear Algebra using Blaze, --
+11,Solvers | Conjugate gradient method, --
+12,Managing Memory | Defining abstract data types, 10/11
+13,Tricks with notebooks | Questions \& Answers, --
 14,Midterm exam, --
-15,Introduction to HPX I,--
-16,Introduction to HPX II,--
+15,Introduction to HPX (Dr. Kaiser),--
+16,Asynchronous programming and shared memory parallelism with HPX,--
 17,Distributed programming I,--
 18,Distributed programming II,--
 19,Parallel implementation of Monte Carlo and $N$-Body simulations, --
