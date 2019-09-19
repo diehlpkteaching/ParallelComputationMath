@@ -360,7 +360,7 @@ where $f:[0,T]\times\R^3\times\R^3\rightarrow\R^3$ denotes a \index{pair-wise fo
 Note that we computed the acceleration of a material point $a(t,X)$ and we need to compute the displacement $u(t,X)$ by a
 \begin{block}{Central difference scheme}
 \begin{align*}
-u&(t+1,X) = \\  2 u(t,X) &- u(t-1,X) + \Delta t^2 \left(\sum\limits_{X_j\in B_\delta(X_i)} (t,X_i,X_j)+b(t,X)\right)
+u&(t+1,X) = \\  2 u(t,X) &- u(t-1,X) + \Delta t^2 \left(\sum\limits_{X_j\in B_\delta(X_i)} f(t,X_i,X_j)+b(t,X)\right)
 \end{align*}
 \end{block}
 to compute the actual displacement $x(t,X):= id(X)+ u(t,X)$.
@@ -469,11 +469,11 @@ To express damage in words, it is the ratio of the active (non-broken) bonds and
 \begin{frame}{Relation to classical continuum mechanics}
 \begin{block}{Stiffness constant}
 \begin{align*}
-c - \frac{18K}{\pi\delta}
+c = \frac{18K}{\pi\delta}
 \end{align*}
 \end{block}
 \vspace{-0.25cm}
-\begin{block}{Stiffness constant}
+\begin{block}{Critical bond stretch}
 \begin{align*}
 s_c = \frac{5}{12} \sqrt{\frac{K_{Ic}}{K^2\delta}}
 \end{align*}
