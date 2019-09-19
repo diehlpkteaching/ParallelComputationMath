@@ -6,21 +6,21 @@ Lecture,Topic, Chapter(s)
 5,Classes | Operator overloading | Introduction to CMake , 9
 6,Shared memory parallelism | execution policies, --
 7,Asynchronous programming, --
-8,Introduction to parallel programming (Dr. Kaiser), --
-9,Bond-based peridynamics (Course project), -- 
-10,Linear Algebra using Blaze, --
-11,Solvers | Conjugate gradient method, --
-12,Managing Memory | Defining abstract data types, 10/11
-13,Tricks with notebooks | Questions \& Answers, --
-14,Midterm exam, --
-15,Introduction to HPX (Dr. Kaiser),--
-16,Asynchronous programming and shared memory parallelism with HPX,--
-17,Distributed programming I,--
-18,Distributed programming II,--
-19,Parallel implementation of Monte Carlo and $N$-Body simulations, --
-20,Parallel implementation of the finite element method, --
-21,Distributed implementation of $N$-Body simulations, --
-22,Discuss course project, --
-23,Managing memory automatically, 14
-24,Summary, --
+8,Bond-based peridynamics (Course project), -- 
+9,Linear Algebra using Blaze, --
+G1,Introduction to parallel programming (Dr. Kaiser), --
+10,Solvers | Conjugate gradient method, --
+11,Managing Memory | Defining abstract data types, 10/11
+G2,Tricks with notebooks (Dr. Brandt) | Questions \& Answers, --
+12,Midterm exam, --
+13,Introduction to HPX (Dr. Kaiser),--
+14,Asynchronous programming and shared memory parallelism with HPX,--
+15,Distributed programming I,--
+16,Distributed programming II,--
+17,Parallel implementation of Monte Carlo and $N$-Body simulations, --
+18,Parallel implementation of the finite element method, --
+19,Distributed implementation of $N$-Body simulations, --
+20,Discuss course project, --
+21,Managing memory automatically, 14
+22,Summary, --
 
