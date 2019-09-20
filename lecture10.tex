@@ -21,6 +21,7 @@
 %\usepackage{template/dbt}
 \usepackage{listings}
 \usepackage{tikz,pgfplots}
+\usetikzlibrary{calc}
 \pgfplotsset{compat=1.16} 
 
 \definecolor{comments}{RGB}{81,81,81}
@@ -147,7 +148,7 @@ More details about iterative methods~\cite{briggs2000multigrid}.
 \end{frame}
 
 
-\begin{frame}{Illustration of the linear system}
+\begin{frame}{Illustration of the linear system}https://tex.stackexchange.com/questions/43884/making-an-arrow-in-a-pgfplot-figure-from-one-point-to-another
 
 \begin{center}
 \begin{tikzpicture}
@@ -234,6 +235,62 @@ Finding the minimal point of $\mathbf{x}$ corresponds to the solution of $\mathb
 \vspace{-0.5cm}
 \end{frame}
 
+\begin{frame}{Gradient of the quadratic form}
+
+\begin{block}{Definition of the gradient:}
+\vspace{0.25cm}
+\begin{center}
+$f'(\mathbf{x})=\begin{pmatrix}
+\frac{\partial }{\partial x_1} f(\mathbf{x}) \\
+\frac{\partial }{\partial x_2} f(\mathbf{x}) \\
+\vdots \\
+\frac{\partial }{\partial x_n} f(\mathbf{x})
+\end{pmatrix}$
+\end{center}
+\end{block}
+Applying a little bit if maths:
+
+\begin{center}
+$f'(\mathbf{x}) = \frac{1}{2} \mathbf{A}^T \mathbf{x} + \frac{1}{2} \mathbf{A} \mathbf{x}-\mathbf{b}$
+\end{center}
+and for a symmetric matrix $\mathbf{A}$, we get
+\begin{center}
+$f'(\mathbf{x})= \mathbf{A}\mathbf{x}-\mathbf{b}$
+\end{center}
+\end{frame}
+
+
+\begin{frame}[fragile]{Gradient field}
+
+\vspace{-0.25cm}
+\begin{center}
+\begin{tikzpicture}[scale=0.5]
+\foreach \x in {-4,...,6} {
+\foreach \y in {-6,...,4} {
+
+\pgfmathsetmacro\mx{0.01*(3*\x+2*\y-2)};
+\pgfmathsetmacro\my{0.01*(2*\x+6*\y+8)};
+
+%\def\l{{sqrt(\u+\v)}};
+%\node at (\x,\y) {\ml};
+\draw[->,blue] (\x,\y) -- (\x+\mx,\y+\my);
+}
+}
+
+\node at (2,-2)  {$\mathbf{x}$};
+
+\draw[->,thin,gray] (0,-7) -- (0,5);
+\node[above] at (0,5) {\small $x_1$};
+\draw[->,thin,gray] (-5,0) -- (7,0);
+\node[above] at (7,0) {\small $x_2$};
+
+\end{tikzpicture}
+\end{center}
+\vspace{-0.25cm}
+Since the gradient at the solution $\mathbf{x}$ is zero, we can set $f'(\mathbf{x})$ to zero to minimize $f\mathbf{x}$.
+
+\end{frame}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Blaze Iterative}
@@ -315,6 +372,20 @@ More details about solvers~\cite{barrett1994templates}.
 \item BlazeIterative
 \end{itemize}
 \end{block}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section*{Acknowledgment}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Acknowledgment}
+\begin{itemize}
+\item The very nice example for the introduction of the conjugate gradient method was adapted from:\\
+\vspace{0.25cm}
+Shewchuk, Jonathan Richard. "An introduction to the conjugate gradient method without the agonizing pain." (1994).
+
+\end{itemize}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
