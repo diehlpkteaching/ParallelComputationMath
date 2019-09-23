@@ -269,12 +269,22 @@ auto f2 = std::async(taylor,50,99,2,100);
 \end{lstlisting}
 \end{block}
 
-\begin{block}{Launching}
+\begin{block}{Gathering the results}
 \begin{lstlisting}
 double result = f1.get() + f2.get();
 \end{lstlisting}
 \end{block}
+
+\begin{block}{Compilation}
+\begin{lstlisting}[language=bash]
+g++ main.cpp -o futures -phtread
+\end{lstlisting}
+We need to add \lstinline|-pthread| to our compiler to use the POSIX threads to launch the functions asynchronous  (\lstinline|std::async|)
+\end{block}
+More details about POSIX threads~\cite{butenhof1997programming,kleiman1996programming}.
 \end{frame}
+
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Lambda functions}
