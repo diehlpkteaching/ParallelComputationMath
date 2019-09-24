@@ -148,7 +148,7 @@ More details about iterative methods~\cite{briggs2000multigrid}.
 \end{frame}
 
 
-\begin{frame}{Illustration of the linear system}https://tex.stackexchange.com/questions/43884/making-an-arrow-in-a-pgfplot-figure-from-one-point-to-another
+\begin{frame}{Illustration of the linear system}
 
 \begin{center}
 \begin{tikzpicture}
@@ -290,6 +290,45 @@ $f'(\mathbf{x})= \mathbf{A}\mathbf{x}-\mathbf{b}$
 Since the gradient at the solution $\mathbf{x}$ is zero, we can set $f'(\mathbf{x})$ to zero to minimize $f\mathbf{x}$.
 
 \end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{The method of the steepest decent}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{The method of the steepest decent}
+
+\begin{itemize}
+\item We chose an random point $\mathbf{x}_0$
+\item and slide down to the bottom of the quadratic form $f(\mathbf{x})$
+\item by taking a series of steps $\mathbf{x}_1,\mathbf{x}_2,\ldots$
+\item Each step we go to the direction which $f$ decreases most which is the opposite of $f'(\mathbf{x}_i)$ which is
+\begin{center}
+$-f'(\mathbf{x}_i)= \mathbf{b}-\mathbf{A}\mathbf{x}_i$
+\end{center}
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}{The method of the steepest decent}
+
+\begin{block}{Error}
+\begin{center}
+$\mathbf{e}_i = \mathbf{x}_i - \mathbf{x}$
+\end{center}
+Defines how far way we are from the exact solution at iteration $i$.
+\end{block}
+
+\begin{block}{Residual}
+\begin{center}
+$\mathbf{r}_i = \mathbf{b} - \mathbf{A}\mathbf{x}_i = -\mathbf{A} \mathbf{e}_i$
+\end{center}
+Defines how far away we are from the correct value for $\mathbf{b}$ in iteration $i$. 
+\end{block}
+
+\end{frame}
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
