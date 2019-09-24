@@ -16,9 +16,7 @@ timetable.pdf: timetable/timetable.tex
 lectures=$(ls *.tex)
 
 lectures: ${lectures}
-	find -maxdepth 1 -name "*.tex" -exec latexmk -pdflatex=lualatex -shell-escape -pdf "{}" ";"
-	find -maxdepth 1 -name "*.gnuplot" -exec gnuplot "{}" ";"
-	find -maxdepth 1 -name "*.tex" -exec latexmk -pdflatex=lualatex -shell-escape -pdf "{}" ";"
+	find -maxdepth 1 -name "*.tex" -exec latexmk -pdflatex="lualatex --shell-escape %O %S" -pdf "{}" ";"
 	find -maxdepth 1 -name "*.pdf" -exec cp "{}" webpage ";"
 
 
