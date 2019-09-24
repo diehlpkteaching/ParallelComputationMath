@@ -3,9 +3,9 @@
 
 vector2::vector2(double x, double y, double z) 
 {
-    x = x;
-    x = y;
-    z = z;
+    this->x = x;
+    this->y = y;
+    this->z = z;
 }
 
 

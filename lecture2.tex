@@ -74,6 +74,12 @@
 \setmainfont{Raleway}
 \fi
 
+\ifluatex
+\usepackage{fontspec}
+\setmainfont{Raleway}
+\fi
+
+
 \begin{document} {
     \setbeamertemplate{footline}{}
     \frame {
@@ -202,7 +208,7 @@ The areas can be approximated by using $N$ random samples $(x,y)$ and count the 
 \end{itemize}
 \item Increment $n$ the interval  
 \item If $n$ < $n_{\text{total}}$ go to 1
-\item Calculate $\pi \approx 4 \sfrac{N_c}{n}$
+\item Calculate $\pi \approx 4 \sfrac{N_c}{n_\text{total}}$
 \item Print result
 \end{enumerate}
 \vspace{0.25cm}
@@ -218,13 +224,13 @@ Which features of C++ do we need? \\
 
 \begin{frame}{Random numbers\footnote{\tiny\url{https://en.cppreference.com/w/cpp/numeric/random/srand}}}
 
-\lstinputlisting{code/lecture2-random.cpp}
+\lstinputlisting{code/02/lecture2-random.cpp}
 More details: Section~3.2~\cite{knuth1997art2}
 \end{frame}
 
 \begin{frame}{Uniform distributed random numbers\footnote{\tiny\url{https://en.cppreference.com/w/cpp/numeric/random/uniform_int_distribution}} \footnote{\tiny\url{https://en.cppreference.com/w/cpp/numeric/random/uniform_real_distribution}}}
 
-\lstinputlisting{code/lecture2-distrandom.cpp}
+\lstinputlisting{code/02/lecture2-distrandom.cpp}
 
 \end{frame}
 
@@ -235,7 +241,7 @@ More details: Section~3.2~\cite{knuth1997art2}
 \begin{frame}{Computation of the average\footnote{\tiny\url{https://en.cppreference.com/w/cpp/io/manip/setprecision/}}}
 
 
-\lstinputlisting{code/lecture2-average.cpp}
+\lstinputlisting{code/02/lecture2-average.cpp}
 
 \end{frame}
 
@@ -246,7 +252,7 @@ More details: Section~3.2~\cite{knuth1997art2}
 \end{block}
 
 \begin{block}{Reading multiple values}
-\lstinputlisting[firstline=7, lastline=13]{code/lecture2-average.cpp}
+\lstinputlisting[firstline=7, lastline=13]{code/02/lecture2-average.cpp}
 \end{block}
 
 Note that the \lstinline|while| loops stops by inserting \lstinline|\n|
@@ -277,7 +283,7 @@ Note that the \lstinline|while| loops stops by inserting \lstinline|\n|
 
 \begin{frame}{Advanced computing of the average}
 
-\lstinputlisting{code/lecture2-averageContainers.cpp}
+\lstinputlisting{code/02/lecture2-averageContainers.cpp}
 
 \end{frame}
 
@@ -295,7 +301,7 @@ Note that the \lstinline|while| loops stops by inserting \lstinline|\n|
 \begin{itemize}
 \item \lstinline| std::vector<double> v = \{1, 2.5\}; |
 \item \lstinline| values.empty() | will return \lstinline|false|
-\item \lstinline| values.size() | will return one
+\item \lstinline| values.size() | will return two
 \end{itemize}
 \end{block}
 
@@ -378,7 +384,7 @@ for (auto& v : values)
 
 \begin{frame}{Recall: Advanced computing of the average}
 
-\lstinputlisting{code/lecture2-averageContainers.cpp}
+\lstinputlisting{code/02/lecture2-averageContainers.cpp}
 
 \end{frame}
 
@@ -388,7 +394,7 @@ for (auto& v : values)
 \begin{lstlisting}
 
 typedef std::vector<double>::size_type vec_sz;
-vec_sz = values.size();
+vec_sz size = values.size();
 double median = 0;
 
 if( size % 2 == 0 ) 
@@ -408,7 +414,7 @@ else
 
 \begin{frame}{Example: Advanced computing of the average}
 
-\lstinputlisting{code/lecture2-median.cpp}
+\lstinputlisting{code/02/lecture2-median.cpp}
 
 \end{frame}
 

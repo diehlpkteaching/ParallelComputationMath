@@ -31,6 +31,9 @@ Please find additional information here:
 * [Exercise 2](exercise2.pdf)
 * [Exercise 3](exercise3.pdf), [Template Code](https://github.com/diehlpkteaching/N-Body)
 * [Exercise 4](exercise4.pdf)
+* [Exercise 5](exercise5.pdf)
+* [Exercise 6](exercise6.pdf)
+
 
 ## Slides
 
@@ -40,11 +43,14 @@ Please find additional information here:
 * [Lecture 4](lecture4.pdf)
 * [Lecture 5](lecture5.pdf)
 * [Lecture 6](lecture6.pdf)
+* [Lecture 7](lecture7.pdf)
+* [Lecture 8 (Course project)](lecture8.pdf) 
+* [Lecture 9](lecture9.pdf)
 * [References](list.pdf)
     
 ## Project
 
-As a course project, we will implement bond-based peridyanmics ([PD](https://en.wikipedia.org/wiki/peridynamics)). We will cover the basic equations brielfy in lecture 8 and the template code is available [here](https://github.com/diehlpkteaching/PD).
+As a course project, we will implement bond-based peridyanmics ([PD](https://en.wikipedia.org/wiki/peridynamics)). We will cover the basic equations brielfy in [lecture 8](lecture8.pdf) and the template code is available [here](https://github.com/diehlpkteaching/PD).
 
 ## References
 

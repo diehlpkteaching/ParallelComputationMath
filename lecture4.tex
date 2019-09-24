@@ -73,6 +73,11 @@
 \setmainfont{Raleway}
 \fi
 
+\ifluatex
+\usepackage{fontspec}
+\setmainfont{Raleway}
+\fi
+
 \begin{document} {
     \setbeamertemplate{footline}{}
     \frame {
@@ -150,8 +155,11 @@ $\mathbf{u}=(x,y,z)\in \mathbb{R}^3$\\
 $\mathbf{u}_1 \circ \mathbf{u}_2 = x_1x_2 + y_1y_2 + z_1z_2 $
 \end{block}
 \begin{block}{Cross product}
-\centering
-$\mathbf{u}_1 \times \mathbf{u}_2 = \vert\mathbf{u}_1 \vert \vert\mathbf{u}_2 \vert sin(\theta)  $
+
+\begin{center}
+$\mathbf{u}_1 \times \mathbf{u}_2 = \vert\mathbf{u}_1 \vert \vert\mathbf{u}_2 \vert sin(\theta) \mathbf{n}  $
+\end{center}
+where $\mathbf{n}$ is the normal vector perpendicular to the plane containing $\mathbf{u}_1$ and $\mathbf{u}_2$.
 \end{block}
 
 \end{frame}
@@ -389,11 +397,12 @@ double norm(){ return std::sqrt(x*x+y*y+z*z);}
 }
 \end{lstlisting}
 \end{block}
-
+\vspace{-0.25cm}
 \begin{block}{Usage}
+\vspace{-0.5cm}
 \begin{lstlisting}
 struct vector v;
-std::cout << v.norm{} << std::endl;
+std::cout << v.norm() << std::endl;
 \end{lstlisting}
 \end{block}
 Note: \lstinline|#include <cmath>|\footnote{\tiny\url{https://en.cppreference.com/w/cpp/header/cmath}} provides mathematical expressions
