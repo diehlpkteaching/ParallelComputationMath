@@ -218,7 +218,7 @@ We have a group of people $P_1,\ldots,P_n$, if person $P_1$ has contact with per
 
 \begin{center}
 $
-M = \left\lbrace\begin{matrix}
+\mathbf{M} = \left\lbrace\begin{matrix}
 0 & 1 & 0 & 1 \\
 0 & 0 & 1 & 0 \\
 1 & 0 & 0 & 1 \\
@@ -229,9 +229,9 @@ $
 This matrix will tell us that $P_1$ has contact with $P_2$ and $P_4$, $P_2$ with $P_3$ and so on. \\
 Now we define
 \begin{center}
-$M^2 = m^2_{i,j}$,  
+$\mathbf{M}^4 = \mathbf{M} \cdot \mathbf{M} \cdot \mathbf{M} \cdot \mathbf{M} $,  
 \end{center}
-for example $m^2_{3,2}=a_{3,1}a_{1,2}+a_{3,2}a_{2,2}+a_{3,4}a_{4,2}$.
+which means for $\mathbf{M}^n$, we have to do $n$ multiplications of $\mathbf{M}$ .
 \end{frame}
 
 \begin{frame}{Communication}
