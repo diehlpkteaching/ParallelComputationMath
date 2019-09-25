@@ -291,7 +291,6 @@ Since the gradient at the solution $\mathbf{x}$ is zero, we can set $f'(\mathbf{
 
 \end{frame}
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{The method of the steepest decent}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -322,12 +321,129 @@ Defines how far way we are from the exact solution at iteration $i$.
 
 \begin{block}{Residual}
 \begin{center}
-$\mathbf{r}_i = \mathbf{b} - \mathbf{A}\mathbf{x}_i = -\mathbf{A} \mathbf{e}_i$
+$\mathbf{r}_i = \mathbf{b} - \mathbf{A}\mathbf{x}_i= -f'(\mathbf{x}_i)$
 \end{center}
 Defines how far away we are from the correct value for $\mathbf{b}$ in iteration $i$. 
 \end{block}
 
 \end{frame}
+
+
+\begin{frame}{Visualization of the residual and error}
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[ymin=-6,ymax=4,xmax=6,xmin=-4,xlabel=$x_1$,ylabel=$x_2$]
+\addplot gnuplot[raw gnuplot,thick,mark=none]
+    {
+        unset surface;
+        set cntrparam levels auto 10;
+        set contour;
+        set yrange [-6:4];
+        splot [x=-4:6] x*(1.5*x+y)-2*x+y*(x+3*y)+8*y;
+    };
+\addplot[mark=*] coordinates {(2,-2)};
+\node[below] at (2,-2) {$\mathbf{x}$};
+\addplot[mark=*] coordinates {(-2,-2)};
+\node[below] at (-2,-2) {$\mathbf{x}_0$};
+\draw (2,-2) -- (-2,-2);
+\node[below] at (-0,-2) {$\mathbf{e}_0$};
+\draw (-2,-2) -- (8,12);
+\node[left] at (-0,1) {$\mathbf{r}_0$};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\begin{center}
+How far to go along the residual vector?
+\end{center}
+\end{frame}
+
+
+\begin{frame}{Line search}
+
+\begin{itemize}
+\item We look at a starting point $\mathbf{x}_0=[-2,-2]^T$
+\item from this point, we go along the direction of the steepest decent
+\begin{center}
+$\mathbf{x}_1 = \mathbf{x}_0 + \alpha \mathbf{r}_0$
+\end{center}
+\end{itemize}
+How large to chose $\alpha$?
+\end{frame}
+
+\begin{frame}[fragile]{Parabola by the intersection of the two surfaces }
+
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[xmin=-0.5,xmax=1,xlabel=$\alpha$,ylabel=$f(\mathbf{x}_0 + \alpha \mathbf{r}_0)$,axis lines = middle, grid= both]
+\addplot[samples=100]{(-2+12*x)*(1.5*(-2+12*x)+(-2+8*x))-2*(-2+12*x)+(-2+8*x)*((-2+12*x)+3*(-2+8*x))+8*(-2+8*x)};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+The minimum of this function is as $\frac{d}{d\alpha} f(\mathbf{x}_0 + \alpha \mathbf{r}_0) = 0$. 
+
+\end{frame}
+
+\begin{frame}{How to determine $\alpha$?}
+
+Applying the chain rule: $\frac{d}{d\alpha} f(\mathbf{x}_0 + \alpha \mathbf{r}_0)= f'(\mathbf{x}_0 + \alpha \mathbf{r}_0)^T \mathbf{r}_0$. This expression is zero, if the two vectors are orthogonal. 
+
+\begin{align*}
+\mathbf{r}^T_1 \mathbf{r}_0 &= 0 \\
+(\mathbb{b}-\mathbf{A} \mathbf{x}_1)^T \mathbf{r}_0 & = 0 \\
+(\mathbb{b}-\mathbf{A} (\mathbf{x}_0 + \alpha \mathbf{r}_0))^T \mathbf{r}_0 & = 0 \\
+(\mathbf{b}- \mathbf{A} \mathbf{x}_0)^T \mathbf{r}_0 - \alpha(\mathbf{A}\mathbf{r}_0)^T \mathbf{r}_0 &= 0 \\
+(\mathbf{b}- \mathbf{A} \mathbf{x}_0)^T \mathbf{r}_0  &= \alpha(\mathbf{A}\mathbf{r}_0)^T \mathbf{r}_0 \\
+\mathbf{r}^T_0 \mathbf{r}_0 &= \alpha \mathbf{r}^T_0 (\mathbf{A}\mathbf{r}_0) \\
+\alpha &= \frac{\mathbf{r}^T_0 \mathbf{r}_0}{\mathbf{r}^T_0 \mathbf{A}\mathbf{r}_0}
+\end{align*}
+
+\end{frame}
+
+\begin{frame}{Visualization of gradient of the previous step}
+\begin{center}
+\begin{tikzpicture}
+\begin{axis}[ymin=-6,ymax=4,xmax=6,xmin=-4,xlabel=$x_1$,ylabel=$x_2$]
+\addplot gnuplot[raw gnuplot,thick,mark=none]
+    {
+        unset surface;
+        set cntrparam levels auto 10;
+        set contour;
+        set yrange [-6:4];
+        splot [x=-4:6] x*(1.5*x+y)-2*x+y*(x+3*y)+8*y;
+    };
+\addplot[mark=*] coordinates {(2,-2)};
+\node[below] at (2,-2) {$\mathbf{x}$};
+%\addplot[mark=*] coordinates {(-2,-2)};
+%\node[below] at (-2,-2) {$\mathbf{x}_0$};
+%\draw (2,-2) -- (-2,-2);
+%\node[below] at (-0,-2) {$\mathbf{e}_0$};
+%\draw (-2,-2) -- (8,12);
+%\node[left] at (-0,1) {$\mathbf{r}_0$};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\begin{center}
+How far to go along the residual vector?
+\end{center}
+\end{frame}
+
+\begin{frame}{Algorithm}
+
+\begin{enumerate}
+\item $\mathbf{r}_0 = \mathbf{b} - \mathbf{A} \mathbf{x}_0$
+\item If $\mathbf{r}_0 < \epsilon$ return $\mathbf{x}_0$
+\item $\mathbf{r}_i = \mathbf{b} - \mathbf{A} \mathbf{x}_i$
+\item $\alpha_i = \frac{\mathbf{r}^T_0 \mathbf{r}_0}{\mathbf{r}^T_0 \mathbf{A}\mathbf{r}_0}$
+\item $\mathbf{x}_{i+1} = \mathbf{x}_i \alpha_i \mathbf{r}_i$
+\item If $\mathbf{r}_i < \epsilon$ return  $\mathbf{x}_i$ 
+\item Go to (3)
+\end{enumerate}
+
+
+\end{frame}
+
+
+
 
 
 
