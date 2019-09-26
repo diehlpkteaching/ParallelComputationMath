@@ -46,6 +46,8 @@ Please find additional information here:
 * [Lecture 7](lecture7.pdf)
 * [Lecture 8 (Course project)](lecture8.pdf) 
 * [Lecture 9](lecture9.pdf)
+* [Guest 1](Parallelism in C++ (lecture1).pdf)
+* [Lecture 10](lecture10.pdf)
 * [References](list.pdf)
     
 ## Project
