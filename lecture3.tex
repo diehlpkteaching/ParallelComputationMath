@@ -285,7 +285,7 @@ int sum = std::accumulate(v.begin(), v.end(), 0);
 \begin{block}{Multiplication\footnote{\tiny\url{https://en.cppreference.com/w/cpp/utility/functional/multiplies}}}
 \begin{lstlisting}
 int product = 
-	std::accumulate(v.begin(), v.end(), 0, 
+	std::accumulate(v.begin(), v.end(), 1, 
 	std::multiplies<int>());
 \end{lstlisting}
 \end{block}
@@ -388,7 +388,7 @@ for(vit it = a.begin(); it != a.end(); ++it)
 
 \begin{block}{With library algorithm\footnote{\tiny\url{https://en.cppreference.com/w/cpp/algorithm/copy}}}
 \begin{lstlisting}
-std::copy(a.begin(),a.end(),b)
+std::copy(a.begin(),a.end(),b.begin());
 \end{lstlisting}
 \end{block}
 
