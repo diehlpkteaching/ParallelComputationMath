@@ -8,8 +8,9 @@ Lecture,Topic, Chapter(s)
 7,Asynchronous programming, --
 8,Bond-based peridynamics (Course project), -- 
 9,Linear Algebra using Blaze, --
-G1,Introduction to parallel programming (Dr. Kaiser), --
+G1,Introduction to parallel programming I (Dr. Kaiser), --
 10,Solvers | Conjugate gradient method, --
+G2,Introduction to parallel programming II(Dr. Kaiser), --
 11,Managing Memory | Defining abstract data types, 10/11
 G2,Tricks with notebooks (Dr. Brandt) | Questions \& Answers, --
 12,Midterm exam, --
