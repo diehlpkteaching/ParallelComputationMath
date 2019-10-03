@@ -48,6 +48,8 @@ Please find additional information here:
 * [Lecture 9](lecture9.pdf)
 * [Guest 1](Parallelism\ in\ C++\ \(lecture\ 1\).pdf)
 * [Lecture 10](lecture10.pdf)
+* [Guest 2](Parallelism\ in\ C++\ \(lecture\ 2\).pdf)
+* [Lecture 11](lecture11.pdf)
 * [References](list.pdf)
     
 ## Project
