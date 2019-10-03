@@ -108,7 +108,8 @@
 \begin{frame}{Lecture X}
 \begin{block}{What you should know from last lecture}
 \begin{itemize}
-\item 
+\item Conjugate Gradient method
+\item Solving equation systems using BlazeIterative
 \end{itemize}
 \end{block}
 \end{frame}
@@ -117,6 +118,20 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{What is HPX}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Description of HPX\footnote{\tiny\url{https://github.com/STEllAR-GROUP/hpx}}$^,$\footnote{\tiny\url{https://stellar-group.github.io/hpx/docs/sphinx/branches/master/html/index.html}}}
+HPX (High Performance ParalleX) is a general purpose C++ runtime system for parallel and distributed applications of any scale. It strives to provide a unified programming model which transparently utilizes the available resources to achieve unprecedented levels of scalability.  This library strictly adheres to the C++11 Standard and leverages the Boost C++ Libraries which makes HPX easy to use, highly optimized, and very portable. 
+\end{frame}
+
+
+\begin{frame}{HPX's features}
+\begin{itemize}
+\item HPX exposes a uniform, standards-oriented API for ease of programming parallel and \textcolor{blue}{distributed} applications.
+\item HPX provides unified syntax and semantics for \textcolor{blue}{local and remote} operations.
+\item HPX exposes a uniform, flexible, and extendable performance counter framework which can enable runtime adaptivity
+\item HPX has been designed and developed for systems of any scale, from hand-held devices to very large scale systems (Raspberry Pi, Android, Server, up to super computers.
+\end{itemize}
+\end{frame}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
