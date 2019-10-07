@@ -33,7 +33,7 @@ Please find additional information here:
 * [Exercise 4](exercise4.pdf)
 * [Exercise 5](exercise5.pdf)
 * [Exercise 6](exercise6.pdf)
-
+* [Exercise 7](exercise7.pdf)
 
 ## Slides
 
