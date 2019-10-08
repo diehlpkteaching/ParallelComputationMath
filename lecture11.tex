@@ -105,7 +105,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Reminder}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Lecture X}
+\begin{frame}{Lecture 10}
 \begin{block}{What you should know from last lecture}
 \begin{itemize}
 \item Conjugate Gradient method
@@ -253,19 +253,13 @@ Note that we just replaced \lstinline|std| by the namespace \lstinline|hpx|
 
 \begin{lstlisting}
 
-void result(std::vector<hpx::future<int> f)
-{
-    hpx::cout << f[0].get() 
-        + f[1].get() << hpx::flush;
-}
-
-std::vector<hpx::future<int> futures;
+std::vector<hpx::future<int>> futures;
 
 futures.push_back(hpx::async(square,10);
 futures.push_back(hpx::async(square,100);
 
 hpx::when_all(futures).then([](auto&& f){
- auto = f.get();
+ auto futures = f.get();
  std::cout << futures[0].get() 
  	<< " and " << futures[1].get();
 });
@@ -281,7 +275,7 @@ hpx::when_all(futures).then([](auto&& f){
 \item \lstinline|when_all| \\
 It \textit{AND}-composes all the given futures and returns a new future containing all the given futures.
 \item \lstinline|when_any| \\
-It \textit{OR}-composes all the given futures and returns a new future a new future containing all the given futures.
+It \textit{OR}-composes all the given futures and returns a new future containing all the given futures.
 \item \lstinline|when_each| \\
 It \textit{AND}-composes all the given futures and returns a new future containing all futures being ready.
 \item \lstinline|when_some| \\
@@ -341,7 +335,7 @@ std::cout<< f.get();
 
 \begin{itemize}
 \item \lstinline|hpx::parallel::execution::par| Parallel execution
-\item \lstinline|hpx::parallel::execution::par| Sequential execution
+\item \lstinline|hpx::parallel::execution::seq| Sequential execution
 \item \lstinline|hpx::parallel::execution::task| Task-based execution
 \end{itemize}
 
