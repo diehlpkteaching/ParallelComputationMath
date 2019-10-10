@@ -1,0 +1,275 @@
+%Template
+%Copyright (C) 2019  Patrick Diehl
+%
+%This program is free software: you can redistribute it and/or modify
+%it under the terms of the GNU General Public License as published by
+%the Free Software Foundation, either version 3 of the License, or
+%(at your option) any later version.
+
+%This program is distributed in the hope that it will be useful,
+%but WITHOUT ANY WARRANTY; without even the implied warranty of
+%MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+%GNU General Public License for more details.
+
+%You should have received a copy of the GNU General Public License
+%along with this program.  If not, see <http://www.gnu.org/licenses/>.
+\documentclass[12pt,t]{beamer}
+
+\beamertemplatenavigationsymbolsempty
+
+% usepackage
+%\usepackage{template/dbt}
+\usepackage{listings}
+
+\definecolor{comments}{RGB}{81,81,81}
+\definecolor{keywords}{RGB}{255,0,90}
+
+% lstlisting
+\lstset{
+    language=C,
+    basicstyle=\footnotesize\ttfamily,
+    keywordstyle=\color{keywords},
+    showspaces=false,
+    showstringspaces=false,
+    commentstyle=\color{blue}\emph
+    %frame=single,
+    %rulecolor=\color{comments},
+    %rulesepcolor=\color{comments},
+    %backgroundcolor = \color{lightgray}
+}
+
+\usepackage{tikz}
+\usetikzlibrary{plotmarks}
+\usepackage{xfrac}
+
+\usetheme{default}
+
+\usepackage[
+    type={CC},
+    modifier={by-nc-nd},
+    version={4.0},
+]{doclicense} 
+
+\input{template/variables.tex}
+
+% frame slide
+\title{\coursename}
+\subtitle{Lecture 12: One-dimensional heat equation}
+
+%\author{\href{}{}}
+%\institute {
+%    \href{}{\tt \scriptsize \today}
+%}
+\date {
+ \tiny \url{\courseurl}
+\vspace{2cm}
+\doclicenseThis  
+  
+}
+
+
+
+\usepackage{ifxetex}
+
+\ifxetex
+\usepackage{fontspec}
+\setmainfont{Raleway}
+\fi
+
+\ifluatex
+\usepackage{fontspec}
+\setmainfont{Raleway}
+\fi
+
+
+\begin{document} {
+    \setbeamertemplate{footline}{}
+    \frame {
+        \titlepage
+    }
+}
+
+\frame{
+
+\tableofcontents
+
+}
+
+\AtBeginSection[]{
+  \begin{frame}
+  \vfill
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+    \usebeamerfont{title}\insertsectionhead\par%
+  \end{beamercolorbox}
+  \vfill
+  \end{frame}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Reminder}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Lecture 12}
+\begin{block}{What you should know from last lecture}
+\begin{itemize}
+\item What is HPX
+\item Asynchronous programming using HPX
+\item Shared memory parallelism using HPX
+\end{itemize}
+\end{block}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Heat equation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Heat equation}
+
+\begin{block}{Statement of the heat equation}
+\begin{center}
+$\frac{\partial u}{\partial t} = \alpha \left( \frac{\partial^2 u }{\partial x^2} + \frac{\partial^2 u}{\partial y^2} + \frac{\partial^2 u}{\partial z^2} \right)$
+\end{center}
+where alpha is the diffusivity of the material. 
+\end{block}
+
+\begin{block}{Compact form}
+\begin{center}
+$ \dot u = \alpha \nabla u$
+\end{center}
+\end{block}
+The heat equation computes the flow of heat in a homogeneous and isotropic medium.\\
+\vspace{0.25cm}
+More details~\cite{cannon1984one}.
+
+\end{frame}
+
+
+\begin{frame}{Easiest case}
+
+
+\begin{block}{1D heat equation}
+\begin{center}
+$ \frac{\partial u}{\partial t} = \alpha \frac{\partial^2 u}{\partial x^2}, \quad 0 \leq x \leq L, t >0 $
+\end{center}
+\end{block}
+
+\begin{block}{Boundary conditions}
+The solution of the heat equation requires boundary conditions
+\begin{itemize}
+\item $u(0,t) = u_0$
+\item $u(L,t) = u_L$
+\item $u(x,0) = f_0(x)$
+\end{itemize}
+\end{block}
+
+\end{frame}
+
+\begin{frame}{Discretization}
+
+\begin{center}
+\begin{tikzpicture}
+\draw(0,0) -- (6,0) -- (6,0.5) -- (0,0.5) -- cycle;
+\node[below] at (0,0) {$0$};
+\node[below] at (6,0) {$L$};
+\foreach \i in {1,...,5}{
+	\draw (\i,0) --(\i,0.5);	
+}
+\foreach \i in {1,...,6}{
+	\node at (-0.5+\i,0.25) {$x_\i$};	
+}
+\draw (0,0.5) -- (0,0.75);
+\draw (1,0.5) -- (1,0.75);
+\draw[<->] (0,0.7) -- (1,0.7);
+\node[above] at (0.5,0.75) {$h$};
+\end{tikzpicture}
+\end{center}
+
+\begin{block}{Discrete mesh}
+\begin{center}
+$x_i = (i-1) h, \quad i=1,2,\ldots,N$ 
+\end{center}
+where $N$ is the total number of nodes and h is given by $h=\sfrac{L}{N-1}$.
+\end{block}
+
+\end{frame}
+
+\begin{frame}{Finite difference method}
+
+\begin{block}{Approximation of the first derivative}
+\begin{center}
+$ \frac{\partial u}{\partial x} \approx \frac{u_{i+1}-u_{i}}{2h}$
+\end{center}
+\end{block}
+
+\begin{block}{Approximation of the second derivative}
+\begin{center}
+$ \frac{\partial u}{\partial x^2} \approx \frac{u_{i-1}-2u_{i}+u_{i+1}}{2h}$
+\end{center}
+\end{block}
+Note that a central difference scheme is applied. More details~\cite{strikwerda2004finite,leveque2007finite}.
+\end{frame}
+
+
+\begin{frame}{Discretization in space and time}
+
+\begin{center}
+\begin{tikzpicture}
+
+\foreach \j in {1,...,5}{
+\foreach \i in {1,...,6}{
+	\node at (\i,\j) {\pgfuseplotmark{square*}};
+}
+}
+\foreach \i in {1,...,6}{
+	\node[color=blue] at (\i,0) {\pgfuseplotmark{square*}};
+}
+\foreach \i in {1,...,6}{
+	\node[below] at (\i,-0.1) {$x_\i$};	
+}
+
+\draw[thick,->] (-1,0) -- (-.5,0);
+\draw[thick,->] (-1,0) -- (-1,0.5);
+\node[right] at (-0.5,0) {$x$};
+\node[above] at (-1,0.5) {$t$};
+
+\node[left] at (0.75,2) {$t_{i-1}$};
+\node[left] at (0.75,3) {$t_{i}$};
+\node[left] at (0.75,4) {$t_{i+1}$};
+
+\node[below] at (1,-0.75) {$0$};
+\node[below] at (6,-0.75) {$L$};
+\end{tikzpicture}
+\end{center}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Serial implementation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Summary}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Summary}
+\begin{block}{After this lecture, you should know}
+\begin{itemize}
+\item 
+\end{itemize}
+\end{block}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{References}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[t, allowframebreaks]
+\frametitle{References}
+\bibliographystyle{plain}
+\bibliography{bib}
+\end{frame}
+
+
+\end{document}
