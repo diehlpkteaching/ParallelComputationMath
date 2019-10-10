@@ -1,0 +1,412 @@
+%Template
+%Copyright (C) 2019  Patrick Diehl
+%
+%This program is free software: you can redistribute it and/or modify
+%it under the terms of the GNU General Public License as published by
+%the Free Software Foundation, either version 3 of the License, or
+%(at your option) any later version.
+
+%This program is distributed in the hope that it will be useful,
+%but WITHOUT ANY WARRANTY; without even the implied warranty of
+%MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+%GNU General Public License for more details.
+
+%You should have received a copy of the GNU General Public License
+%along with this program.  If not, see <http://www.gnu.org/licenses/>.
+\documentclass[12pt,t]{beamer}
+
+\beamertemplatenavigationsymbolsempty
+
+% usepackage
+%\usepackage{template/dbt}
+\usepackage{listings}
+
+\definecolor{comments}{RGB}{81,81,81}
+\definecolor{keywords}{RGB}{255,0,90}
+
+% lstlisting
+\lstset{
+    language=C,
+    basicstyle=\footnotesize\ttfamily,
+    keywordstyle=\color{keywords},
+    showspaces=false,
+    showstringspaces=false,
+    commentstyle=\color{blue}\emph
+    %frame=single,
+    %rulecolor=\color{comments},
+    %rulesepcolor=\color{comments},
+    %backgroundcolor = \color{lightgray}
+}
+
+\usetheme{default}
+
+\usepackage[
+    type={CC},
+    modifier={by-nc-nd},
+    version={4.0},
+]{doclicense} 
+
+\input{template/variables.tex}
+
+% frame slide
+\title{\coursename}
+\subtitle{Lecture 11: Introduction to HPX}
+
+%\author{\href{}{}}
+%\institute {
+%    \href{}{\tt \scriptsize \today}
+%}
+\date {
+ \tiny \url{\courseurl}
+\vspace{2cm}
+\doclicenseThis  
+  
+}
+
+
+
+\usepackage{ifxetex}
+
+\ifxetex
+\usepackage{fontspec}
+\setmainfont{Raleway}
+\fi
+
+\ifluatex
+\usepackage{fontspec}
+\setmainfont{Raleway}
+\fi
+
+
+\begin{document} {
+    \setbeamertemplate{footline}{}
+    \frame {
+        \titlepage
+    }
+}
+
+\frame{
+
+\tableofcontents
+
+}
+
+\AtBeginSection[]{
+  \begin{frame}
+  \vfill
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+    \usebeamerfont{title}\insertsectionhead\par%
+  \end{beamercolorbox}
+  \vfill
+  \end{frame}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Reminder}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Lecture 10}
+\begin{block}{What you should know from last lecture}
+\begin{itemize}
+\item Conjugate Gradient method
+\item Solving equation systems using BlazeIterative
+\end{itemize}
+\end{block}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{What is HPX}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Description of HPX\footnote{\tiny\url{https://github.com/STEllAR-GROUP/hpx}}$^,$\footnote{\tiny\url{https://stellar-group.github.io/hpx/docs/sphinx/branches/master/html/index.html}}}
+HPX (High Performance ParalleX) is a general purpose C++ runtime system for parallel and distributed applications of any scale. It strives to provide a unified programming model which transparently utilizes the available resources to achieve unprecedented levels of scalability.  This library strictly adheres to the C++11 Standard and leverages the Boost C++ Libraries which makes HPX easy to use, highly optimized, and very portable. 
+\end{frame}
+
+
+\begin{frame}{HPX's features}
+\begin{itemize}
+\item HPX exposes a uniform, standards-oriented API for ease of programming parallel and \textcolor{blue}{distributed} applications.
+\item HPX provides unified syntax and semantics for \textcolor{blue}{local and remote} operations.
+\item HPX exposes a uniform, flexible, and extendable performance counter framework which can enable runtime adaptivity
+\item HPX has been designed and developed for systems of any scale, from hand-held devices to very large scale systems (Raspberry Pi, Android, Server, up to super computers.
+\end{itemize}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Compilation and running}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[fragile]{Compilation and running}
+
+\begin{block}{CMake}
+\begin{lstlisting}[language=bash]
+cmake_minimum_required(VERSION 3.3.2)
+project(my_hpx_project CXX)
+find_package(HPX REQUIRED)
+add_hpx_executable(my_hpx_program
+    SOURCES main.cpp
+)
+\end{lstlisting}
+\end{block}
+
+\begin{block}{Running}
+\begin{lstlisting}[language=bash]
+cmake .
+make
+./my_hpx_program --hpx:threads=4
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Hello World}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[fragile]{A small HPX program}
+
+\begin{block}{C++}
+\begin{lstlisting}
+int main()
+{
+    hpx::cout << "Hello World!\n" << hpx::flush;
+    return 0;
+}
+\end{lstlisting}
+\end{block}
+
+\begin{block}{HPX}
+\begin{lstlisting}
+#include <hpx/hpx_main.hpp>
+#include <iostream>
+
+int main()
+{
+    std::cout << "Hello World!\n" << std::endl;
+    return 0;
+}
+\end{lstlisting}
+\end{block}
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Hello world using \lstinline{hpx::init}}
+
+\begin{lstlisting}
+#include <hpx/hpx_init.hpp>
+#include <iostream>
+
+int hpx_main(int, char**)
+{
+    // Say hello to the world!
+    std::cout << "Hello World!\n" << std::endl;
+    return hpx::finalize();
+}
+
+int main(int argc, char* argv[])
+{
+    return hpx::init(argc, argv);
+}
+\end{lstlisting}
+\begin{center}
+Note that here we  initialize the HPX runtime explicitly.
+\end{center}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Asynchronous programming}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{frame}[fragile]{Futurization\footnote{\tiny\href{https://stellar-group.github.io/hpx/docs/sphinx/latest/html/examples/fibonacci_local.html?highlight=async}{Example: hpx::async}}}
+
+\begin{lstlisting}
+#include <hpx/hpx_init.hpp>
+#include <hpx/incldue/lcos.hpp>
+
+int square(int a)
+{ 
+    return a*a; 
+}
+
+int main()
+{
+    hpx::future<int> f1 = hpx::async(square,10); 
+    
+    hpx::cout << f1.get() << hpx::flush;
+    
+    return EXIT_SUCCESS;
+}
+
+\end{lstlisting}
+\vspace{-0.25cm}
+\begin{center}
+Note that we just replaced \lstinline|std| by the namespace \lstinline|hpx|
+\end{center}
+\end{frame}
+
+
+\begin{frame}[fragile]{Advanced synchronization\footnote{\tiny\href{https://stellar-group.github.io/hpx/docs/sphinx/latest/html/api.html?highlight=when_all\#_CPPv4IDpEN3hpx8when_allE6futureI5tupleIDp6futureI1TEEEDpRR1T}{Documentation: hpx::when\_all}}}
+
+\begin{lstlisting}
+
+std::vector<hpx::future<int>> futures;
+
+futures.push_back(hpx::async(square,10);
+futures.push_back(hpx::async(square,100);
+
+hpx::when_all(futures).then([](auto&& f){
+ auto futures = f.get();
+ std::cout << futures[0].get() 
+ 	<< " and " << futures[1].get();
+});
+
+
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile]{Synchronization\footnote{\tiny\href{https://stellar-group.github.io/hpx/docs/sphinx/latest/html/terminology.html\#term-lco}{Documentation: LCO}}}
+
+\begin{itemize}
+\item \lstinline|when_all| \\
+It \textit{AND}-composes all the given futures and returns a new future containing all the given futures.
+\item \lstinline|when_any| \\
+It \textit{OR}-composes all the given futures and returns a new future containing all the given futures.
+\item \lstinline|when_each| \\
+It \textit{AND}-composes all the given futures and returns a new future containing all futures being ready.
+\item \lstinline|when_some| \\
+It \textit{AND}-composes all the given futures and returns a new future object representing the same list of futures after n of them finished.
+
+\end{itemize}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Parallel algorithms}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{frame}[fragile]{Example: Reduce}
+
+\begin{block}{C++}
+\begin{lstlisting}
+#include<algorithm>
+#include<execution>
+
+std::reduce(std::execution::par,
+	values.begin(),values.end(),0);
+\end{lstlisting}
+\end{block}
+
+\begin{block}{HPX}
+\begin{lstlisting}
+#include<hpx/include/parallel_reduce.hpp>
+#include<vector>
+
+hpx::parallel::v1::reduce(
+	hpx::parallel::execution::par,
+		values.begin(),values.end(),0);
+
+\end{lstlisting}
+\end{block}
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Example: Reduce with future}
+
+
+\begin{lstlisting}
+auto f =
+
+hpx::parallel::v1::reduce(
+	hpx::parallel::execution::par(
+		hpx::parallel::execution::task),
+	values.begin(),
+	values.end(),0);
+
+std::cout<< f.get();
+\end{lstlisting}
+
+\begin{itemize}
+\item \lstinline|hpx::parallel::execution::par| Parallel execution
+\item \lstinline|hpx::parallel::execution::seq| Sequential execution
+\item \lstinline|hpx::parallel::execution::task| Task-based execution
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Execution parameters}
+
+
+\begin{lstlisting}
+#include<hpx/include/parallel_executor_parameters.hpp>
+
+hpx::parallel::execution::static_chunk_size scs(10);
+hpx::parallel::v1::reduce(
+	hpx::parallel::execution::par.with(scs),
+	values.begin(),
+	values.end(),0);
+\end{lstlisting}
+
+\begin{itemize}
+\item \lstinline|hpx::parallel::execution::static_chunk_size| \\
+Loop iterations are divided into pieces of a given size and then assigned to threads.
+\item \lstinline|hpx::parallel::execution::auto_chunk_size| \\
+Pieces are determined based on the first 1\% of the total loop iterations. 
+\item \lstinline|hpx::parallel::execution::dynamic_chunk_size| \\
+Dynamically scheduled among the cores and if one core finished it gets dynamically assigned a new chunk.
+
+
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Example: Range-based for loops}
+
+
+\begin{lstlisting}
+#include<vector>
+#include<iostream>
+#include<hpx/include/parallel_for_loop.hpp>
+
+std::vector<double> values = {1,2,3,4,5,6,7,8,9};
+
+hpx::parallel::for_loop(
+	hpx::parallel::execution::par, 
+	0, 
+	values.size();
+	[](boost::uint64_t i)
+		{
+		std::cout<< values[i] << std::endl;
+		}
+	);
+\end{lstlisting}
+
+\end{frame}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Summary}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Summary}
+\begin{block}{After this lecture, you should know}
+\begin{itemize}
+\item What is HPX
+\item Asynchronous programming using HPX
+\item Shared memory parallelism using HPX
+\end{itemize}
+\end{block}
+\end{frame}
+
+
+\end{document}

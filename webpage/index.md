@@ -33,7 +33,7 @@ Please find additional information here:
 * [Exercise 4](exercise4.pdf)
 * [Exercise 5](exercise5.pdf)
 * [Exercise 6](exercise6.pdf)
-
+* [Exercise 7](exercise7.pdf)
 
 ## Slides
 
@@ -46,8 +46,10 @@ Please find additional information here:
 * [Lecture 7](lecture7.pdf)
 * [Lecture 8 (Course project)](lecture8.pdf) 
 * [Lecture 9](lecture9.pdf)
-* [Guest 1](Parallelism in C++ (lecture1).pdf)
+* [Guest 1](Parallelism\ in\ C++\ \(lecture\ 1\).pdf)
 * [Lecture 10](lecture10.pdf)
+* [Guest 2](Parallelism\ in\ C++\ \(lecture\ 2\).pdf)
+* [Lecture 11](lecture11.pdf)
 * [References](list.pdf)
     
 ## Project
