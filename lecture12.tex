@@ -247,7 +247,43 @@ Note that a central difference scheme is applied. More details~\cite{strikwerda2
 \section{Serial implementation}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\begin{frame}[fragile]{Time measurement and system information}
 
+\begin{block}{Time measurement}
+\begin{lstlisting}
+std::uint64_t t 
+	= hpx::util::high_resolution_clock::now();
+// Do work 
+std::uint64_t elapsed 
+	= hpx::util::high_resolution_clock::now() - t;
+
+
+\end{lstlisting}
+\end{block}
+
+\begin{block}{Accessing system information}
+\begin{lstlisting}
+std::uint64_t const os_thread_count 
+	= hpx::get_os_thread_count();
+\end{lstlisting}
+\end{block}
+
+\begin{lstlisting}
+std::cout << "Computation took " << t 
+	<< " on " << os_thread_count << " threads" 
+	<< std::endl;
+\end{lstlisting}
+
+\end{frame}
+
+
+\begin{frame}{Simulation control}
+
+\end{frame}
+
+\begin{frame}{Simulation control}
+
+\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Summary}
