@@ -9,7 +9,7 @@ The exercises are available [here](https://github.com/diehlpkteaching/ParallelCo
 Templates as Jupyter notebooks and C++ files are available 
 
 * [N-body simulations](https://github.com/diehlpkteaching/N-Body)
-* Peridynamics ([PD](https://github.com/diehlpkteaching/PD))
+* Bond-based Peridynamics ([PD](https://github.com/diehlpkteaching/PD))
 
 ## Licenses
 
