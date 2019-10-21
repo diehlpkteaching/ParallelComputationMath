@@ -50,6 +50,7 @@ Please find additional information here:
 * [Lecture 10](lecture10.pdf)
 * [Guest 2](Parallelism\ in\ C++\ \(lecture\ 2\).pdf)
 * [Lecture 11](lecture11.pdf)
+* [Lecture 12](lecture12.pdf)
 * [References](list.pdf)
     
 ## Project

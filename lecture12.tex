@@ -277,11 +277,138 @@ std::cout << "Computation took " << t
 \end{frame}
 
 
-\begin{frame}{Simulation control}
+\begin{frame}[fragile]{Discretization scheme}
+
+\begin{center}
+\begin{tikzpicture}
+
+\foreach \j in {1,...,1}{
+\foreach \i in {1,...,6}{
+	\node at (\i,\j) {\pgfuseplotmark{square*}};
+}
+}
+\foreach \i in {1,...,6}{
+	\node[color=blue] at (\i,0) {\pgfuseplotmark{square*}};
+}
+\foreach \i in {1,...,6}{
+	\node[below] at (\i,-0.1) {$x_\i$};	
+}
+
+\draw (3,0) -- (4,1);
+\draw (4,0) -- (4,1);
+\draw (5,0) -- (4,1);
+
+\node[left] at (0.75,1) {$t_{1}$};
+\node[left] at (0.75,0) {$t_{0}$};
+
+\node[below] at (1,-0.75) {$0$};
+\node[below] at (6,-0.75) {$L$};
+\end{tikzpicture}
+\end{center}
+
+\begin{block}{Approximation of the heat equation}
+\begin{lstlisting}
+static double heat(double left,
+                   double middle,
+                   double right)
+{
+    return middle + 
+           (k*dt/(dx*dx)) * (left - 2*middle + right);
+}    
+\end{lstlisting}
+\end{block}
 
 \end{frame}
 
-\begin{frame}{Simulation control}
+\begin{frame}[fragile]{Partitioning the data}
+\begin{center}
+\begin{tikzpicture}
+
+\foreach \i in {1,...,9}{
+	\node[color=black] at (\i,0) {\pgfuseplotmark{square*}};
+}
+\foreach \i in {1,...,9}{
+	\node[below] at (\i,-0.1) {$x_\i$};	
+}
+
+\draw (1,-.6) -- (1,-1);
+\draw (3.5,-.6) -- (3.5,-1);
+\draw (6.5,-.6) -- (6.5,-1);
+\draw (9,-.6) -- (9,-1);
+\node[below] at (2.5,-1) {$n_1$};	
+\node[below] at (5,-1) {$n_2$};	
+\node[below] at (8,-1) {$n_3$};	
+
+\end{tikzpicture}
+\end{center}
+
+\begin{block}{Partition function}
+\begin{lstlisting}
+space do_work(std::size_t nx, std::size_t nt)
+{
+    // U[t][i] is the state of position i at time t.
+    std::vector<space> U(2);
+    for (space& s : U)
+         s.resize(nx);
+
+    // Return the solution at time-step 'nt'.
+    return U[nt % 2];
+}
+\end{lstlisting}
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Do the actual work}
+
+\begin{lstlisting}
+// Actual time step loop
+for (std::size_t t = 0; t != nt; ++t)
+{
+   space const& current = U[t % 2];
+   space& next = U[(t + 1) % 2];
+
+   next[0] = 
+       heat(current[nx-1], current[0], current[1]);
+
+   for (std::size_t i = 1; i != nx-1; ++i)
+      next[i] = 
+      	heat(current[i-1], current[i], current[i+1]);
+
+   next[nx-1] = 
+       heat(current[nx-2], current[nx-1], current[0]);
+}
+\end{lstlisting}
+
+
+\end{frame}
+
+\begin{frame}{Initial conditions}
+
+\begin{center}
+$u(x,0) = f(i,0), \text{ with } f(0,i)=i \text{ for } i=1,2,\ldots,N$
+\end{center}
+
+\begin{figure}
+\includegraphics[scale=0.5]{./images/initial_conditons.pdf}
+\end{figure}
+
+\end{frame}
+
+\begin{frame}{Solution}
+\vspace{-0.5cm}
+\begin{figure}
+\includegraphics[scale=0.5]{./images/solution.pdf}
+\end{figure}
+\vspace{-0.5cm}
+\begin{block}{Parameters}
+\begin{itemize}
+\item heat transfer coefficient $k$ = 0.5
+\item time step size $dt$ = 1.;
+\item grid spacing $h$ = 1.;
+\item time steps $nt$ = 45;
+\end{itemize}
+
+\end{block}
 
 \end{frame}
 
@@ -291,7 +418,8 @@ std::cout << "Computation took " << t
 \begin{frame}{Summary}
 \begin{block}{After this lecture, you should know}
 \begin{itemize}
-\item 
+\item One-dimensional heat equation
+\item Serial implementation
 \end{itemize}
 \end{block}
 \end{frame}
