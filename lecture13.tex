@@ -17,6 +17,9 @@
 
 \beamertemplatenavigationsymbolsempty
 
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.8}
+
 % usepackage
 %\usepackage{template/dbt}
 \usepackage{listings}
@@ -195,13 +198,41 @@ hpx::dataflow(hpx::launch::sync,[](auto f){
 \section{Scaling results}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}{Weak scaling}
+\begin{frame}{Overhead}
 
+\begin{center}
+\begin{tikzpicture}
+\selectcolormodel{gray}
+\begin{axis}[xlabel=Grid points,ylabel=Execution time, grid=both,title=1 CPU]
+\addplot table [x=Grid_Points, y=Execution_Time_sec, col sep=comma] {./data/stencil_serial.dat};
+\addlegendentry{Serial}
+\addplot table [x=Grid_Points, y=Execution_Time_sec, col sep=comma] {./data/stencil_2_1.dat};
+\addlegendentry{Futurization}
+\end{axis}
+\end{tikzpicture}
+\end{center}
 \end{frame}
 
-\begin{frame}{Strong scaling}
 
+\begin{frame}{Scaling}
+
+\begin{center}
+\begin{tikzpicture}
+\selectcolormodel{gray}
+\begin{axis}[xlabel=Grid points,ylabel=Execution time, grid=both,title= Stencil 2,legend pos=north west]
+\addplot table [x=Grid_Points, y=Execution_Time_sec, col sep=comma] {./data/stencil_2_1.dat};
+\addlegendentry{1 CPU}
+\addplot table [x=Grid_Points, y=Execution_Time_sec, col sep=comma] {./data/stencil_2_2.dat};
+\addlegendentry{2 CPU}
+\addplot table [x=Grid_Points, y=Execution_Time_sec, col sep=comma] {./data/stencil_2_4.dat};
+\addlegendentry{4 CPU}
+\addplot table [x=Grid_Points, y=Execution_Time_sec, col sep=comma] {./data/stencil_2_6.dat};
+\addlegendentry{6 CPU}
+\end{axis}
+\end{tikzpicture}
+\end{center}
 \end{frame}
+
 
 
 
