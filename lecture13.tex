@@ -188,10 +188,32 @@ hpx::dataflow(hpx::launch::sync,[](auto f){
 \end{frame}
 
 
-\begin{frame}{Shared future}
+\begin{frame}[fragile]{Shared future}
 
-
-
+\begin{columns}
+\begin{column}{0.5\textwidth}
+\begin{lstlisting}
+ hpx::lcos::future
+\end{lstlisting}
+\begin{itemize}
+\item Exclusive ownership model
+\item If the future is out of the scope, it will be not available anymore.
+\end{itemize}
+\end{column}
+\begin{column}{0.5\textwidth}  
+    \begin{lstlisting}
+ hpx::shared_future
+\end{lstlisting}
+\begin{itemize}
+\item Reference counting ownership model
+\item All references to the object are counted and the object is only destroyed if there are zero references.
+\end{itemize}
+\end{column}
+\end{columns}
+\vspace{.5cm}
+\begin{center}
+Can be seen to be equal to \lstinline|std::unique_ptr| and \lstinline|std::shared_ptr|.
+\end{center}
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
