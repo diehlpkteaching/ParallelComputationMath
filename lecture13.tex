@@ -188,6 +188,46 @@ hpx::dataflow(hpx::launch::sync,[](auto f){
 \end{frame}
 
 
+\begin{frame}[fragile]{Passing futures}
+
+\begin{lstlisting}
+void sum(int first, int second){
+
+std:: cout << first + second << std::endl;
+
+}
+
+auto f1 = hpx::async(square,10);
+auto f2 = hpx::async(square,100);
+
+// We have to call .get() to pass 
+// the values of the future
+sum(f1.get(),f2.get());
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile]{Unwrapping futures}
+
+\begin{lstlisting}
+void sum(int first, int second){
+
+std:: cout << first + second << std::endl;
+
+}
+
+// We can unwrapp the function
+auto fp = hpx::util::unwrapping(sum);
+
+// After unwrapping, we can pass the future
+// directly to the function
+hpx::dataflow(hpx::launch::sync,fp,f1,f2);
+
+\end{lstlisting}
+
+\end{frame}
+
+
 \begin{frame}[fragile]{Shared future}
 
 \begin{columns}
