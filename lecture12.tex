@@ -320,9 +320,19 @@ static double heat(double left,
 
 \end{frame}
 
-\begin{frame}[fragile]{Partitioning the data}
+\begin{frame}[fragile]{Swapping the data}
+\vspace{-0.5cm}
 \begin{center}
 \begin{tikzpicture}
+
+\foreach \i in {1,...,9}{
+	\node[color=black] at (\i,1.5) {\pgfuseplotmark{square*}};
+}
+
+\foreach \i in {1,...,9}{
+	\node[color=black] at (\i,0.75) {\pgfuseplotmark{square*}};
+}
+
 
 \foreach \i in {1,...,9}{
 	\node[color=black] at (\i,0) {\pgfuseplotmark{square*}};
@@ -331,18 +341,27 @@ static double heat(double left,
 	\node[below] at (\i,-0.1) {$x_\i$};	
 }
 
-\draw (1,-.6) -- (1,-1);
-\draw (3.5,-.6) -- (3.5,-1);
-\draw (6.5,-.6) -- (6.5,-1);
-\draw (9,-.6) -- (9,-1);
-\node[below] at (2.5,-1) {$n_1$};	
-\node[below] at (5,-1) {$n_2$};	
-\node[below] at (8,-1) {$n_3$};	
+\node[left] at  (0.5,0) {U[0]};
+\node[left] at  (0.5,0.75) {U[1]};
+\node[left] at  (0.5,1.5) {U[0]};
+
+\node[right] at  (9.5,0) {t=3};
+\node[right] at  (9.5,0.75) {t=2};
+\node[right] at  (9.5,1.5) {t=1};
+
+\draw (3,0) -- (4,0.75);
+\draw (4,0) -- (4,0.75);
+\draw (5,0) -- (4,0.75);
+
+\draw (3,0.75) -- (4,1.5);
+\draw (4,0.75) -- (4,1.5);
+\draw (5,0.75) -- (4,1.5);
+
 
 \end{tikzpicture}
 \end{center}
 
-\begin{block}{Partition function}
+\begin{block}{Swapping function}
 \begin{lstlisting}
 space do_work(std::size_t nx, std::size_t nt)
 {
