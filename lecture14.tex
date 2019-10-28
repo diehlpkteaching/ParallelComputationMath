@@ -1,0 +1,430 @@
+%Template
+%Copyright (C) 2019  Patrick Diehl
+%
+%This program is free software: you can redistribute it and/or modify
+%it under the terms of the GNU General Public License as published by
+%the Free Software Foundation, either version 3 of the License, or
+%(at your option) any later version.
+
+%This program is distributed in the hope that it will be useful,
+%but WITHOUT ANY WARRANTY; without even the implied warranty of
+%MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+%GNU General Public License for more details.
+
+%You should have received a copy of the GNU General Public License
+%along with this program.  If not, see <http://www.gnu.org/licenses/>.
+\documentclass[12pt,t]{beamer}
+
+\beamertemplatenavigationsymbolsempty
+
+% usepackage
+%\usepackage{template/dbt}
+\usepackage{listings}
+
+\definecolor{comments}{RGB}{81,81,81}
+\definecolor{keywords}{RGB}{255,0,90}
+
+% lstlisting
+\lstset{
+    language=C,
+    basicstyle=\footnotesize\ttfamily,
+    keywordstyle=\color{keywords},
+    showspaces=false,
+    showstringspaces=false,
+    commentstyle=\color{blue}\emph
+    %frame=single,
+    %rulecolor=\color{comments},
+    %rulesepcolor=\color{comments},
+    %backgroundcolor = \color{lightgray}
+}
+
+\usetheme{default}
+
+\usepackage{pgfplots}
+\usetikzlibrary{calc}
+
+\usepackage{natbib}
+\usepackage{bibentry}
+\nobibliography*
+
+\usepackage[
+    type={CC},
+    modifier={by-nc-nd},
+    version={4.0},
+]{doclicense} 
+
+\input{template/variables.tex}
+
+% frame slide
+\title{\coursename}
+\subtitle{Lecture 14: Serial partition-based 1D heat equation  }
+
+%\author{\href{}{}}
+%\institute {
+%    \href{}{\tt \scriptsize \today}
+%}
+\date {
+ \tiny \url{\courseurl}
+\vspace{2cm}
+\doclicenseThis  
+  
+}
+
+
+
+\usepackage{ifxetex}
+
+\ifxetex
+\usepackage{fontspec}
+\setmainfont{Raleway}
+\fi
+
+\ifluatex
+\usepackage{fontspec}
+\setmainfont{Raleway}
+\fi
+
+
+\begin{document} {
+    \setbeamertemplate{footline}{}
+    \frame {
+        \titlepage
+    }
+}
+
+\frame{
+
+\tableofcontents
+
+}
+
+\AtBeginSection[]{
+  \begin{frame}
+  \vfill
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+    \usebeamerfont{title}\insertsectionhead\par%
+  \end{beamercolorbox}
+  \vfill
+  \end{frame}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Reminder}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Lecture 13}
+\begin{block}{What you should know from last lecture}
+\begin{itemize}
+\item \lstinline|hpx::make_reday_future|
+\item \lstinline|hpx::dataflow|
+\item \lstinline|hpx::unwrapping|
+\item \lstinline|hpx::shared_future|
+\end{itemize}
+\end{block}
+\end{frame}
+
+\section{Recap of the previous implementation}
+
+\begin{frame}{Scaling results from previous example}
+\begin{center}
+\begin{tikzpicture}[scale=0.75]
+\selectcolormodel{gray}
+\begin{axis}[xlabel=Grid points,ylabel=Execution time, grid=both,title= Stencil 2,legend pos=north west]
+\addplot table [x=Grid_Points, y=Execution_Time_sec, col sep=comma] {./data/stencil_2_1.dat};
+\addlegendentry{1 CPU}
+\addplot table [x=Grid_Points, y=Execution_Time_sec, col sep=comma] {./data/stencil_2_2.dat};
+\addlegendentry{2 CPU}
+\addplot table [x=Grid_Points, y=Execution_Time_sec, col sep=comma] {./data/stencil_2_4.dat};
+\addlegendentry{4 CPU}
+\addplot table [x=Grid_Points, y=Execution_Time_sec, col sep=comma] {./data/stencil_2_6.dat};
+\addlegendentry{6 CPU}
+\end{axis}
+\end{tikzpicture}
+\end{center}
+Note that we need to control the grain size (the amount of work) to get better scalabilty. 
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introducing partitions}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Goal of this week's lectures}
+We will reuse the serial implementation of Lecture 12 and
+
+\begin{itemize}
+\item introduces a partitioning of the 1D grid into groups of grid partitions
+\item which are handled at the same time.
+\end{itemize}
+So we can control the the amount of work performed (grain size) to improve the scalabilty of our program. \\
+\vspace{0.25cm}
+
+Note that before, we had exact one discrete mesh point handle per \lstinline|hpx::future| and now we want to have multiple discrete mesh points. 
+\end{frame}
+
+\begin{frame}[fragile]{Generating partitions}
+
+\begin{center}
+\begin{tikzpicture}
+
+\foreach \i in {1,...,9}{
+	\node[color=black] at (\i,0) {\pgfuseplotmark{square*}};
+}
+\foreach \i in {1,...,9}{
+	\node[below] at (\i,-0.1) {$x_\i$};	
+}
+
+\draw (1,-.6) -- (1,-1);
+\draw (3.5,-.6) -- (3.5,-1);
+\draw (6.5,-.6) -- (6.5,-1);
+\draw (9,-.6) -- (9,-1);
+\node[below] at (2.5,-1) {$n_1$};	
+\node[below] at (5,-1) {$n_2$};	
+\node[below] at (8,-1) {$n_3$};	
+\end{tikzpicture}
+\end{center}
+
+\begin{block}{Struct holding the data for each partition}
+\begin{lstlisting}
+struct partition_data
+{
+private:
+    std::vector<double> data_;
+};
+\end{lstlisting}
+\end{block}
+
+\end{frame}
+
+\begin{frame}[fragile]{Data structure for the partitions I}
+
+\begin{lstlisting}
+struct partition_data
+{
+  partition_data(std::size_t size = 0)
+      : data_(size)
+    {}
+
+  partition_data(std::size_t size, double int_value)
+      : data_(size)
+    {
+        double base_value = 
+              double(initial_value * size);
+        for (std::size_t i = 0; i != size; ++i)
+            data_[i] = base_value + double(i);
+    }
+}
+\end{lstlisting}
+
+
+\end{frame}
+
+\begin{frame}[fragile]{Data structure for the partitions II}
+
+\begin{lstlisting}
+struct partition_data
+{
+  double& operator[](std::size_t idx) { 
+     return data_[idx]; 
+  }
+    
+  double operator[](std::size_t idx) const { 
+       return data_[idx]; 
+    }
+
+    std::size_t size() const 
+    { 
+       return data_.size(); 
+    }
+}
+\end{lstlisting}
+
+
+\end{frame}
+
+\section{Swapping the partitions}
+
+
+\begin{frame}{New swapping scheme}
+\vspace{-0.5cm}
+\begin{center}
+\begin{tikzpicture}
+
+\foreach \j in {0,...,1}{
+
+
+\foreach \i in {1,...,4}{
+	\node[color=black] at (\j*5+\i,1.5) {\pgfuseplotmark{square*}};
+}
+
+\foreach \i in {1,...,4}{
+	\node[color=black] at (\j*5+\i,0.75) {\pgfuseplotmark{square*}};
+}
+
+
+\foreach \i in {1,...,4}{
+	\node[color=black] at (\j*5+\i,0) {\pgfuseplotmark{square*}};
+}
+\foreach \i in {1,...,4}{
+	\node[below] at (\j*5+\i,-0.1) {$x_\i$};	
+}
+
+\node[left] at  (\j*5+0.5,0) {\small U[0][\j]};
+\node[left] at  (\j*5+0.5,0.75) {\small U[1][\j]};
+\node[left] at  (\j*5+0.5,1.5) {\small U[0][\j]};
+
+\draw (\j*5+2,0) -- (\j*5+3,0.75);
+\draw (\j*5+3,0) -- (\j*5+3,0.75);
+\draw (\j*5+4,0) -- (\j*5+3,0.75);
+
+\draw (\j*5+2,0.75) -- (\j*5+3,1.5);
+\draw (\j*5+3,0.75) -- (\j*5+3,1.5);
+\draw (\j*5+4,0.75) -- (\j*5+3,1.5);
+
+} 
+
+\node[right] at  (9.5,0) {t=3};
+\node[right] at  (9.5,0.75) {t=2};
+\node[right] at  (9.5,1.5) {t=1};
+
+ 
+
+\end{tikzpicture}
+\end{center}
+\end{frame}
+
+
+\begin{frame}[fragile]{Adapted class stepper}
+
+\begin{lstlisting}
+class stepper
+{
+    // Our data for one time step
+    typedef partition_data partition;
+    typedef std::vector<partition> space;
+    
+    std::vector<space> U(2);
+    for (space& s: U)
+        // np is the number of partitions
+        s.resize(np);
+        
+    // Initial conditions: f(0, i) = i
+    for (std::size_t i = 0; i != np; ++i)
+        U[0][i] = partition_data(nx, double(i));
+        
+    // Return the solution at time-step 'nt'.
+    return U[nt % 2];
+    
+}
+\end{lstlisting}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{New C++ and HPX features }
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[fragile]{Moving objects with \lstinline|std::move|\footnote{\tiny\url{https://en.cppreference.com/w/cpp/utility/move}}} 
+We use \lstinline|std::move| to indicate that the object may be moved to another object. This allows the efficient transfer of resources to another object.
+
+\begin{block}{Example}
+\begin{lstlisting}
+std::string str = "Hello";
+std::vector<std::string> v;
+
+v.push_back(std::move(str));
+\end{lstlisting}
+\end{block}
+
+\begin{block}{Be aware of undefined states, but valid states}
+\begin{lstlisting}
+str.clear{} //Ok, since clear has no preconditions
+str.back() //Undefined behavior if size()==0
+\end{lstlisting}
+\end{block}
+
+
+\end{frame}
+
+\begin{frame}{Semaphore}
+
+\begin{block}{Analogy}
+Imagine a public library lending books with no late fee. The have X copies of the Hitchhiker's Guide to the Galaxy~\cite{adams2017hitchhiker} to borrow. Five people can borrow these copies and the library does not care to get them back in a feasible amount of time, since they avoided to introduce late fees. If one is waiting for a copy the copy will be assigned to this person, but if none is waiting the copy just goes back to the shelf until one asks for it. 
+\end{block}
+\vspace{0.5cm}
+The concept of semaphores was introduced by E. Dijkstra~\cite{dijkstra1962over}. More details~\cite{downey2008little}.
+\end{frame}
+
+\begin{frame}{P and V operations on a semaphore objects}
+
+\begin{block}{Variables}
+\begin{itemize}
+\item maximum count
+\item current count
+\end{itemize}
+\end{block}
+
+\begin{block}{Operations}
+\begin{itemize}
+\item Taking ownership with the \lstinline|wait| function, which decrements the semaphore. The so--called $P$ operation from Dijkstra's paper.
+\item Releasing ownership with the \lstinline|signal| function, the increments the semaphore. The so--called $V$ operation from Dijkstra's paper.
+\end{itemize}
+\end{block}
+
+\end{frame}
+
+\begin{frame}{More details}
+
+\begin{block}{$P$-Operation}
+If the \lstinline|wait| function is called, the current count is decreased. If the count is $\leq$ zero then the decrement just happens and the function will return. If the count is zero the function will wait until one other thread called the  \lstinline|signal| function.
+\end{block}
+
+\begin{block}{$V$-Operation}
+If the \lstinline|signal| function is called, the current count is increased. If the count was zero before you called \lstinline|signal| function and another thread was blocked in \lstinline|wait| then that thread will be executed. If multiple threads are waiting, only one will be executed and the reaming ones have to wait for another increment of the counter.
+\end{block}
+
+\end{frame}
+
+\begin{frame}[fragile]{Semaphores in the C++ standard}
+
+We looked into \lstinline|std::mutex| in Lecture 6, which is tied to one thread and only one thread can lock or unlock the mutex. Any thread can access the ownership on a semaphore. \\
+\begin{center}
+\textcolor{red}{The C++ standard does not define semaphores.} 
+\end{center}
+
+\begin{lstlisting}
+// Generate a semaphore with maximal count nd
+hpx::lcos::local::sliding_semaphore sem(nd);
+
+// Release ownership for t
+sem.signal(t);
+
+// Obtain ownership for t
+sem.wait(t);
+\end{lstlisting}
+
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Summary}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Summary}
+\begin{block}{After this lecture, you should know}
+\begin{itemize}
+\item 
+\end{itemize}
+\end{block}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{References}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[t, allowframebreaks]
+\frametitle{References}
+\bibliographystyle{plain}
+\bibliography{bib}
+\end{frame}
+
+\end{document}
