@@ -15,10 +15,10 @@ G2,Introduction to parallel programming II(Dr. Kaiser), --
 G2,Tricks with notebooks (Dr. Brandt) | Questions \& Answers, --
 12,Midterm exam, --
 13,One-dimensional heat equation,--
-14,Asynchronous programming and shared memory parallelism with HPX,--
-15,Distributed programming I,--
-16,Distributed programming II,--
-17,Parallel implementation of Monte Carlo and $N$-Body simulations, --
+14,Futurization of the heat equation,--
+15,Grain size control of the heat eqaution,--
+16,Distributed implementation of the hear equation I,--
+17,Distributed implementation of the hear equation I, --
 18,Course project I, --
 19,Course project II, --
 20,Discuss course project, --

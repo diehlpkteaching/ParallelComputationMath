@@ -34,6 +34,7 @@ Please find additional information here:
 * [Exercise 5](exercise5.pdf)
 * [Exercise 6](exercise6.pdf)
 * [Exercise 7](exercise7.pdf)
+* [Exercise 8](exercise8.pdf), [Template Code](https://github.com/diehlpkteaching/ParallelComputationMath/blob/master/code/13/Stencil2.ipynb)
 
 ## Slides
 
@@ -51,6 +52,7 @@ Please find additional information here:
 * [Guest 2](Parallelism\ in\ C++\ \(lecture\ 2\).pdf)
 * [Lecture 11](lecture11.pdf)
 * [Lecture 12](lecture12.pdf)
+* [Lecture 13](lecture13.pdf)
 * [References](list.pdf)
     
 ## Project
