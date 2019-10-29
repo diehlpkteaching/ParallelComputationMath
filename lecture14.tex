@@ -209,7 +209,7 @@ struct partition_data
       : data_(size)
     {
         double base_value = 
-              double(initial_value * size);
+              double(int_value * size);
         for (std::size_t i = 0; i != size; ++i)
             data_[i] = base_value + double(i);
     }
@@ -412,7 +412,9 @@ sem.wait(t);
 \begin{frame}{Summary}
 \begin{block}{After this lecture, you should know}
 \begin{itemize}
-\item 
+\item Using the partitions to control the grain size
+\item \lstinline|std::move| for moving objects
+\item Semaphores and \lstinline|hpx::lcos::local::sliding_semaphore|
 \end{itemize}
 \end{block}
 \end{frame}
