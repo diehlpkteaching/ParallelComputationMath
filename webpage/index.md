@@ -53,6 +53,7 @@ Please find additional information here:
 * [Lecture 11](lecture11.pdf)
 * [Lecture 12](lecture12.pdf)
 * [Lecture 13](lecture13.pdf)
+* [Lecture 14](lecture14.pdf)
 * [References](list.pdf)
     
 ## Project
