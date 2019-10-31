@@ -48,6 +48,10 @@
 
 \input{template/variables.tex}
 
+
+\usepackage{tikz}
+\usepackage{pgfplots}
+
 % frame slide
 \title{\coursename}
 \subtitle{Lecture 15: Parallel partition-based 1D heat equation }
@@ -204,12 +208,135 @@ typedef std::vector<partition> space;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
+\begin{frame}{Accessing neighboring partitions I}
+
+\begin{center}
+\begin{tikzpicture}
+
+\foreach \j in {0,...,2}{
+
+\foreach \i in {1,...,3}{
+	\node[color=black] at (\j*3.5+\i,0.75) {\pgfuseplotmark{square*}};
+}
+
+
+\foreach \i in {1,...,3}{
+	\node[color=black] at (\j*3.5+\i,0) {\pgfuseplotmark{square*}};
+}
+\foreach \i in {1,...,3}{
+	\node[below] at (\j*3.5+\i,-0.1) {$x_\i$};	
+}
+
+\node[below] at (2+\j*3.5,-1.) {$P_\j$};
+} 
+
+\draw(5.5,0) -- (4.5,0.75);
+\draw(4.5,0) -- (4.5,0.75);
+\draw(3,0) -- (4.5,0.75);
+
+\draw(5.5,0) -- (6.5,0.75);
+\draw(6.5,0) -- (6.5,0.75);
+\draw(8,0) -- (6.5,0.75);
+
+\end{tikzpicture}
+\end{center}
+\end{frame}
+
+
+\begin{frame}[fragile]{Accessing neighboring partitions II}
+\vspace{-0.5cm}
+\begin{lstlisting}
+static partition_data heat_part(
+    partition_data const& left,
+    partition_data const& middle, 
+    partition_data const& right)
+{
+    std::size_t size = middle.size();
+    partition_data next(size);
+
+    next[0] = heat(left[size-1], middle[0], middle[1]);
+
+    for(std::size_t i = 1; i != size-1; ++i)
+     next[i] 
+         = heat(middle[i-1], middle[i], middle[i+1]);
+
+    next[size-1] = heat(middle[size-2], middle[size-1], right[0]);
+
+    return next;
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Simulation control I}
+
+\begin{lstlisting}
+// do all the work on 'np' partitions, 'nx' data points each, 
+// for 'nt' time steps, 
+// limit depth of dependency tree to 'nd'
+hpx::future<space> do_work(std::size_t np, 
+    std::size_t nx, std::size_t nt, std::uint64_t nd)
+{
+// Set the boundary conditions in parallel
+auto range = boost::irange(b, np);
+using hpx::parallel::execution::par;
+hpx::parallel::for_each(par, std::begin(range), 
+    std::end(range),[&U, nx](std::size_t i)
+    {
+    U[0][i] = hpx::make_ready_future(
+    	    partition_data(nx, double(i)));
+    });  
+}
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile]{Simulation control II}
+
+\begin{lstlisting}
+hpx::future<space> do_work(std::size_t np, 
+    std::size_t nx, std::size_t nt, std::uint64_t nd)
+{
+for (std::size_t t = 0; t != nt; ++t)
+{
+  for (std::size_t i = 0; i != np; ++i)
+  {   // Note that we use async to get a future back
+      next[i] = dataflow(
+          hpx::launch::async, Op,
+          current[idx(i, -1, np)], 
+          current[i], 
+          current[idx(i, +1, np)]
+          );
+
+   }
+}
+\end{lstlisting}
+
+\end{frame}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Scaling results}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
+\begin{frame}{Scaling for 10000000 discrete mesh points}
+
+\begin{center}
+\begin{tikzpicture}
+\selectcolormodel{gray}
+\begin{axis}[xlabel=Partitions,ylabel=Execution time, grid=both,title=Stencil 4,legend pos=north west]
+\addplot table [x=Partitions, y=Execution_Time_sec, col sep=comma] {./data/stencil_4_1cpu_1000000.dat};
+\addlegendentry{1 CPU}
+\addplot table [x=Partitions, y=Execution_Time_sec, col sep=comma] {./data/stencil_4_2cpu_1000000.dat};
+\addlegendentry{2 CPU}
+%\addplot table [x=Grid_Points, y=Execution_Time_sec, col sep=comma] {./data/%stencil_2_4.dat};
+%\addlegendentry{4 CPU}
+%\addplot table [x=Grid_Points, y=Execution_Time_sec, col sep=comma] {./data/%stencil_2_6.dat};
+%\addlegendentry{6 CPU}
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\end{frame}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
