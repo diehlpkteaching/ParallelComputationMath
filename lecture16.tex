@@ -1,0 +1,361 @@
+%Template
+%Copyright (C) 2019  Patrick Diehl
+%
+%This program is free software: you can redistribute it and/or modify
+%it under the terms of the GNU General Public License as published by
+%the Free Software Foundation, either version 3 of the License, or
+%(at your option) any later version.
+
+%This program is distributed in the hope that it will be useful,
+%but WITHOUT ANY WARRANTY; without even the implied warranty of
+%MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+%GNU General Public License for more details.
+
+%You should have received a copy of the GNU General Public License
+%along with this program.  If not, see <http://www.gnu.org/licenses/>.
+\documentclass[12pt,t]{beamer}
+
+\beamertemplatenavigationsymbolsempty
+
+% usepackage
+%\usepackage{template/dbt}
+\usepackage{listings}
+
+\definecolor{comments}{RGB}{81,81,81}
+\definecolor{keywords}{RGB}{255,0,90}
+
+% lstlisting
+\lstset{
+    language=C,
+    basicstyle=\footnotesize\ttfamily,
+    keywordstyle=\color{keywords},
+    showspaces=false,
+    showstringspaces=false,
+    commentstyle=\color{blue}\emph
+    %frame=single,
+    %rulecolor=\color{comments},
+    %rulesepcolor=\color{comments},
+    %backgroundcolor = \color{lightgray}
+}
+
+\usetheme{default}
+
+\usepackage[
+    type={CC},
+    modifier={by-nc-nd},
+    version={4.0},
+]{doclicense} 
+
+\usepackage{tikz}
+
+\input{template/variables.tex}
+
+% frame slide
+\title{\coursename}
+\subtitle{Lecture 16: Preparation for distributed computing }
+
+%\author{\href{}{}}
+%\institute {
+%    \href{}{\tt \scriptsize \today}
+%}
+\date {
+ \tiny \url{\courseurl}
+\vspace{2cm}
+\doclicenseThis  
+  
+}
+
+
+
+\usepackage{ifxetex}
+
+\ifxetex
+\usepackage{fontspec}
+\setmainfont{Raleway}
+\fi
+
+\ifluatex
+\usepackage{fontspec}
+\setmainfont{Raleway}
+\fi
+
+
+\begin{document} {
+    \setbeamertemplate{footline}{}
+    \frame {
+        \titlepage
+    }
+}
+
+\frame{
+
+\tableofcontents
+
+}
+
+\AtBeginSection[]{
+  \begin{frame}
+  \vfill
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+    \usebeamerfont{title}\insertsectionhead\par%
+  \end{beamercolorbox}
+  \vfill
+  \end{frame}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Reminder}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Lecture 15}
+\begin{block}{What you should know from last lecture}
+\begin{itemize}
+\item Parallel partition-based implementation
+\item Allocating and deallocating memory with the \lstinline|new| and \lstinline|delete| expression
+\end{itemize}
+\end{block}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Serialization}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{What is this serialization thingy}
+
+If we want to send ab object or a bunch of objects over the network to another node of the cluster:
+
+\begin{itemize}
+\item The sender needs to flatten the object(s) to a one-dimensional stream of bits.
+\item The receiver needs to unflatten the one-dimensional stream of bits and convert it back to the objects(s)
+\end{itemize}
+
+You have to decide whether to serialize
+\begin{itemize}
+\item human-readable (text)
+\item non-human-readable (binary)
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Serialization in HPX~\cite{ac:2017}}
+
+\begin{block}{Initialize data}
+\begin{lstlisting}
+size_t size = 5;
+double* data = new double[size];
+\end{lstlisting}
+\end{block}
+
+\begin{block}{Serialization}
+\begin{lstlisting}
+using hpx::serialization::serialize_buffer;
+
+serialize_buffer<double> serializable_data(
+     data, size,
+     serialize_buffer<double>::init_mode::reference);
+\end{lstlisting}
+\end{block}
+
+\begin{block}{Deserialization}
+\begin{lstlisting}
+double* copied_data = serializable_data.data();
+\end{lstlisting}
+\end{block}
+
+\end{frame}
+
+\begin{frame}{Sending data over the network}
+
+\begin{center}
+\begin{tikzpicture}
+\draw (0,0) rectangle ++(3,-0.75) node[pos=.5] {Allocate data};
+
+\draw (0,-1.25) rectangle ++(3,-.75) node[pos=.5] {Serialize data};
+
+\draw (0,-2.5) rectangle ++(3,-.75) node[pos=.5] {Send parcel};
+
+\draw (-0.1,0.1) rectangle ++(3.2,-3.75);
+
+\node[above] at (1.5,0) {Locality 1};
+
+\draw (6,0) rectangle ++(3,-0.75) node[pos=.5] {Deserialize data};
+
+\draw (6,-1.25) rectangle ++(3,-.75) node[pos=.5] {Allocate data};
+
+\draw (6,-2.5) rectangle ++(3,-.75) node[pos=.5] {Receive parcel};
+
+\draw (5.9,0.1) rectangle ++(3.2,-3.75);
+
+\node[above] at (7.5,0) {Locality 2};
+
+\draw (1.5,-0.75) -- (1.5,-1.23) ;
+\draw (1.5,-2.) -- (1.5,-2.5) ;
+
+\draw (3,-2.875) -- (6,-2.875) ;
+
+\draw (7.5,-0.75) -- (7.5,-1.23) ;
+\draw (7.5,-2.) -- (7.5,-2.5) ;
+
+\end{tikzpicture}
+\end{center}
+The communication between the localities (nodes) is handled by the so-called parcel port~\cite{kaiser2009parallex}. HPX uses MPI or libfrabric for communication between nodes. 
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Components}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Components and Actions}
+For distributed computations within HPX, we need to look into following 
+
+\begin{enumerate}
+\item Server (Component) \\
+The server represents the global data and is a so-called HPX component which allows to create and access the data remotely through a global address space (AGAS~\cite{kaiser2014hpx}) using \lstinline|hpx::id_type|.
+\item Component action \\
+Each function of the component needs to be wrapped into a component action to be remotely available. 
+\item Plain actions \\
+Allows to wrap global (\lstinline|static|) functions in an action. So this function can be called remotely on a given locality.
+\end{enumerate} 
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Server (Component)}
+\begin{lstlisting}
+struct data_server
+  : hpx::components::component_base<data_server>{
+
+data_server(size_t)
+{
+data = std::shared_ptr<double[]>(new double[size]);
+}
+
+private:
+
+// This data will be in the global address space 
+std::shared_ptr<double[]> data;
+
+};
+\end{lstlisting}
+Note that we need component actions to call the public functions of the server.
+\end{frame}
+
+
+\begin{frame}[fragile]{Component actions}
+\begin{lstlisting}
+struct data_server
+  : hpx::components::component_base<data_server>{
+
+// This function needs to be wrapped in an action
+double* getData(){
+    return data.get();
+}
+// Define the action for remote access
+HPX_DEFINE_COMPONENT_DIRECT_ACTION(data_server,
+                     getData, getData_action);
+
+private:
+
+// This data will be in the global address space 
+std::shared_ptr<double[]> data;
+
+};
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Component actions}
+
+\begin{lstlisting}
+// Define the action for remote access
+HPX_DEFINE_COMPONENT_DIRECT_ACTION(
+                     data_server,
+                     getData,
+                     getData_action);
+\end{lstlisting}
+where
+\begin{itemize}
+\item The first argument is the name of the component
+\item The second argument is the name of the function
+\item The third argument is the name of the action
+\end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Global functions}
+
+\begin{block}{Function definition}
+\begin{lstlisting}
+static void square(double a ){
+
+std::cout << a * a << std::endl;
+
+}
+\end{lstlisting}
+\end{block}
+
+\begin{block}{Define the action}
+\begin{lstlisting}
+HPX_PLAIN_ACTION(square, square_action);
+\end{lstlisting}
+where
+\begin{itemize}
+\item The first argument is the name of the function
+\item The second argument is the name of the action
+\end{itemize}
+
+\end{block}
+\end{frame}
+
+\begin{frame}[fragile]{Knowing where you are}
+
+\begin{block}{Getting the ID of your locality}
+\begin{lstlisting}
+hpx::find_here();
+\end{lstlisting}
+\end{block}
+
+\begin{block}{Getting the ID of the component's locality}
+\begin{lstlisting}
+hpx::get_colocation_id(hpx::launch::sync, get_id();
+\end{lstlisting}
+\end{block}
+
+\begin{block}{Getting the ID of the component's locality}
+\begin{lstlisting}
+bool is_local 
+    = (hpx::get_colocation_id(hpx::launch::sync, 
+          get_id()) == hpx::find_here());
+\end{lstlisting}
+\end{block}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Summary}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Summary}
+\begin{block}{After this lecture, you should know}
+\begin{itemize}
+\item Serialization
+\item Distributed computing
+\begin{itemize}
+\item Plain actions
+\item Components
+\item Components actions
+\end{itemize}
+\end{itemize}
+\end{block}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{References}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[t, allowframebreaks]
+\frametitle{References}
+\bibliographystyle{plain}
+\bibliography{bib}
+\end{frame}
+
+
+
+\end{document}
