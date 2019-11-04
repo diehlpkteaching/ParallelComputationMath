@@ -1,0 +1,369 @@
+%Template
+%Copyright (C) 2019  Patrick Diehl
+%
+%This program is free software: you can redistribute it and/or modify
+%it under the terms of the GNU General Public License as published by
+%the Free Software Foundation, either version 3 of the License, or
+%(at your option) any later version.
+
+%This program is distributed in the hope that it will be useful,
+%but WITHOUT ANY WARRANTY; without even the implied warranty of
+%MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+%GNU General Public License for more details.
+
+%You should have received a copy of the GNU General Public License
+%along with this program.  If not, see <http://www.gnu.org/licenses/>.
+\documentclass[12pt,t]{beamer}
+
+\beamertemplatenavigationsymbolsempty
+
+% usepackage
+%\usepackage{template/dbt}
+\usepackage{listings}
+
+\definecolor{comments}{RGB}{81,81,81}
+\definecolor{keywords}{RGB}{255,0,90}
+
+% lstlisting
+\lstset{
+    language=C,
+    basicstyle=\footnotesize\ttfamily,
+    keywordstyle=\color{keywords},
+    showspaces=false,
+    showstringspaces=false,
+    commentstyle=\color{blue}\emph
+    %frame=single,
+    %rulecolor=\color{comments},
+    %rulesepcolor=\color{comments},
+    %backgroundcolor = \color{lightgray}
+}
+
+\usetheme{default}
+
+\usepackage[
+    type={CC},
+    modifier={by-nc-nd},
+    version={4.0},
+]{doclicense} 
+
+\input{template/variables.tex}
+
+
+\usepackage{tikz}
+\usepackage{pgfplots}
+
+% frame slide
+\title{\coursename}
+\subtitle{Lecture 15: Parallel partition-based 1D heat equation }
+
+%\author{\href{}{}}
+%\institute {
+%    \href{}{\tt \scriptsize \today}
+%}
+\date {
+ \tiny \url{\courseurl}
+\vspace{2cm}
+\doclicenseThis  
+  
+}
+
+
+
+\usepackage{ifxetex}
+
+\ifxetex
+\usepackage{fontspec}
+\setmainfont{Raleway}
+\fi
+
+\ifluatex
+\usepackage{fontspec}
+\setmainfont{Raleway}
+\fi
+
+
+\begin{document} {
+    \setbeamertemplate{footline}{}
+    \frame {
+        \titlepage
+    }
+}
+
+\frame{
+
+\tableofcontents
+
+}
+
+\AtBeginSection[]{
+  \begin{frame}
+  \vfill
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+    \usebeamerfont{title}\insertsectionhead\par%
+  \end{beamercolorbox}
+  \vfill
+  \end{frame}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Reminder}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Lecture 14}
+\begin{block}{What you should know from last lecture}
+\begin{itemize}
+\item Using partitions to control the grain size
+\item Moving objects with \lstinline|std::move|
+\item Semaphores and \lstinline|hpx::lcos::local::sliding_semaphore|
+\end{itemize}
+\end{block}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Datastructure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[fragile]{Class for holding the data for each partition I\footnote{\tiny\url{https://en.cppreference.com/w/cpp/memory/unique_ptr}}}
+
+\begin{lstlisting}
+class partition_data
+{
+private:
+    // Since we use a array of doubles, 
+    // we need to store the size 
+    std::size_t size_;
+    // Instead of a std::vector, 
+    // we use a array of doubles 
+    std::unique_ptr<double[]> data_;
+};
+\end{lstlisting}
+
+Note that \lstinline|std::unique_ptr| is a smart pointer containing another object as a pointer and destroy this object when the \lstinline|std::unique_ptr| goes of of scope.
+
+\end{frame}
+
+\begin{frame}[fragile]{Class for holding the data for each partition II}
+
+\begin{lstlisting}
+class partition_data
+{
+public:
+    partition_data(std::size_t size)
+      : data_(new double[size]), size_(size)
+    {}
+
+    partition_data(std::size_t size, double init_value)
+      : data_(new double[size]),
+        size_(size)
+    {
+        double base_value = double(init_value * size);
+        for (std::size_t i = 0; i != size; ++i)
+            data_[i] = base_value + double(i);
+    }
+};
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile]{The new expression\footnote{\tiny\url{https://en.cppreference.com/w/cpp/language/new}}}
+
+\begin{lstlisting}
+// Allocation of a single double value 
+double* p = new double(42);
+
+// Deallocate memory
+delete p;
+
+// Allocation of 5 double values
+double* p = new double[5];
+
+// Deallocate memory
+delete[] p;
+
+\end{lstlisting}
+
+The \lstinline|new| expression initializes objects with dynamic storage duration, which means that the liftime of the object is not limited by the scope of creation.
+\end{frame}
+
+
+\begin{frame}[fragile]{Update the types}
+
+\begin{lstlisting}
+// As in the previous example, we use a shared future
+// but instead of the double value for the heat, we
+// store the partition data there
+typedef hpx::shared_future<partition_data> partition;
+
+// The standard vector holds the futures of partitions
+// instead of the futures of doubles to control the
+// grain size
+typedef std::vector<partition> space;
+\end{lstlisting}
+
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Simulation control}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{frame}{Accessing neighboring partitions I}
+
+\begin{center}
+\begin{tikzpicture}
+
+\foreach \j in {0,...,2}{
+
+\foreach \i in {1,...,3}{
+	\node[color=black] at (\j*3.5+\i,0.75) {\pgfuseplotmark{square*}};
+}
+
+
+\foreach \i in {1,...,3}{
+	\node[color=black] at (\j*3.5+\i,0) {\pgfuseplotmark{square*}};
+}
+\foreach \i in {1,...,3}{
+	\node[below] at (\j*3.5+\i,-0.1) {$x_\i$};	
+}
+
+\node[below] at (2+\j*3.5,-1.) {$P_\j$};
+} 
+
+\draw(5.5,0) -- (4.5,0.75);
+\draw(4.5,0) -- (4.5,0.75);
+\draw(3,0) -- (4.5,0.75);
+
+\draw(5.5,0) -- (6.5,0.75);
+\draw(6.5,0) -- (6.5,0.75);
+\draw(8,0) -- (6.5,0.75);
+
+\end{tikzpicture}
+\end{center}
+\end{frame}
+
+
+\begin{frame}[fragile]{Accessing neighboring partitions II}
+\vspace{-0.5cm}
+\begin{lstlisting}
+static partition_data heat_part(
+    partition_data const& left,
+    partition_data const& middle, 
+    partition_data const& right)
+{
+    std::size_t size = middle.size();
+    partition_data next(size);
+
+    next[0] = heat(left[size-1], middle[0], middle[1]);
+
+    for(std::size_t i = 1; i != size-1; ++i)
+     next[i] 
+         = heat(middle[i-1], middle[i], middle[i+1]);
+
+    next[size-1] = heat(middle[size-2], middle[size-1], right[0]);
+
+    return next;
+}
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Simulation control I}
+
+\begin{lstlisting}
+// do all the work on 'np' partitions, 'nx' data points each, 
+// for 'nt' time steps, 
+// limit depth of dependency tree to 'nd'
+hpx::future<space> do_work(std::size_t np, 
+    std::size_t nx, std::size_t nt, std::uint64_t nd)
+{
+// Set the boundary conditions in parallel
+auto range = boost::irange(b, np);
+using hpx::parallel::execution::par;
+hpx::parallel::for_each(par, std::begin(range), 
+    std::end(range),[&U, nx](std::size_t i)
+    {
+    U[0][i] = hpx::make_ready_future(
+    	    partition_data(nx, double(i)));
+    });  
+}
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile]{Simulation control II}
+
+\begin{lstlisting}
+hpx::future<space> do_work(std::size_t np, 
+    std::size_t nx, std::size_t nt, std::uint64_t nd)
+{
+for (std::size_t t = 0; t != nt; ++t)
+{
+  for (std::size_t i = 0; i != np; ++i)
+  {   // Note that we use async to get a future back
+      next[i] = dataflow(
+          hpx::launch::async, Op,
+          current[idx(i, -1, np)], 
+          current[i], 
+          current[idx(i, +1, np)]
+          );
+
+   }
+}
+\end{lstlisting}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Scaling results}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{frame}{Scaling for 10000000 discrete mesh points}
+
+\begin{center}
+\begin{tikzpicture}
+\selectcolormodel{gray}
+\begin{axis}[xlabel=Partitions,ylabel=Execution time, grid=both,title=Stencil 4,legend pos=north west]
+\addplot table [x=Partitions, y=Execution_Time_sec, col sep=comma] {./data/stencil_4_1cpu_1000000.dat};
+\addlegendentry{1 CPU}
+\addplot table [x=Partitions, y=Execution_Time_sec, col sep=comma] {./data/stencil_4_2cpu_1000000.dat};
+\addlegendentry{2 CPU}
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\end{frame}
+
+
+\begin{frame}{Scaling for increasing amount of work}
+
+\begin{center}
+\begin{tikzpicture}
+\selectcolormodel{gray}
+\begin{axis}[xlabel=Partitions,ylabel=Execution time, grid=both,title=Stencil 4,legend pos=north west]
+\addplot table [x=Partitions, y=Execution_Time_sec, col sep=comma] {./data/stencil_4_1cpu_scaling.dat};
+\addlegendentry{1 CPU}
+\addplot table [x=Partitions, y=Execution_Time_sec, col sep=comma] {./data/stencil_4_2cpu_scaling.dat};
+\addlegendentry{2 CPU}
+\addplot table [x=Partitions, y=Execution_Time_sec, col sep=comma] {./data/stencil_4_4cpu_scaling.dat};
+\addlegendentry{4 CPU};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Summary}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Summary}
+\begin{block}{After this lecture, you should know}
+\begin{itemize}
+\item Parallel partition-based implementation
+\item Allocating and deallocating memory with the \lstinline|new| expression
+\end{itemize}
+\end{block}
+\end{frame}
+
+
+\end{document}
