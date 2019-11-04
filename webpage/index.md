@@ -56,6 +56,7 @@ Please find additional information here:
 * [Lecture 13](lecture13.pdf)
 * [Lecture 14](lecture14.pdf)
 * [Lecture 15](lecture15.pdf)
+* [Lecture 16](lecture16.pdf)
 * [References](list.pdf)
     
 ## Project
