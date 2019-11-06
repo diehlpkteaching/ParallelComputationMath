@@ -21,6 +21,8 @@
 %\usepackage{template/dbt}
 \usepackage{listings}
 
+\usepackage{pgfplots}
+
 \definecolor{comments}{RGB}{81,81,81}
 \definecolor{keywords}{RGB}{255,0,90}
 
@@ -406,6 +408,37 @@ next[i] = dataflow(
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Scaling results}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Scaling for 10000000 discrete mesh points}
+
+\begin{center}
+\begin{tikzpicture}
+\selectcolormodel{gray}
+\begin{axis}[xlabel=Partitions,ylabel=Execution time, grid=both,title=Stencil 5,legend style={at={(0.5,0.5)},anchor=west}]
+\addplot table [x=Partitions, y=Execution_Time_sec, col sep=comma] {./data/stencil_5_1cpu_1000000.dat};
+\addlegendentry{1 CPU}
+\addplot table [x=Partitions, y=Execution_Time_sec, col sep=comma] {./data/stencil_5_2cpu_1000000.dat};
+\addlegendentry{2 CPU}
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\end{frame}
+
+\begin{frame}{Scaling for increasing amount of work}
+
+\begin{center}
+\begin{tikzpicture}
+\selectcolormodel{gray}
+\begin{axis}[xlabel=Partitions,ylabel=Execution time, grid=both,title=Stencil 4,legend pos=north west]
+\addplot table [x=Partitions, y=Execution_Time_sec, col sep=comma] {./data/stencil_5_1cpu_scaling.dat};
+\addlegendentry{1 CPU}
+\addplot table [x=Partitions, y=Execution_Time_sec, col sep=comma] {./data/stencil_5_2cpu_scaling.dat};
+\addlegendentry{2 CPU}
+\addplot table [x=Partitions, y=Execution_Time_sec, col sep=comma] {./data/stencil_5_4cpu_scaling.dat};
+\addlegendentry{4 CPU};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Summary}
