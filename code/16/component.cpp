@@ -10,6 +10,9 @@ std::cout << a * a << std::endl;
 
 }
 
+// Define
+HPX_PLAIN_ACTION(square, square_action);
+
 // Define a component
 
 struct data_server
@@ -55,11 +58,20 @@ size_t size;
 
 };
 
+// Registering the component
+typedef hpx::components::component<data_server> 
+    data_server_type;
+HPX_REGISTER_COMPONENT(data_server_type, 
+    data_server);
+    
+// Registering the component actions
+typedef data_server::getData_action getData_action;
+HPX_REGISTER_ACTION(getData_action);
 
 
+typedef data_server::getSize_action getSize_action;
+HPX_REGISTER_ACTION(getSize_action);
 
-
-HPX_PLAIN_ACTION(square, square_action);
 
 int main(){
 

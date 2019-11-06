@@ -11,6 +11,10 @@
 *.cb
 *.cb2
 .*.lb
+core.*
+*.ipynb_checkpoints/
+*CMakeCache.txt
+*Untitled.ipynb
 
 ## Intermediate documents:
 *.dvi
