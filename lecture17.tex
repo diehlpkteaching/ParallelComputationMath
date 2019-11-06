@@ -1,0 +1,422 @@
+%Template
+%Copyright (C) 2019  Patrick Diehl
+%
+%This program is free software: you can redistribute it and/or modify
+%it under the terms of the GNU General Public License as published by
+%the Free Software Foundation, either version 3 of the License, or
+%(at your option) any later version.
+
+%This program is distributed in the hope that it will be useful,
+%but WITHOUT ANY WARRANTY; without even the implied warranty of
+%MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+%GNU General Public License for more details.
+
+%You should have received a copy of the GNU General Public License
+%along with this program.  If not, see <http://www.gnu.org/licenses/>.
+\documentclass[12pt,t]{beamer}
+
+\beamertemplatenavigationsymbolsempty
+
+% usepackage
+%\usepackage{template/dbt}
+\usepackage{listings}
+
+\definecolor{comments}{RGB}{81,81,81}
+\definecolor{keywords}{RGB}{255,0,90}
+
+% lstlisting
+\lstset{
+    language=C,
+    basicstyle=\footnotesize\ttfamily,
+    keywordstyle=\color{keywords},
+    showspaces=false,
+    showstringspaces=false,
+    commentstyle=\color{blue}\emph
+    %frame=single,
+    %rulecolor=\color{comments},
+    %rulesepcolor=\color{comments},
+    %backgroundcolor = \color{lightgray}
+}
+
+\usetheme{default}
+
+\usepackage[
+    type={CC},
+    modifier={by-nc-nd},
+    version={4.0},
+]{doclicense} 
+
+\input{template/variables.tex}
+
+% frame slide
+\title{\coursename}
+\subtitle{Lecture 17: Distributed implementation of the 1D heat equation}
+
+%\author{\href{}{}}
+%\institute {
+%    \href{}{\tt \scriptsize \today}
+%}
+\date {
+ \tiny \url{\courseurl}
+\vspace{2cm}
+\doclicenseThis  
+  
+}
+
+
+
+\usepackage{ifxetex}
+
+\ifxetex
+\usepackage{fontspec}
+\setmainfont{Raleway}
+\fi
+
+\ifluatex
+\usepackage{fontspec}
+\setmainfont{Raleway}
+\fi
+
+
+\begin{document} {
+    \setbeamertemplate{footline}{}
+    \frame {
+        \titlepage
+    }
+}
+
+\frame{
+
+\tableofcontents
+
+}
+
+\AtBeginSection[]{
+  \begin{frame}
+  \vfill
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+    \usebeamerfont{title}\insertsectionhead\par%
+  \end{beamercolorbox}
+  \vfill
+  \end{frame}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Reminder}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Lecture 16}
+\begin{block}{What you should know from last lecture}
+\begin{itemize}
+\item Serialization
+\item Distributed computing
+\begin{itemize}
+\item Plain actions
+\item Components
+\item Components actions
+\end{itemize}
+\end{itemize}
+\end{block}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Serialization}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[fragile]{Adding serialization}
+
+Note even if all the code in this iteration runs for now only one one locality (node), we have to add serialization since all arguments passed to an action have to support serialization. 
+\vspace{0.5cm}
+\begin{lstlisting}
+// We have to add this class as a friend
+friend class hpx::serialization::access;
+
+// Add a function to serialize all arguments
+template <typename Archive>
+void serialize(Archive& ar, 
+     const unsigned int version) const {}
+\end{lstlisting}
+
+Note that we will implement this function in the next lecture when we prepare the code to run on multiple localities. 
+\end{frame}
+
+\begin{frame}[fragile]{Extending the partition data with serialization}
+\begin{lstlisting}
+class partition_data
+{
+private:
+    // Note we have to make the unique_ptr to 
+    // a shared_ptr since we share the data
+    std::shared_ptr<double[]> data_;
+    std::size_t size_;
+
+    friend class hpx::serialization::access;
+
+    template <typename Archive>
+    void serialize(Archive& ar, 
+        const unsigned int version) const {}
+};
+\end{lstlisting}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Adding components and actions}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[fragile]{Adding a server to handle the partitions I}
+
+\begin{lstlisting}
+struct partition_server
+  : hpx::components::component_base<partition_server>
+{
+// construct new instances
+    partition_server() {}
+
+    partition_server(partition_data const& data)
+      : data_(data)
+    {}
+    
+private:
+    partition_data data_;
+};
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile]{Adding component action to the server II}
+
+\begin{lstlisting}
+struct partition_server
+  : hpx::components::component_base<partition_server>
+{
+ // access data
+    partition_data get_data() const
+    {
+        return data_;
+    }
+
+    // Every member function which has to be invoked 
+    // remotely needs to be wrapped into a 
+    // component action.
+    HPX_DEFINE_COMPONENT_DIRECT_ACTION(
+        partition_server, 
+        get_data, get_data_action);
+};
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile]{Register the component and component action}
+
+\begin{lstlisting}
+// Register the component
+
+typedef hpx::components::component<partition_server> 
+    partition_server_type;
+HPX_REGISTER_COMPONENT(partition_server_type, 
+    partition_server);
+
+// Register the component action
+
+typedef partition_server::get_data_action
+    get_data_action;
+HPX_REGISTER_ACTION(get_data_action);
+\end{lstlisting}
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Writing the client helper class I}
+
+\begin{lstlisting}
+struct partition 
+	: hpx::components::client_base<partition, 
+	  partition_server>
+{
+
+    typedef hpx::components::client_base<partition, 
+        partition_server> base_type;
+        
+    partition() {}
+
+    // Create new component on locality 'where' 
+    // and initialize the held data
+    partition(hpx::id_type where, std::size_t size, 
+        double initial_value)
+      : base_type(hpx::new_
+           <partition_server>(where, size, 
+                initial_value))
+    {}
+};
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile]{Writing the client helper class II}
+
+\begin{lstlisting}
+struct partition 
+	: hpx::components::client_base<partition, 
+	  partition_server>
+{
+
+// Create a new component on the locality co-located 
+// to the id 'where'. The new instance will be 
+// initialized from the given partition_data.
+    partition(hpx::id_type where, 
+        partition_data && data)
+      : base_type(hpx::new_<partition_server>
+            (hpx::colocated(where), std::move(data)))
+    {}
+};
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile]{Writing the client helper class III}
+
+\begin{lstlisting}
+struct partition 
+	: hpx::components::client_base<partition, 
+	  partition_server>
+{
+
+// Attach a future representing a 
+// (possibly remote) partition.
+    partition(hpx::future<hpx::id_type> && id)
+      : base_type(std::move(id))
+    {}
+    
+};
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile]{Writing the client helper class IIII}
+
+\begin{lstlisting}
+struct partition 
+	: hpx::components::client_base<partition, 
+	  partition_server>
+{
+
+// Unwrap a future<partition> (a partition already 
+// holds a future to the id of the referenced object, 
+// thus unwrapping accesses this inner future).
+partition(hpx::future<partition> && c)
+      : base_type(std::move(c))
+    {}
+
+};
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile]{Writing the client helper class V}
+
+\begin{lstlisting}
+struct partition 
+	: hpx::components::client_base<partition, 
+	  partition_server>
+{
+
+// Invoke the (remote) member function which 
+// gives us access to the data.
+hpx::future<partition_data> get_data() const
+{
+    return hpx::async(get_data_action(), get_id());
+}
+
+};
+\end{lstlisting}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Preparing the simulation control to be distributed}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[fragile]{Updating the computation of the heat}
+
+\begin{lstlisting}
+static partition heat_part(partition const& left, 
+   partition const& middle,partition const& right)
+{
+return dataflow(
+  unwrapping(
+      [middle](partition_data const& l, 
+          partition_data const& m,
+          partition_data const& r)
+          {
+          // The new partition_data will be allocated
+          //  on the same locality as 'middle'.
+          return partition(middle.get_id(), 
+             heat_part_data(l, m, r));
+          }
+          ),
+          left.get_data(), middle.get_data(), 
+             right.get_data());
+}
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile]{Updating the computation of the heat II}
+
+\begin{lstlisting}
+stepper::space stepper::do_work(std::size_t np, 
+   std::size_t nx, std::size_t nt)
+{
+    // Initial conditions: f(0, i) = i
+    for (std::size_t i = 0; i != np; ++i)
+        U[0][i] = partition(hpx::find_here(), 
+           nx, double(i));
+
+}
+\end{lstlisting}
+\vspace{0.25cm}
+Note that we only use \lstinline|hpx::find_here()| the code will run one one logicality only.
+\end{frame}
+
+\begin{frame}[fragile]{Updating the computation of the heat III}
+
+\begin{lstlisting}
+// Generate place holder dor the changing arguments
+using hpx::util::placeholders::_1;
+using hpx::util::placeholders::_2;
+using hpx::util::placeholders::_3;
+
+// Pass the fixed argument to the function
+auto Op = hpx::util::bind(heat_part_action(), 
+    hpx::find_here(), _1, _2, _3);
+    
+next[i] = dataflow(
+    hpx::launch::async, Op,
+    current[idx(i, -1, np)], 
+    current[i], 
+    current[idx(i, +1, np)]
+);
+\end{lstlisting}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Scaling results}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Summary}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Summary}
+\begin{block}{After this lecture, you should know}
+\begin{itemize}
+\item 
+\end{itemize}
+\end{block}
+\end{frame}
+
+
+\end{document}

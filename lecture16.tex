@@ -225,7 +225,7 @@ Allows to wrap global (\lstinline|static|) functions in an action. So this funct
 struct data_server
   : hpx::components::component_base<data_server>{
 
-data_server(size_t)
+data_server(size_t size)
 {
 data = std::shared_ptr<double[]>(new double[size]);
 }
@@ -279,6 +279,27 @@ where
 \item The third argument is the name of the action
 \end{itemize}
 \end{frame}
+
+\begin{frame}[fragile]{Registering components and actions}
+
+\begin{lstlisting}
+// Generation of the code, which is needed to call 
+// the component action remotely
+
+// Registering the component
+typedef hpx::components::component<data_server> 
+    data_server_type;
+HPX_REGISTER_COMPONENT(data_server_type, 
+    data_server);
+    
+// Registering the component actions
+typedef data_server::getData_action getData_action;
+HPX_REGISTER_ACTION(getData_action);
+\end{lstlisting}
+
+\end{frame}
+
+
 
 \begin{frame}[fragile]{Global functions}
 
