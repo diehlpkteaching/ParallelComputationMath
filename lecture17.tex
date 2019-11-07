@@ -428,7 +428,7 @@ next[i] = dataflow(
 \begin{center}
 \begin{tikzpicture}
 \selectcolormodel{gray}
-\begin{axis}[xlabel=Partitions,ylabel=Execution time, grid=both,title=Stencil 4,legend pos=north west]
+\begin{axis}[xlabel=Partitions,ylabel=Execution time, grid=both,title=Stencil 5,legend pos=north west]
 \addplot table [x=Partitions, y=Execution_Time_sec, col sep=comma] {./data/stencil_5_1cpu_scaling.dat};
 \addlegendentry{1 CPU}
 \addplot table [x=Partitions, y=Execution_Time_sec, col sep=comma] {./data/stencil_5_2cpu_scaling.dat};
