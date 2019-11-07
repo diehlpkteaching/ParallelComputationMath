@@ -36,6 +36,7 @@ Please find additional information here:
 * [Exercise 7](exercise7.pdf)
 * [Exercise 8](exercise8.pdf), [Template Code](https://github.com/diehlpkteaching/StencilLocaltoRemote/blob/master/Stencil2.ipynb)
 * [Exercise 9](exercise9.pdf), [Template Code](https://github.com/diehlpkteaching/StencilLocaltoRemote/blob/master/Stencil4.ipynb)
+* [Exercise 10](exercise10.pdf), [Template Code](https://github.com/diehlpkteaching/StencilLocaltoRemote/blob/master/Stencil5.cpp)
 
 ## Slides
 
