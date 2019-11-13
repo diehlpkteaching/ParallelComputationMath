@@ -60,6 +60,7 @@ Please find additional information here:
 * [Lecture 16](lecture16.pdf)
 * [Lecture 17](lecture17.pdf)
 * [Lecture 18](lecture18.pdf)
+* [Lecture 19](lecture19.pdf)
 * [References](list.pdf)
     
 ## Project
