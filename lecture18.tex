@@ -227,7 +227,7 @@ void serialize(Archive& ar, const unsigned int version)
 
 
 
-\begin{frame}[fragile]{Reducing the overhead of copying}
+\begin{frame}[fragile]{Reducing the overhead of copying I}
 
 \begin{center}
 \begin{tikzpicture}
@@ -400,7 +400,7 @@ export LD_LIBRARY_PATH
 module load gcc/8.2.0 boost/1.69.0-gcc8.2.0-release 
 	mpi/openmpi-x86_64   
 
-srun 1d_stencil_7 --nx=1000000 --np=10 
+srun 1d_stencil_6 --nx=1000000 --np=10 
 \end{lstlisting}
 
 \begin{block}{Running}
@@ -414,8 +414,8 @@ srun 1d_stencil_7 --nx=1000000 --np=10
 \begin{center}
 \begin{tikzpicture}
 \selectcolormodel{gray}
-\begin{axis}[xlabel=Localities,ylabel=Execution time, grid=both,title=Stencil 7,legend style={at={(0.5,0.5)},anchor=west}]
-\addplot table [x=Localities, y=Execution_Time_sec, col sep=comma] {./data/stencil_7.dat};
+\begin{axis}[xlabel=Localities,ylabel=Execution time, grid=both,title=Stencil 6,legend style={at={(0.5,0.5)},anchor=west}]
+\addplot table [x=Localities, y=Execution_Time_sec, col sep=comma] {./data/stencil_6.dat};
 \end{axis}
 \end{tikzpicture}
 \end{center}
