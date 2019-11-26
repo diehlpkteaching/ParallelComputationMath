@@ -10,7 +10,7 @@ index.md: webpage/index.md
 list.pdf: references/list.tex
 	cd references && latexmk -pdflatex=lualatex -pdf list.tex && cp list.pdf ../webpage
 
-timetable.pdf: timetable/timetable.tex
+timetable.pdf: timetable/timetable.tex timetable/content.csv
 	cd timetable && latexmk -pdflatex=lualatex -pdf timetable.tex && cp timetable.pdf ../webpage
 
 lectures=$(ls *.tex)
@@ -22,4 +22,5 @@ lectures: ${lectures}
 
 
 clean:
-	latexmk -CA
+	rm *.bbl *.nav *.snm *.vrb 
+	latexmk -pdf -CA
