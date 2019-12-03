@@ -178,10 +178,10 @@ std::cout << x << std::endl;
 \begin{frame}[fragile]{Pointer arithmetic}
 
 \begin{lstlisting}
-int* array = new[3];
+int* array = new int[3];
 *array = 1;
 *(array + 1) = 2;
-*(array + 1) = 3;
+*(array + 2) = 3;
 
 // Accessing the first element
 int first = *array;
