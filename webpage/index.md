@@ -63,7 +63,8 @@ Please find additional information here:
 * [Lecture 19](lecture19.pdf)
 * [Lecture 20](lecture20.pdf)
 * [References](list.pdf)
-    
+* [Mind Map](map.pdf)
+
 ## Project
 
 As a course project, we will implement bond-based peridyanmics ([PD](https://en.wikipedia.org/wiki/peridynamics)). We will cover the basic equations brielfy in [lecture 8](lecture8.pdf) and the template code is available [here](https://github.com/diehlpkteaching/PD).
