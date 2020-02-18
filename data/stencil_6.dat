@@ -1,0 +1,4 @@
+Localities,OS_Threads,Execution_Time_sec,Points_per_Partition,Partitions,Time_Steps
+1,     40,    0.640250505, 1000000,              10,                   45 
+2,     80,    0.374744571, 1000000,              10,                   45
+5,     200,   0.394875346, 1000000,              10,                   45

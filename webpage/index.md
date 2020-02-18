@@ -23,7 +23,7 @@ and I encourage you to visit my office and to discuss exercises and C++ related 
 Please find additional information here:
 
 * [Syllabus](syllabus.pdf)
-* [Timetable](timetable.pdf)
+* [Schedule](timetable.pdf)
 
 ## Homework
 
@@ -36,6 +36,7 @@ Please find additional information here:
 * [Exercise 7](exercise7.pdf)
 * [Exercise 8](exercise8.pdf), [Template Code](https://github.com/diehlpkteaching/StencilLocaltoRemote/blob/master/Stencil2.ipynb)
 * [Exercise 9](exercise9.pdf), [Template Code](https://github.com/diehlpkteaching/StencilLocaltoRemote/blob/master/Stencil4.ipynb)
+* [Exercise 10](exercise10.pdf), [Template Code](https://github.com/diehlpkteaching/StencilLocaltoRemote/blob/master/Stencil5.cpp)
 
 ## Slides
 
@@ -57,8 +58,13 @@ Please find additional information here:
 * [Lecture 14](lecture14.pdf)
 * [Lecture 15](lecture15.pdf)
 * [Lecture 16](lecture16.pdf)
+* [Lecture 17](lecture17.pdf)
+* [Lecture 18](lecture18.pdf)
+* [Lecture 19](lecture19.pdf)
+* [Lecture 20](lecture20.pdf)
 * [References](list.pdf)
-    
+* [Mind Map](map.pdf)
+
 ## Project
 
 As a course project, we will implement bond-based peridyanmics ([PD](https://en.wikipedia.org/wiki/peridynamics)). We will cover the basic equations brielfy in [lecture 8](lecture8.pdf) and the template code is available [here](https://github.com/diehlpkteaching/PD).
@@ -79,6 +85,7 @@ As a course project, we will implement bond-based peridyanmics ([PD](https://en.
 * [How to use Github Classroom](https://www.diehlpk.de/blog/githubclassroom/)
 * [How to use Jupyter notebooks](https://www.diehlpk.de/blog/jupyter-notebooks/)
 * [C++ summer lecture](https://www.diehlpk.de/blog/cpp-lectures/)
+* [Lecture material](https://github.com/diehlpkteaching/ParallelComputationMath)
 
 <p style="text-align:center;"> <img src="https://mirrors.creativecommons.org/presskit/buttons/80x15/svg/by-nc-nd.svg" alt="CC"> </p>
 

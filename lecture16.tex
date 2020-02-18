@@ -247,17 +247,17 @@ struct data_server
   : hpx::components::component_base<data_server>{
 
 // This function needs to be wrapped in an action
-double* getData(){
-    return data.get();
+hpx::serialization::serialize_buffer<double> getData()
+{
+  typedef hpx::serialization::serialize_buffer<double> 
+    buffer;
+  
+   return buffer(data.get(), size,
+      buffer::init_mode::reference);
 }
 // Define the action for remote access
 HPX_DEFINE_COMPONENT_DIRECT_ACTION(data_server,
                      getData, getData_action);
-
-private:
-
-// This data will be in the global address space 
-std::shared_ptr<double[]> data;
 
 };
 \end{lstlisting}
@@ -299,7 +299,51 @@ HPX_REGISTER_ACTION(getData_action);
 
 \end{frame}
 
+\begin{frame}[fragile]{Proving the data client I}
 
+\begin{lstlisting}
+struct data
+  : hpx::components::client_base<data,data_server>
+{
+  // Define client base
+  typedef hpx::components::client_base<data, 
+     data_server> base_type;
+  
+  // Constructor to generate the data_server object
+  // The where argument specifies where the object is
+  // allocated
+  data(hpx::naming::id_type where,std::size_t size) :
+     base_type(hpx::new_<data_server>(where,size)){}
+        
+);
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile]{Proving the data client II}
+
+\begin{lstlisting}
+struct data
+  : hpx::components::client_base<data,data_server>
+{
+  // Wrap the actions into futures  
+  hpx::future<size_t> getSize(){
+
+     return hpx::async(getSize_action(),get_id());
+  }
+  
+  typedef hpx::serialization::serialize_buffer<double> 
+     buffer;
+     
+  hpx::future<buffer>getData(){
+
+    return hpx::async(getData_action(),get_id());
+  }
+        
+);
+\end{lstlisting}
+
+\end{frame}
 
 \begin{frame}[fragile]{Global functions}
 

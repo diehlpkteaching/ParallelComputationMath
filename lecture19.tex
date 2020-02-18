@@ -1,0 +1,396 @@
+%Template
+%Copyright (C) 2019  Patrick Diehl
+%
+%This program is free software: you can redistribute it and/or modify
+%it under the terms of the GNU General Public License as published by
+%the Free Software Foundation, either version 3 of the License, or
+%(at your option) any later version.
+
+%This program is distributed in the hope that it will be useful,
+%but WITHOUT ANY WARRANTY; without even the implied warranty of
+%MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+%GNU General Public License for more details.
+
+%You should have received a copy of the GNU General Public License
+%along with this program.  If not, see <http://www.gnu.org/licenses/>.
+\documentclass[12pt,t]{beamer}
+
+\beamertemplatenavigationsymbolsempty
+
+% usepackage
+%\usepackage{template/dbt}
+\usepackage{listings}
+
+\definecolor{comments}{RGB}{81,81,81}
+\definecolor{keywords}{RGB}{255,0,90}
+
+% lstlisting
+\lstset{
+    language=C,
+    basicstyle=\footnotesize\ttfamily,
+    keywordstyle=\color{keywords},
+    showspaces=false,
+    showstringspaces=false,
+    commentstyle=\color{blue}\emph
+    %frame=single,
+    %rulecolor=\color{comments},
+    %rulesepcolor=\color{comments},
+    %backgroundcolor = \color{lightgray}
+}
+
+\usetheme{default}
+
+\usepackage[
+    type={CC},
+    modifier={by-nc-nd},
+    version={4.0},
+]{doclicense} 
+
+\input{template/variables.tex}
+
+% frame slide
+\title{\coursename}
+\subtitle{Lecture 19: Distributed implementation of the heat equation II}
+
+%\author{\href{}{}}
+%\institute {
+%    \href{}{\tt \scriptsize \today}
+%}
+\date {
+ \tiny \url{\courseurl}
+\vspace{2cm}
+\doclicenseThis  
+  
+}
+
+
+
+\usepackage{ifxetex}
+
+\ifxetex
+\usepackage{fontspec}
+\setmainfont{Raleway}
+\fi
+
+\ifluatex
+\usepackage{fontspec}
+\setmainfont{Raleway}
+\fi
+
+\usepackage{pgfplots}
+
+\begin{document} {
+    \setbeamertemplate{footline}{}
+    \frame {
+        \titlepage
+    }
+}
+
+\frame{
+
+\tableofcontents
+
+}
+
+\AtBeginSection[]{
+  \begin{frame}
+  \vfill
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+    \usebeamerfont{title}\insertsectionhead\par%
+  \end{beamercolorbox}
+  \vfill
+  \end{frame}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Reminder}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Lecture 18}
+\begin{block}{What you should know from last lecture}
+\begin{itemize}
+\item How to compile HPX using networking
+\item Receiving topology information
+\end{itemize}
+\end{block}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Improving sending data}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Exchanging boundary data}
+
+\begin{center}
+\begin{tikzpicture}
+
+\foreach \i in {1,...,9}{
+	\node[color=black] at (\i,0) {\pgfuseplotmark{square*}};
+}
+\foreach \i in {1,...,9}{
+	\node[below] at (\i,-0.1) {$x_\i$};	
+}
+
+\foreach \i in {4,...,6}{
+	\node[color=black] at (\i,1.75) {\pgfuseplotmark{square*}};
+}
+
+\draw (3.8,1.) rectangle ++(2.4,1.5) node {};
+
+\draw (0.8,-0.75) rectangle ++(2.4,1.5) node {};
+\draw (3.8,-0.75) rectangle ++(2.4,1.5) node {};
+\draw (6.8,-0.75) rectangle ++(2.4,1.5) node {};
+
+\draw (4,1.75) -- (3,0);
+\draw (4,1.75) -- (4,0);
+\draw (4,1.75) -- (5,0);
+
+\draw (6,1.75) -- (5,0);
+\draw (6,1.75) -- (6,0);
+\draw (6,1.75) -- (7,0);
+
+\node[below] at (0,0) {\small $t=0$};	
+\node[below] at (0,1.75) {\small $t=1$};	
+
+\end{tikzpicture}
+
+\end{center}
+
+In the previous example we exchanged the whole left and right partition to update the temperatures of the partition in the middle. However, we only need one value of the neighboring partitions to update the temperature for $x_4$ and $x_6$.
+
+\end{frame}
+
+\begin{frame}[fragile]{Updating the partition I }
+
+\begin{lstlisting}
+// Create a partition only having the left or 
+// right boundary element
+partition_data(partition_data const& base, 
+  std::size_t min_index)
+  : data_(base.data_.data()+min_index, 1, 
+  	buffer_type::reference),
+        size_(base.size()),
+        min_index_(min_index)
+{
+        HPX_ASSERT(min_index < base.size());
+}
+
+double& operator[](std::size_t idx) { 
+	return data_[index(idx)]; }
+
+double operator[](std::size_t idx) const { 
+	return data_[index(idx)]; }
+	
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile]{Updating the partition II }
+
+\begin{lstlisting}
+
+private:
+std::size_t index(std::size_t idx) const
+{
+	HPX_ASSERT(idx >= min_index_ && idx < size_);
+    return idx - min_index_;
+}
+
+	
+\end{lstlisting}
+\vspace{1cm}
+Now, we have to make use of sending smaller partitions to the node containing the middle partitions. We will use the previously introduced partition type. 
+
+\end{frame}
+
+
+\begin{frame}[fragile]{Updating the partition server}
+
+\begin{lstlisting}
+partition_data get_data(partition_type t) const
+{
+  switch (t)
+  {
+    case left_partition: // Last element
+      return partition_data(data_, data_.size()-1);
+
+    case middle_partition:
+      break;
+
+    case right_partition: // First element
+      return partition_data(data_, 0);
+
+    default:
+       HPX_ASSERT(false);
+       break;
+  }
+  return data_;
+}
+
+\end{lstlisting}
+
+
+\end{frame}
+
+\begin{frame}{Improve the computation of the middle partition}
+
+\begin{center}
+\begin{tikzpicture}
+
+\foreach \i in {1,...,9}{
+	\node[color=black] at (\i,0) {\pgfuseplotmark{square*}};
+}
+\foreach \i in {1,...,9}{
+	\node[below] at (\i,-0.1) {$x_\i$};	
+}
+
+\foreach \i in {4,...,6}{
+	\node[color=black] at (\i,1.75) {\pgfuseplotmark{square*}};
+}
+
+\draw (3.8,1.) rectangle ++(2.4,1.5) node {};
+
+\draw (0.8,-0.75) rectangle ++(2.4,1.5) node {};
+\draw (3.8,-0.75) rectangle ++(2.4,1.5) node {};
+\draw (6.8,-0.75) rectangle ++(2.4,1.5) node {};
+
+\draw (5,1.75) -- (4,0);
+\draw (5,1.75) -- (5,0);
+\draw (5,1.75) -- (6,0);
+
+
+\node[below] at (0,0) {\small $t=0$};	
+\node[below] at (0,1.75) {\small $t=1$};	
+
+\end{tikzpicture}
+\end{center}
+
+We only need the left and right partition to compute the updated temperature $x_4$ and $x_6$, but we can compute the temperature for $x_5$ without having the partitions Thus, we could update the values in the mid of the partition, while waiting to receive the partitions.
+
+\end{frame}
+
+\begin{frame}[fragile]{Update the stepper: Compute local}
+
+\begin{lstlisting}
+hpx::shared_future<partition_data> middle_data =
+  middle.get_data(partition_server::middle_partition);
+  
+hpx::future<partition_data> next_middle = 
+  middle_data.then(
+  unwrapping(
+    [middle](partition_data const& m) -> partition_data
+    {
+       HPX_UNUSED(middle);
+
+       // All local operations are performed once the 
+       // middle data of the previous time step becomes 
+       // available.
+       std::size_t size = m.size();
+       partition_data next(size);
+       for (std::size_t i = 1; i != size-1; ++i)
+          next[i] = heat(m[i-1], m[i], m[i+1]);
+       return next;
+}));
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile]{Update the stepper: Compute the boundary values}
+
+\begin{lstlisting}
+return dataflow(
+   hpx::launch::async,
+   unwrapping(
+   [left, middle, right](partition_data next, 
+      partition_data const& l,
+      partition_data const& m, 
+      partition_data const& r) -> partition
+      {
+        HPX_UNUSED(left);
+        HPX_UNUSED(right);
+
+        // Calculate the missing boundary elements once the
+        // corresponding data has become available.
+        std::size_t size = m.size();
+        next[0] = heat(l[size-1], m[0], m[1]);
+        next[size-1] = heat(m[size-2], 
+        		m[size-1], r[0]);
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile]{Update the stepper: Compute the boundary values}
+
+\begin{lstlisting}
+// The new partition_data will be allocated on the 
+// same locality as 'middle'.
+	return partition(middle.get_id(), next);
+	}),
+		std::move(next_middle),
+		left.get_data(
+		  partition_server::left_partition),
+		middle_data,
+		right.get_data(
+		  partition_server::right_partition)
+        );
+    }
+\end{lstlisting}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Scaling results}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[fragile]{Configuration file}
+
+\begin{lstlisting}[language=bash]
+#!/usr/bin/env bash
+
+#SBATCH -o hostname_%j.out
+#SBATCH -t 00:25:00
+#SBATCH -p medusa
+#SBATCH -D /home/pdiehl/Compile/hpx-1.3.0/build/bin/
+export LD_LIBRARY_PATH
+  =$LD_LIBRARY_PATH:
+  /home/pdiehl/Compile/hpx-1.3.0/build/lib
+
+module load gcc/8.2.0 boost/1.69.0-gcc8.2.0-release 
+	mpi/openmpi-x86_64   
+
+srun 1d_stencil_7 --nx=1000000 --np=10 
+\end{lstlisting}
+
+\begin{block}{Running}
+\lstinline| sbatch -N 1,2,3,4,5 stencil.sbatch|
+\end{block}
+
+\end{frame}
+
+\begin{frame}{Distributed scaling}
+
+\begin{center}
+\begin{tikzpicture}
+\selectcolormodel{gray}
+\begin{axis}[xlabel=Localities,ylabel=Execution time, grid=both,title=Stencil 7,legend style={at={(0.5,0.5)},anchor=west}]
+\addplot table [x=Localities, y=Execution_Time_sec, col sep=comma] {./data/stencil_7.dat};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Summary}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Summary}
+\begin{block}{After this lecture, you should know}
+\begin{itemize}
+\item Running distributed HPX applications
+\item Using the slurm environment and modules on clusters
+\end{itemize}
+\end{block}
+\end{frame}
+
+
+\end{document}

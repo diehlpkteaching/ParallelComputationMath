@@ -1,0 +1,374 @@
+%Template
+%Copyright (C) 2019  Patrick Diehl
+%
+%This program is free software: you can redistribute it and/or modify
+%it under the terms of the GNU General Public License as published by
+%the Free Software Foundation, either version 3 of the License, or
+%(at your option) any later version.
+
+%This program is distributed in the hope that it will be useful,
+%but WITHOUT ANY WARRANTY; without even the implied warranty of
+%MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+%GNU General Public License for more details.
+
+%You should have received a copy of the GNU General Public License
+%along with this program.  If not, see <http://www.gnu.org/licenses/>.
+\documentclass[12pt,t]{beamer}
+
+\beamertemplatenavigationsymbolsempty
+
+% usepackage
+%\usepackage{template/dbt}
+\usepackage{listings}
+
+\definecolor{comments}{RGB}{81,81,81}
+\definecolor{keywords}{RGB}{255,0,90}
+
+% lstlisting
+\lstset{
+    language=C,
+    basicstyle=\footnotesize\ttfamily,
+    keywordstyle=\color{keywords},
+    showspaces=false,
+    showstringspaces=false,
+    commentstyle=\color{blue}\emph
+    %frame=single,
+    %rulecolor=\color{comments},
+    %rulesepcolor=\color{comments},
+    %backgroundcolor = \color{lightgray}
+}
+
+\usetheme{default}
+
+\usepackage[
+    type={CC},
+    modifier={by-nc-nd},
+    version={4.0},
+]{doclicense} 
+
+\input{template/variables.tex}
+
+% frame slide
+\title{\coursename}
+\subtitle{Lecture 20: Managing memory and low-level data structures}
+
+%\author{\href{}{}}
+%\institute {
+%    \href{}{\tt \scriptsize \today}
+%}
+\date {
+ \tiny \url{\courseurl}
+\vspace{2cm}
+\doclicenseThis  
+  
+}
+
+
+
+\usepackage{ifxetex}
+
+\ifxetex
+\usepackage{fontspec}
+\setmainfont{Raleway}
+\fi
+
+\ifluatex
+\usepackage{fontspec}
+\setmainfont{Raleway}
+\fi
+
+\usepackage{tikz}
+
+\begin{document} {
+    \setbeamertemplate{footline}{}
+    \frame {
+        \titlepage
+    }
+}
+
+\frame{
+
+\tableofcontents
+
+}
+
+\AtBeginSection[]{
+  \begin{frame}
+  \vfill
+  \centering
+  \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+    \usebeamerfont{title}\insertsectionhead\par%
+  \end{beamercolorbox}
+  \vfill
+  \end{frame}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Reminder}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Lecture 19}
+\begin{block}{What you should know from last lecture}
+\begin{itemize}
+\item Running distributed HPX applications
+\item Using the slurm environment and modules on clusters
+\end{itemize}
+\end{block}
+\end{frame}
+
+
+\begin{frame}{Why do we talk about pointers so late?}
+
+\textbf{Person A}: Would you teach a toddler how to eat with a butcher's knife? \\
+\vspace{1cm}
+\textbf{Person B}: No? \\
+\vspace{1cm}
+\textbf{Person A}: So stop mentioning pointers to people barely starting with C++
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Pointer}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Pointer}
+
+\begin{center}
+\begin{tikzpicture}
+\draw (0,0) rectangle ++(0.75,0.75) node[pos=.5] {$p$};
+\draw (1.5,0) rectangle ++(0.75,0.75) node[pos=.5] {$x$};
+\draw[->] (0.75,0.365) -- (1.5,0.365);
+\end{tikzpicture}
+
+\end{center}
+\begin{itemize}
+\item A pointer $p$ is a value that represents the address of an object
+\item Every object $x$ has a distinct unique address to a part of the computer's memory.
+\end{itemize}
+
+\begin{block}{Operators}
+\begin{itemize}
+\item The address of object $x$ can be accessed using the $\&$ address operator 
+\item The deference operator * provides the object the pointer is pointing to
+\end{itemize}
+\end{block}
+
+\end{frame}
+
+\begin{frame}[fragile]{Example}
+
+\begin{lstlisting}
+// Initialize
+int x = 42;
+
+// Get the pointer to the object x
+int* p = &x;
+
+// Get the object the pointer is pointing to
+int tmp = *p;
+
+// Using pointers to manipulate objects
+std::cout << x << std::endl;
+*p = 42;
+std::cout << x << std::endl;
+
+\end{lstlisting}
+
+\end{frame}
+
+\begin{frame}[fragile]{Pointer arithmetic}
+
+\begin{lstlisting}
+int* array = new int[3];
+*array = 1;
+*(array + 1) = 2;
+*(array + 2) = 3;
+
+// Accessing the first element
+int first = *array;
+
+// Accessing the second element
+int second = *(array + 1);
+
+// Getting the distance between two pointers
+ptrdiff_t dist = array+2 - array;
+\end{lstlisting}
+
+Note that \lstinline|ptrdiff_t| is a signed type because the distance can be negative
+\end{frame}
+
+
+\begin{frame}[fragile]{Pointers to functions}
+
+\begin{lstlisting}
+int square(int a)
+{
+return a * a;
+}
+
+// Generating a function pointer
+int (*fp)(int) = square; //We need the (int) for
+int (*fp2)(int) = &square; // the return type
+
+// Calling the function using its pointer
+std::cout << (*fp)(5);
+std::cout << fp2(5);
+
+\end{lstlisting}
+Note that each of two lines to get the pointer or call the function are equivalent. 
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Arrays}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Array vs Vector}
+
+
+\begin{block}{Array\footnote{\tiny\url{https://en.cppreference.com/w/cpp/container/array}}\footnote{\tiny\url{https://en.cppreference.com/w/cpp/language/array}}}
+\begin{itemize}
+\item Language feature
+\item Number of elements must be known at compile time
+\item Can not grow or shrink dynamically
+\end{itemize}
+\end{block}
+
+\begin{block}{Vector}
+\begin{itemize}
+\item Part of the standard library
+\item Can grow or shrink dynamically
+\end{itemize}
+\end{block}
+An array is a kind of container, similar to a vector but less powerful.
+\end{frame}
+
+\begin{frame}[fragile]{Working with arrays}
+
+\begin{lstlisting}
+//Define the length
+size_t size = 6;
+
+//Generate a double arry of size 6
+double array[size];
+
+//Access all elements
+for(size_t i = 0; i < size ; i++){
+        array[i] = i;
+        std::cout << array[i] << std::endl;
+    }
+
+//Access the first element
+*array = 42;
+std::cout << array[0] << std::endl;
+
+//Initializing 
+double array = {1,2,3.5,5};
+\end{lstlisting}
+
+\end{frame}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Command line arguments}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[fragile]{Arguments to \lstinline|main|}
+
+\begin{lstlisting}
+int main(int argc, char** argv)
+{
+
+	return EXIT_SUCCESS:
+}
+\end{lstlisting}
+
+\begin{block}{Parameters}
+\begin{itemize}
+\item \lstinline|int argc| -- Number of pointers in the \lstinline|char** argv|
+\item \lstinline|char** argv| -- Initial pointer to an array of pointers for each command line option. Note that the first entry is the name of the executable.
+\end{itemize}
+\end{block}
+Note that these parameters can have any name, but the two presented are very common.
+\end{frame}
+
+
+\begin{frame}[fragile]{Example}
+
+\lstinputlisting{code/20/argument.cpp}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Memory management}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{frame}{Three kind of memory management}
+
+\begin{block}{Automatic memory management}
+\begin{itemize}
+\item What we have done so far
+\item The system is allocating the memory for a local variable
+\item The system is deallocating the memory if the variable goes out of scope
+\end{itemize}
+\end{block}
+
+\begin{block}{Dynamic memory management}
+\begin{itemize}
+\item The programmer allocates the memory with the the \lstinline|new|\footnote{\tiny\url{https://en.cppreference.com/w/cpp/language/new}} keyword
+\item The programmer deallocates the memory with the the \lstinline|delete|\footnote{\tiny\url{https://en.cppreference.com/w/cpp/language/delete}} keyword
+\end{itemize}
+\end{block}
+
+\end{frame}
+
+\begin{frame}[fragile]{Memory management of an object}
+
+\begin{block}{Allocation}
+\begin{lstlisting}
+int* p = new int(42);
+\end{lstlisting}
+\end{block}
+
+\begin{block}{Deallocation}
+\begin{lstlisting}
+delete p;
+\end{lstlisting}
+\end{block}
+
+
+\end{frame}
+
+\begin{frame}[fragile]{Memory management of an array}
+
+\begin{block}{Allocation}
+\begin{lstlisting}
+int* p = new int[5];
+\end{lstlisting}
+\end{block}
+
+\begin{block}{Deallocation}
+\begin{lstlisting}
+delete[] p;
+\end{lstlisting}
+\end{block}
+
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Summary}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Summary}
+\begin{block}{After this lecture, you should know}
+\begin{itemize}
+\item Pointer and Arrays
+\item How to read command line arguments
+\item Allocating and deallocating memory
+\end{itemize}
+\end{block}
+\end{frame}
+
+
+\end{document}

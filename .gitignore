@@ -11,7 +11,14 @@
 *.cb
 *.cb2
 .*.lb
-
+core.*
+*.ipynb_checkpoints/
+*CMakeCache.txt
+*Untitled.ipynb
+lecture*.pdf
+webpage/index.html
+webpage/*.pdf
+syllabus/*.pdf
 ## Intermediate documents:
 *.dvi
 *.xdv

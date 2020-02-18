@@ -12,16 +12,16 @@ G1,Introduction to parallel programming I (Dr. Kaiser), --
 10,Solvers | Conjugate gradient method, --
 G2,Introduction to parallel programming II(Dr. Kaiser), --
 11,Introduction to HPX,--
-G2,Tricks with notebooks (Dr. Brandt) | Questions \& Answers, --
-12,Midterm exam, --
-13,One-dimensional heat equation,--
-14,Futurization of the heat equation,--
-15,Grain size control of the heat eqaution,--
-16,Distributed implementation of the hear equation I,--
-17,Distributed implementation of the hear equation I, --
-18,Course project I, --
-19,Course project II, --
-20,Discuss course project, --
-21,Managing memory automatically, 14
-22,Summary, --
+,Tricks with notebooks (Dr. Brandt), --
+,Midterm exam, --
+12,One-dimensional heat equation,--
+13,Futurization of the heat equation,--
+14,Serial partition-based 1D heat equation,--
+15,Parallel partition-based 1D heat equation,--
+16,Preparation for distributed computing, --
+17,Distributed implementation of the 1D heat equation, --
+18,Distributed implementation of the heat equation I, --
+19,Distributed implementation of the heat equation II, --
+20,Managing memory and low-level data structures, 10
+21,Summary, --
 
