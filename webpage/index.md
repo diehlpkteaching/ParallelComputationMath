@@ -25,6 +25,10 @@ Please find additional information here:
 * [Syllabus](syllabus.pdf)
 * [Schedule](timetable.pdf)
 
+## C-I Certification
+
+Note that this is a certified Communication-Intensive (C-I) course which meets all of the requirements set forth by LSU’s Communication across the Curriculum program. For more details please have a look at this [handout](https://www.lsu.edu/academicaffairs/cxc/files/ci-student-resources.pdf). 
+
 ## Homework
 
 * [Exercise 1](exercise1.pdf)
@@ -86,6 +90,7 @@ As a course project, we will implement bond-based peridyanmics ([PD](https://en.
 * [How to use Jupyter notebooks](https://www.diehlpk.de/blog/jupyter-notebooks/)
 * [C++ summer lecture](https://www.diehlpk.de/blog/cpp-lectures/)
 * [Lecture material](https://github.com/diehlpkteaching/ParallelComputationMath)
+* [Additional information C-I Certification](https://www.lsu.edu/academicaffairs/cxc/files/ci-student-resources.pdf)
 
 <p style="text-align:center;"> <img src="https://mirrors.creativecommons.org/presskit/buttons/80x15/svg/by-nc-nd.svg" alt="CC"> </p>
 
