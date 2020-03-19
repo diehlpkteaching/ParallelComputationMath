@@ -20,14 +20,22 @@ Office hours will be
 and I encourage you to visit my office and to discuss exercises and C++ related questions. 
 
 
+<!--
+
 Please find additional information here:
 
 * [Syllabus](syllabus.pdf)
 * [Schedule](timetable.pdf)
 
+-->
+
+<!--
+
 ## C-I Certification
 
 Note that this is a certified Communication-Intensive (C-I) course which meets all of the requirements set forth by LSU’s Communication across the Curriculum program. For more details please have a look at this [handout](https://www.lsu.edu/academicaffairs/cxc/files/ci-student-resources.pdf). 
+
+-->
 
 ## Homework
 
@@ -75,8 +83,9 @@ As a course project, we will implement bond-based peridyanmics ([PD](https://en.
 
 ## References
 
-* Andrew, Koenig. Accelerated C++: practical programming by example. Pearson Education India, 2000.
-* Stroustrup, Bjarne. Programming: principles and practice using C++. Pearson Education, 2014.
+* Andrew, Koenig. Accelerated C++: practical programming by example. Pearson Education India. 2000 (ISBN 020170353X).
+* Stroustrup, Bjarne. Programming: principles and practice using C++. Pearson Education, 2014 (ISBN 978-0321-992789).
+* Josuttis, NicoJosuttis. C++17 - The Complete Guide: First Edition. 2020 (ISBN 396730017X).
 
 ## Useful links 
 
