@@ -15,7 +15,7 @@ and I hope you are able to attend. I will try to be available for discussion aft
 
 Office hours will be 
 
-<center> Thursday, 11:00 to 12:00, 343, LCKT</center> 
+<center> Thursday, 10:30 to 12:00, 343, LCKT</center> 
 
 and I encourage you to visit my office and to discuss exercises and C++ related questions. 
 
@@ -37,7 +37,12 @@ Note that this is a certified Communication-Intensive (C-I) course which meets a
 
 -->
 
-## Homework
+## Materials
+
+Note that the slides are from the previous fall semester and they will be updated before the fall 2020 course. However, the slides can privide you with 
+some overview of the content of this course.
+
+### Homework
 
 * [Exercise 1](exercise1.pdf)
 * [Exercise 2](exercise2.pdf)
@@ -50,7 +55,7 @@ Note that this is a certified Communication-Intensive (C-I) course which meets a
 * [Exercise 9](exercise9.pdf), [Template Code](https://github.com/diehlpkteaching/StencilLocaltoRemote/blob/master/Stencil4.ipynb)
 * [Exercise 10](exercise10.pdf), [Template Code](https://github.com/diehlpkteaching/StencilLocaltoRemote/blob/master/Stencil5.cpp)
 
-## Slides
+### Slides
 
 * [Lecture 1](lecture1.pdf)
 * [Lecture 2](lecture2.pdf)
@@ -75,7 +80,6 @@ Note that this is a certified Communication-Intensive (C-I) course which meets a
 * [Lecture 19](lecture19.pdf)
 * [Lecture 20](lecture20.pdf)
 * [References](list.pdf)
-* [Mind Map](map.pdf)
 
 ## Project
 
