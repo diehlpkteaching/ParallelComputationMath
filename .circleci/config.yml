@@ -8,7 +8,8 @@ jobs:
       - run: find -name "*.cpp" -exec g++ "{}" -o "{}".exec ";"
       - run: find -name "*.cpp" -exec cppcheck --enable=warning,performance "{}" ";"
       - run: mkdir final 
-      - run: find -name "lecture*.tex" -exec latexmk -pdf "{}" ";"
+      - run: latexmk -pdflatex="lualatex --shell-escape %O %S" --jobname=lecture1-slides -pdf lecture1.tex
+      - run: latexmk -pdflatex="lualatex --shell-escape %O %S" --jobname=lecture1-handout -pdf lecture1.tex
       - run: cp lecture*.pdf final
       - run: cd webpage && pandoc -s index.md --toc -c pandoc.css -o index.html
       - run: cp webpage/index.html webpage/pandoc.css final
