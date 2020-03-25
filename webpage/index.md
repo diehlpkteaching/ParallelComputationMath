@@ -29,13 +29,10 @@ Please find additional information here:
 
 -->
 
-<!--
-
 ## C-I Certification
 
 Note that this is a certified Communication-Intensive (C-I) course which meets all of the requirements set forth by LSU’s Communication across the Curriculum program. For more details please have a look at this [handout](https://www.lsu.edu/academicaffairs/cxc/files/ci-student-resources.pdf). 
 
--->
 
 ## Materials
 
