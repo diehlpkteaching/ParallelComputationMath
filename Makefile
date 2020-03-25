@@ -16,11 +16,8 @@ timetable.pdf: timetable/timetable.tex timetable/content.csv
 lectures=$(ls *.tex)
 
 lectures: ${lectures}
-		 @for f in $(shell ls *.tex); do name=$$(basename $${f} .tex); latexmk -pdflatex="lualatex --shell-escape %O %S" --jobname=$${name}-slides -pdf $${f};  done
-
-
-#find -maxdepth 1 -name "lecture1.tex" -exec sh -c latexmk -pdflatex="lualatex --shell-escape %O %S" --jobname=$1-slides -pdf $1  \;
-#find -maxdepth 1 -name "*.pdf" -exec cp "{}" webpage ";"
+		@for f in $(shell ls *.tex); do name=$$(basename $${f} .tex); latexmk -pdflatex="lualatex --shell-escape %O %S" --jobname=$${name}-slides -pdf $${f};  done
+		find -maxdepth 1 -name "*.pdf" -exec cp "{}" webpage ";"
 
 
 
