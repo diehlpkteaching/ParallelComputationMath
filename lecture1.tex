@@ -13,12 +13,24 @@
 
 %You should have received a copy of the GNU General Public License
 %along with this program.  If not, see <http://www.gnu.org/licenses/>.
-\documentclass[12pt]{beamer}
+\documentclass[12pt]{beamerswitch}
+
+
+\mode<beamer>{
+\usepackage{template/dbt}
+}
+
+\mode<handout>{%
+	\usepackage{handoutWithNotes}    
+    \pgfpagesuselayout{4 on 1}[letterpaper] 
+    \setbeameroption{show notes}
+    \usetheme{default}
+    
+}
 
 \beamertemplatenavigationsymbolsempty
 % usepackage
-\usepackage{template/dbt}
-%\usepackage{listings}
+
 
 \definecolor{comments}{RGB}{81,81,81}
 \definecolor{keywords}{RGB}{255,0,90}
@@ -302,7 +314,7 @@ const size_t length = greeting .size ();
 
 \begin{block}{Compute the sum of $1,\ldots,n$}
 \begin{align*}
-\sum\limits_{i=1}^n i
+result = \sum\limits_{i=1}^n i
 \end{align*}
 \end{block}
 
@@ -367,10 +379,10 @@ while (i != 5 ) {
 \only<1>{
 \begin{block}{Compute the sum of $f(i)$ for $i=1,\ldots,n$}
 \begin{align*}
-\sum\limits_{i=1}^n f(i) \text{ with } f(i) = 
+result = \sum\limits_{i=1}^n f(i) \text{  with  } f(i) = 
 \begin{cases}
-i, \text{ if } i is even \\
-i^2. else
+i, \text{ if } i \text{ is even} \\
+i^2, \text{ else}
 \end{cases}
 \end{align*}
 \end{block}
