@@ -17,12 +17,13 @@
 
 \beamertemplatenavigationsymbolsempty
 % usepackage
-%\usepackage{template/dbt}
-\usepackage{listings}
+\usepackage{template/dbt}
+%\usepackage{listings}
 
 \definecolor{comments}{RGB}{81,81,81}
 \definecolor{keywords}{RGB}{255,0,90}
 
+\usepackage{lstautodedent}
 % lstlisting
 \lstset{
     language=C,
@@ -30,14 +31,15 @@
     keywordstyle=\color{keywords},
     showspaces=false,
     showstringspaces=false,
-    commentstyle=\color{blue}\emph
+    commentstyle=\color{blue}\emph,
+	autodedent
     %frame=single,
     %rulecolor=\color{comments},
     %rulesepcolor=\color{comments},
     %backgroundcolor = \color{lightgray}
 }
 
-\usetheme{default}
+%\usetheme{default}
 
 \usepackage[
     type={CC},
@@ -123,8 +125,8 @@ Tuesday and Thursday, 09:00 to 10:20, 130 LCKT
 
 \begin{block}{Exams}
 \begin{itemize}
-\item Midterm: 15.10 during the lecture
-\item Final: 12.10 from 12:30 to 2:30
+\item Midterm exam: 13.10 during lecture
+\item Final exams: 10.12 from 12:30 to 2:30
 \end{itemize}
 \end{block}
 \centering
@@ -144,6 +146,7 @@ More: \href{\coursesyllabus}{Syllabus} and \href{\coursetimeline}{Timeline}.
 \begin{block}{Assistance C++ basics }
 \begin{itemize}
 \item Stroustrup, Bjarne. A Tour of C++. Addison-Wesley Professional, 2018.
+\item O'Dwyer, Arthur. Mastering the C++17 STL. Packt Publishing Ltd; 2017.
 \end{itemize}
 \end{block}
 \end{frame}
@@ -161,6 +164,10 @@ At the beginning of the lecture in printed form
 \end{itemize}
 \end{block}
 Note that we use these tools the first time for this course. We anticipate to do a short survey at the end of the semester.
+\end{frame}
+
+\begin{frame}{}
+
 \end{frame}
 
 
@@ -226,8 +233,9 @@ Note that we use these tools the first time for this course. We anticipate to do
 }
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Working with strings}
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}{Reading strings}
 \only<1>{
@@ -266,23 +274,7 @@ More details: \tiny\url{https://en.cppreference.com/w/cpp/string/basic_string}
 
 \end{frame}
 
-
-\section{Looping and counting}
-
-
-\begin{frame}{Using loops and counting}
-\lstinputlisting[firstline=5, lastline=15]{code/01/lecture1-2.cpp}
-\begin{block}{Output}
-\centering
-**************** \\
-*\; \; \; \; \; \; \; \; \; \; \; \;* \\
-*  Hi, M4997-3!\;\;\, * \\
-*\; \; \; \; \; \; \; \; \; \; \; \;* \\
-****************
-\end{block}
-\end{frame}
-
-\begin{frame}{More functionality of strings }
+\begin{frame}[fragile]{More functionality of strings }
 \lstinputlisting[firstline=12, lastline=12]{code/01/lecture1-3.cpp}
 \begin{block}{Concatenation}
 \lstinline|+| operator combines string
@@ -290,74 +282,112 @@ More details: \tiny\url{https://en.cppreference.com/w/cpp/string/basic_string}
 \begin{block}{Defining constants}
 \lstinline|const| operator to make the promise that we will not change the value later
 \end{block}
-\lstinputlisting[firstline=15, lastline=15]{code/01/lecture1-3.cpp}
+\begin{lstlisting}
+const size_t length = greeting .size ();
+\end{lstlisting}
 \begin{block}{Getting the size}
 \lstinline|.size()| operator to get the string's size
 \end{block}
 \end{frame}
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Looping and counting}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{frame}[fragile]{Using loops and counting}
+
+\only<1>{
+
+\begin{block}{Compute the sum of $1,\ldots,n$}
+\begin{align*}
+\sum\limits_{i=1}^n i
+\end{align*}
+\end{block}
+
+}
+
+\begin{block}{Using the loop statement\footnote{\tiny\url{https://en.cppreference.com/w/cpp/language/for}}}
+
+\begin{lstlisting}
+size_t result = 0;
+for(size_t i = 1; r != 5; i++){
+	result = result + i
+}
+\end{lstlisting}
+
+
+\only<2>{
+
+\begin{block}{Condition}
+\begin{itemize}
+\item The variable i is only available inside the loop's body
+\item The loop will execute the statements in the curly braces until i is equal to 5
+\item The value of i is incremented after all statements are executed
+\item \lstinline|i++| is equivalent to \lstinline|i = i+1|
+\end{itemize}
+\end{block}
+
+}
+
+\end{block}
+
+\end{frame}
+
+
+
 \begin{frame}[fragile]{The while statement\footnote{\tiny\url{https://en.cppreference.com/w/cpp/language/while}}}
 \begin{lstlisting}
-size_t pad = 1;
-const std::string::size_type cols 
-	= greeting.size() + pad * 2 + 2;
+size_t result = 0;
+size_t i = 1;
+while (i != 5 ) {
 
-while (c != cols ) {
-// do formatting and printing
+	result += i;
+	i++;
 }
 \end{lstlisting}
 \only<1>{
 \begin{block}{Condition}
 \begin{itemize}
-\item \lstinline|r != rows| the statement  within the curly braces will be repeated while the condition is true
-\item \lstinline|!=| is the inequality operator and once \lstinline|r| is equal to \lstinline|rows| the loop stops
+\item \lstinline|i != 5| the statement within the curly braces will be repeated five times
+\item \lstinline|!=| is the inequality operator and once \lstinline|i| is equal to \lstinline|5| the loop stops
 \end{itemize}
 
-\end{block}
-
-
-}
-\only<2>{
-\begin{block}{Storing sizes}
-\lstinline|size_t| is the type of any \lstinline|sizeof| expression and as is guaranteed to be able to express the maximum size of any object in C++
 \end{block}
 
 }
 \end{frame}
 
-\begin{frame}[fragile]{The loop statement\footnote{\tiny\url{https://en.cppreference.com/w/cpp/language/for}}}
-\begin{lstlisting}
-const size_t rows = pad * 2 + 3;
 
-for(size_t r = 0; r != rows; r++){
-
-//do formatting and printing
-
-}
-\end{lstlisting}
-\begin{block}{Condition}
-\begin{itemize}
-\item The variable r is only available inside the loop's body
-\item The loop will execute the statements in the curly braces until r is equal to rows
-\item The value of r is incremented after all statements are executed
-\item \lstinline|r++| is equivalent to \lstinline|r = r+1|
-\end{itemize}
-\end{block}
-
-
-\end{frame}
 
 
 \begin{frame}[fragile]{Conditionals\footnote{\tiny\url{https://en.cppreference.com/w/cpp/language/if}}}
-\begin{lstlisting}
-if ( r == pad + 1 && c == pad + 1){
-	std::cout << greeting;
-    c += greeting.size();
-} else
-{
-// do something
+
+\only<1>{
+\begin{block}{Compute the sum of $f(i)$ for $i=1,\ldots,n$}
+\begin{align*}
+\sum\limits_{i=1}^n f(i) \text{ with } f(i) = 
+\begin{cases}
+i, \text{ if } i is even \\
+i^2. else
+\end{cases}
+\end{align*}
+\end{block}
 }
+
+\begin{lstlisting}
+size_t result = 0;
+for(size_t i = 1; r != 5; i++){
+	if(	i % 0 == 0)
+		result = result + i
+	else
+		result = result + i * i
+}
+
 \end{lstlisting}
+
+\only<2>{
 \begin{block}{if statement}
 \begin{itemize}
 \item If the condition is \lstinline|true| the statements in the \lstinline|if| branch are executed
@@ -366,9 +396,10 @@ if ( r == pad + 1 && c == pad + 1){
 \end{block}
 \begin{block}{Logical operator}
 \begin{itemize}
-\item \lstinline|&&| Logical and operator
+\item \lstinline|\%| Modulo operator for integers
 \end{itemize}
 \end{block}
+}
 \end{frame}
 
 \begin{frame}{Operators\footnote{\tiny\url{https://en.cppreference.com/w/cpp/language/operator_precedence}}}
