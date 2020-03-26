@@ -17,10 +17,10 @@ lectures=$(ls *.tex)
 
 lectures: ${lectures}
 		@for f in $(shell ls *.tex); do name=$$(basename $${f} .tex); latexmk -pdflatex="lualatex --shell-escape %O %S" --jobname=$${name}-slides -pdf $${f};  done
+		@for f in $(shell ls *.tex); do name=$$(basename $${f} .tex); latexmk -pdflatex="lualatex --shell-escape %O %S" --jobname=$${name}-handout -pdf $${f};  done
 		find -maxdepth 1 -name "*.pdf" -exec cp "{}" webpage ";"
-
-
-
+		chmod g+r webpage/*.pdf
+		chmod a+r webpage/*.pdf
 clean:
-	rm *.bbl *.nav *.snm *.vrb *.out *.aux *.log 
+	rm *.bbl *.nav *.snm *.vrb *.out *.aux *.log *.toc 
 	latexmk -pdf -CA

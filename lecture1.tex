@@ -15,9 +15,11 @@
 %along with this program.  If not, see <http://www.gnu.org/licenses/>.
 \documentclass[12pt]{beamerswitch}
 
+\usepackage{etoolbox}
 
 \mode<beamer>{
 \usepackage{template/dbt}
+\setbeamercolor{mycolor}{fg=background,bg=background}
 }
 
 \mode<handout>{%
@@ -25,7 +27,6 @@
     \pgfpagesuselayout{4 on 1}[letterpaper] 
     \setbeameroption{show notes}
     \usetheme{default}
-    
 }
 
 \beamertemplatenavigationsymbolsempty
@@ -104,12 +105,14 @@
 }
 
 \AtBeginSection[]{
-  \begin{frame}
+  \begin{frame}{}
   \vfill
   \centering
   \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
-    \usebeamerfont{title}\insertsectionhead\par%
+    \usebeamerfont{title}\insertsectionhead\par% 
+    test \insertsectionhead \secname
   \end{beamercolorbox}
+  
   \vfill
   \end{frame}
 }
@@ -120,7 +123,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}{Important dates}
-
 \begin{block}{Lectures}
 Tuesday and Thursday, 09:00 to 10:20, 130 LCKT
 \end{block}
@@ -178,7 +180,22 @@ At the beginning of the lecture in printed form
 Note that we use these tools the first time for this course. We anticipate to do a short survey at the end of the semester.
 \end{frame}
 
-\begin{frame}{}
+\begin{frame}{Communication-Intensive (C-I) course}
+
+\begin{block}{Mode I: Written}
+\begin{itemize}
+\item Learn how to write C++ standard confirm code 
+\item Learn how to write proper documentation
+\item Use the pieces of the assignments to code the course project
+\end{itemize}
+\end{block}
+
+\begin{block}{Mode II: Technological}
+\begin{itemize}
+\item Use GitHub for remote collaborative software development
+\item Translate mathematical and algorithms into C++ code 
+\end{itemize}
+\end{block}
 
 \end{frame}
 
