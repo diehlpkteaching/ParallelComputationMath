@@ -13,9 +13,8 @@
 
 %You should have received a copy of the GNU General Public License
 %along with this program.  If not, see <http://www.gnu.org/licenses/>.
-\documentclass[12pt]{beamerswitch}
-
-\usepackage{etoolbox}
+\providecommand\classoption{12pt}
+\documentclass[\classoption]{beamer}
 
 \mode<beamer>{
 \usepackage{template/dbt}
@@ -23,8 +22,8 @@
 }
 
 \mode<handout>{%
-	\usepackage{handoutWithNotes}    
-    \pgfpagesuselayout{4 on 1}[letterpaper] 
+	\usepackage{handoutWithNotes} 
+    \pgfpagesuselayout{4 on 1 with notes}[letterpaper] 
     \setbeameroption{show notes}
     \usetheme{default}
 }
@@ -110,7 +109,6 @@
   \centering
   \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
     \usebeamerfont{title}\insertsectionhead\par% 
-    test \insertsectionhead \secname
   \end{beamercolorbox}
   
   \vfill
