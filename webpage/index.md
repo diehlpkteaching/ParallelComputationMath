@@ -36,12 +36,10 @@ Note that this is a certified Communication-Intensive (C-I) course which meets a
 
 ## Materials
 
-Note that the slides are from the previous fall semester and they will be updated before the fall 2020 course. However, the slides can privide you with 
-some overview of the content of this course.
-
 ### Homework
 
 * [Exercise 1](exercise1.pdf)
+<!--
 * [Exercise 2](exercise2.pdf)
 * [Exercise 3](exercise3.pdf), [Template Code](https://github.com/diehlpkteaching/N-Body)
 * [Exercise 4](exercise4.pdf)
@@ -51,10 +49,12 @@ some overview of the content of this course.
 * [Exercise 8](exercise8.pdf), [Template Code](https://github.com/diehlpkteaching/StencilLocaltoRemote/blob/master/Stencil2.ipynb)
 * [Exercise 9](exercise9.pdf), [Template Code](https://github.com/diehlpkteaching/StencilLocaltoRemote/blob/master/Stencil4.ipynb)
 * [Exercise 10](exercise10.pdf), [Template Code](https://github.com/diehlpkteaching/StencilLocaltoRemote/blob/master/Stencil5.cpp)
+-->
 
 ### Slides
 
 * [Lecture 1](lecture1-slides.pdf), [Handout](lecture1-handout.pdf)
+<!--
 * [Lecture 2](lecture2.pdf)
 * [Lecture 3](lecture3.pdf)
 * [Lecture 4](lecture4.pdf)
@@ -77,6 +77,7 @@ some overview of the content of this course.
 * [Lecture 19](lecture19.pdf)
 * [Lecture 20](lecture20.pdf)
 * [References](list.pdf)
+-->
 
 ## Project
 
