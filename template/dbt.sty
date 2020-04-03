@@ -28,18 +28,20 @@
 \definecolor{hilight}{RGB}{102,255,204}
 \definecolor{vhilight}{RGB}{255,111,207}
 \definecolor{lolight}{RGB}{155,155,155}
+\definecolor{subtitle}{rgb}{0.0, 0.5, 1.0}
 
 % map colors to sections
 \setbeamercolor{titlelike}{fg=title}
 \setbeamercolor{subtitle}{fg=subtitle}
 \setbeamercolor{institute}{fg=gray}
 \setbeamercolor{normal text}{fg=foreground,bg=background}
-\setbeamercolor{item}{fg=foreground}
+\setbeamercolor{item}{fg=subtitle}
 \setbeamercolor{subitem}{fg=gray}
 \setbeamercolor{itemize/enumerate subbody}{fg=gray}
 \setbeamertemplate{itemize subitem}{{\textendash}}
 \setbeamerfont{itemize/enumerate subbody}{size=\footnotesize}
 \setbeamerfont{itemize/enumerate subitem}{size=\footnotesize}
+\setbeamercolor{block title}{use=structure,fg=subtitle}
 
 % lstlisting
 \lstset{

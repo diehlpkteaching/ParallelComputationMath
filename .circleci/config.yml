@@ -14,6 +14,7 @@ jobs:
             latexmk -pdflatex="lualatex --shell-escape --synctex=1 %O '\def\classoption{12.pt,handout}\input{%S}'" --jobname=lecture1-handout -pdf lecture1.tex
       - run: cd syllabus && latexmk -pdflatex="lualatex" -pdf syllabus.tex && cp syllabus.pdf ../final
       - run: cd timetable && latexmk -pdflatex="lualatex" -pdf timetable.tex  && cp timetable.pdf ../final
+      - run: cd poster && latexmk -pdflatex="lualatex" -pdf poster.tex  && cp poster.pdf ../final
       - run: cp lecture*.pdf final
       - run: cd webpage && pandoc -s index.md --toc -c pandoc.css -o index.html
       - run: cp webpage/index.html webpage/pandoc.css final
