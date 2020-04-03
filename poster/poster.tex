@@ -40,10 +40,14 @@
     version={4.0},
 ]{doclicense}
 
+\usepackage{xcolor}
+\definecolor{azure}{rgb}{0.0, 0.5, 1.0}
+\definecolor{ballblue}{rgb}{0.13, 0.67, 0.8}
+
 \colorlet{backgroundcolor}{white}
-\colorlet{framecolor}{black}
+\colorlet{framecolor}{ballblue}
 \colorlet{blocktitlebgcolor}{white}
-\colorlet{blocktitlefgcolor}{black}
+\colorlet{blocktitlefgcolor}{azure}
 \colorlet{blockbodybgcolor}{white}
 \colorlet{blockbodyfgcolor}{black}
 \begin{document}
@@ -56,7 +60,8 @@
 	\begin{tabular}{ll}
 	\textbf{Time}: & Tuesday and Thursday, 09:00 to 10:20 \\   
 	\textbf{Location}: & 130 LCKT  \\
-    \textbf{Instructor}: & Dr. Patrick Diehl \\
+    \textbf{Instructor}: & Drs. Patrick Diehl  \\
+    \textbf{Guest lecturers:} & Drs. Hartmut Kaiser and Steve Brandt \\
     \textbf{Contact}: & patrickdiehl@lsu.edu	
 	\end{tabular}	
 }
@@ -73,48 +78,82 @@ The first part, provides a brief overview of the containers, strings, streams, i
 \column{0.1}
 \end{columns}
 
+\begin{columns}
+\column{0.1}
+\column{0.8}
 \block{Textbooks}{
 \centering
-\begin{tabular}{l}
- Andrew, Koenig. Accelerated C++: practical programming by example. Pearson Education India, 2000.  \\
- Stroustrup, Bjarne. Programming: principles and practice using C++. Pearson Education, 2014.
-\end{tabular}
+\begin{itemize}
+\begin{itemize}
+\item Andrew, Koenig. Accelerated C++: practical programming by example. Pearson Education India, 2000.
+\item Stroustrup, Bjarne. Programming: principles and practice using C++. Pearson Education, 2014.
+\end{itemize}
+\end{itemize}
 }
+\column{0.1}
+\end{columns}
 
-
+\begin{columns}
+\column{0.1}
+\column{0.8}
 \block{Content}{
 \centering
-\begin{tabular}{l}
-Accelerated/Modern C++ \\ 
-Modern C++ implementation of computational mathematics problems \\
-Parallel computation using the C++ standard library for parallelism and concurrency 
-\end{tabular}
+\begin{itemize}
+\item Accelerated/Modern C++ 
+\begin{itemize}
+\item Using the C++ standard library
+\end{itemize}
+\item Modern C++ implementation of computational mathematics problems 
+\begin{itemize}
+\item $N$-Body problems
+\item Monte-Carlo methods
+\item One-dimensional heat equation
+\item Non-local fracture mechanics 
+\end{itemize}
+\item Parallel computation using the C++ standard library for parallelism and concurrency 
+\begin{itemize}
+\item Learn how to accelerate your code on a single node
+\item Learn how to write distributed application and run them on a cluster
+\end{itemize}
+\end{itemize}
 }
+\column{0.1}
+\end{columns}
 
-\block{Grading}{
-
-\centering
-\begin{tabular}{l}
-Quizzes and homework 30\% \\ 
-Project 20\% \\
-Midterm exam 20\% \\
-Final exam 30\%
-\end{tabular}
+\begin{columns}
+\column{0.1}
+\column{0.8}
+\block{C-I Certification}{
+This is a certified Communication-Intensive (C-I) course which meets all of the requirements set forth by LSU’s Communication across the Curriculum program, including instruction and assignments emphasizing informal and formal \textit{Written} and \textit{Technological};
+\begin{itemize}
+\item teaching of discipline-specific communication techniques;
+\item use of feedback loops for learning;
+\item 40\% of the course grade rooted in communication-based work; and
+\item practice of ethical and professional work standards.
+\end{itemize}
+Students interested in pursuing the LSU Communicator Certificate and/or the LSU Distinguished Communicator Medal may use this C-I course for credit. For more information about these student recognition programs, visit \url{www.cxc.lsu.edu}. 
 }
+\column{0.1}
+\end{columns}
 
-\block{}
+
+\begin{columns}
+\column{0.1}
+\column{0.8}
+\block{More information}
 {
 \centering
 \qrcode[hyperlink,height=8cm]{\courseurl}
     
 }
+\column{0.1}
+\end{columns}
 
-\block{}
-{
-\centering
-\doclicenseImage[imagewidth=8cm] 
-    
-}
+\node [above left,font=\Huge,outer sep=2cm] at (bottomleft -| topright) {\doclicenseImage[imagewidth=8cm]};
+
+
+
+
 
 \end{document}
 
