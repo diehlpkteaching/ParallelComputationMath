@@ -259,63 +259,26 @@ Note that we use these tools the first time for this course. We anticipate to do
 }
 \end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Working with strings}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{frame}{Reading strings}
-\only<1>{
-\lstinputlisting{code/01/lecture1-2.cpp}
-}
-\only<2>{
-\lstinputlisting[firstline=3, lastline=3]{code/01/lecture1-2.cpp}
-\lstinputlisting[firstline=9, lastline=9]{code/01/lecture1-2.cpp}
-\begin{block}{Variables: Definition}
+\begin{frame}{Built-in types\footnote{\tiny\url{https://en.cppreference.com/w/cpp/language/types}}}
+\begin{block}{Integer types}
 \begin{itemize}
-\item Variables have a name (name) and a type (\lstinline|std::string|)
-\item We need to include the string type, since it is not in the core language
-\item We just defined the variable and currently it is a empty or null string
+\item \lstinline|bool| Representation of truth values: \lstinline|true| or \lstinline|false| 
+\item \lstinline|unsigned| Integral type for non-negative values only 
+\item \lstinline|short| Integral type that must hold at least 32 bits
+\item \lstinline|long| Integral type that must hold at least 64 bits
+\item \lstinline|size_t| Unsigned Integral type
 \end{itemize}
 \end{block}
-}
-\only<3>{
-\lstinputlisting[firstline=10, lastline=10]{code/01/lecture1-2.cpp}
-\begin{block}{Variables: Initialization}
+
+\begin{block}{Floating points}
 \begin{itemize}
-\item Now we initialize the string by reading from \lstinline|std::cin| and assigning the value to it
-\item The \lstinline|<<| operator writes a string to \lstinline|std::cout|
-\item The \lstinline|>>| operator reads a string to \lstinline|std::cin|
+\item \lstinline|float| Single precision floating point type
+\item \lstinline|double| Double precision floating point type
+\item \lstinline|long double| Extended precision floating point type
 \end{itemize}
 \end{block}
-Variables can be defined in three different ways:
-\begin{itemize}
-\item \lstinline|std::string = "Peter Pan";|
-\item \lstinline|std::string; // empty string|
-\item \lstinline|std::string stars(3,'*')| // string of three stars
-\end{itemize}
-\vspace{0.25cm}
-More details: \tiny\url{https://en.cppreference.com/w/cpp/string/basic_string}
-}
-
 
 \end{frame}
-
-\begin{frame}[fragile]{More functionality of strings }
-\lstinputlisting[firstline=12, lastline=12]{code/01/lecture1-3.cpp}
-\begin{block}{Concatenation}
-\lstinline|+| operator combines string
-\end{block}
-\begin{block}{Defining constants}
-\lstinline|const| operator to make the promise that we will not change the value later
-\end{block}
-\begin{lstlisting}
-const size_t length = greeting .size ();
-\end{lstlisting}
-\begin{block}{Getting the size}
-\lstinline|.size()| operator to get the string's size
-\end{block}
-\end{frame}
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Looping and counting}
@@ -448,26 +411,63 @@ for(size_t i = 1; r != 5; i++){
 \end{block}
 \end{frame}
 
-\begin{frame}{Built-in types\footnote{\tiny\url{https://en.cppreference.com/w/cpp/language/types}}}
-\begin{block}{Integer types}
-\begin{itemize}
-\item \lstinline|bool| Representation of truth values: \lstinline|true| or \lstinline|false| 
-\item \lstinline|unsigned| Integral type for non-negative values only 
-\item \lstinline|short| Integral type that must hold at least 32 bits
-\item \lstinline|long| Integral type that must hold at least 64 bits
-\item \lstinline|size_t| Unsigned Integral type
-\end{itemize}
-\end{block}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Working with strings}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{block}{Floating points}
+\begin{frame}{Reading strings}
+\only<1>{
+\lstinputlisting{code/01/lecture1-2.cpp}
+}
+\only<2>{
+\lstinputlisting[firstline=3, lastline=3]{code/01/lecture1-2.cpp}
+\lstinputlisting[firstline=9, lastline=9]{code/01/lecture1-2.cpp}
+\begin{block}{Variables: Definition}
 \begin{itemize}
-\item \lstinline|float| Single precision floating point type
-\item \lstinline|double| Double precision floating point type
-\item \lstinline|long double| Extended precision floating point type
+\item Variables have a name (name) and a type (\lstinline|std::string|)
+\item We need to include the string type, since it is not in the core language
+\item We just defined the variable and currently it is a empty or null string
 \end{itemize}
 \end{block}
+}
+\only<3>{
+\lstinputlisting[firstline=10, lastline=10]{code/01/lecture1-2.cpp}
+\begin{block}{Variables: Initialization}
+\begin{itemize}
+\item Now we initialize the string by reading from \lstinline|std::cin| and assigning the value to it
+\item The \lstinline|<<| operator writes a string to \lstinline|std::cout|
+\item The \lstinline|>>| operator reads a string to \lstinline|std::cin|
+\end{itemize}
+\end{block}
+Variables can be defined in three different ways:
+\begin{itemize}
+\item \lstinline|std::string = "Peter Pan";|
+\item \lstinline|std::string; // empty string|
+\item \lstinline|std::string stars(3,'*')| // string of three stars
+\end{itemize}
+\vspace{0.25cm}
+More details: \tiny\url{https://en.cppreference.com/w/cpp/string/basic_string}
+}
+
 
 \end{frame}
+
+\begin{frame}[fragile]{More functionality of strings }
+\lstinputlisting[firstline=12, lastline=12]{code/01/lecture1-3.cpp}
+\begin{block}{Concatenation}
+\lstinline|+| operator combines string
+\end{block}
+\begin{block}{Defining constants}
+\lstinline|const| operator to make the promise that we will not change the value later
+\end{block}
+\begin{lstlisting}
+const size_t length = greeting .size ();
+\end{lstlisting}
+\begin{block}{Getting the size}
+\lstinline|.size()| operator to get the string's size
+\end{block}
+\end{frame}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Summary}
