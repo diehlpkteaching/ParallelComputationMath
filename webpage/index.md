@@ -79,6 +79,8 @@ Note that this is a certified Communication-Intensive (C-I) course which meets a
 * [References](list.pdf)
 -->
 
+Note that all source code shown in the lecture slides and the course book are avialable [here](https://github.com/diehlpkteaching/ParallelComputationMathExamples). I recommend to downlod them and play around with the code to gain a better understanding of C++ code. 
+
 ## Project
 
 As a course project, we will implement bond-based peridyanmics ([PD](https://en.wikipedia.org/wiki/peridynamics)). We will cover the basic equations brielfy in [lecture 8](lecture8.pdf) and the template code is available [here](https://github.com/diehlpkteaching/PD).
