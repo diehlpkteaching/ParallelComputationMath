@@ -16,49 +16,10 @@
 \providecommand\classoption{12pt}
 \documentclass[\classoption]{beamer}
 
-\newcommand{\orcid}[1]{\href{https://orcid.org/#1}{\includegraphics[height=10pt]{images/orcid}}}
+\input{./template/packages}
 
-\mode<beamer>{
-\usepackage{template/dbt}
-\setbeamercolor{mycolor}{fg=background,bg=background}
-}
 
-\mode<handout>{%
-	\usepackage{handoutWithNotes} 
-    \pgfpagesuselayout{4 on 1 with notes}[letterpaper] 
-    \setbeameroption{show notes}
-    \usetheme{default}
-}
 
-\beamertemplatenavigationsymbolsempty
-% usepackage
-
-\definecolor{azure}{rgb}{0.0, 0.5, 1.0}
-\definecolor{awesome}{rgb}{1.0, 0.13, 0.32}
-
-\usepackage{lstautodedent}
-% lstlisting
-\lstset{
-    language=C,
-    basicstyle=\footnotesize\ttfamily,
-    keywordstyle=\color{awesome},
-    showspaces=false,
-    showstringspaces=false,
-    commentstyle=\color{azure}\emph,
-	autodedent
-    %frame=single,
-    %rulecolor=\color{comments},
-    %rulesepcolor=\color{comments},
-    %backgroundcolor = \color{lightgray}
-}
-
-%\usetheme{default}
-
-\usepackage[
-    type={CC},
-    modifier={by-nc-nd},
-    version={4.0},
-]{doclicense} 
 
 \input{template/variables.tex}
 
@@ -77,19 +38,6 @@
   
 }
 
-
-
-\usepackage{ifxetex}
-
-\ifxetex
-\usepackage{fontspec}
-\setmainfont{Raleway}
-\fi
-
-\ifluatex
-\usepackage{fontspec}
-\setmainfont{Raleway}
-\fi
 
 \begin{document} {
     \setbeamertemplate{footline}{}
