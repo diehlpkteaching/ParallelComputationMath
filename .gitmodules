@@ -1,0 +1,3 @@
+[submodule "ParallelComputationMathExamples"]
+	path = ParallelComputationMathExamples
+	url = https://github.com/diehlpkteaching/ParallelComputationMathExamples.git
