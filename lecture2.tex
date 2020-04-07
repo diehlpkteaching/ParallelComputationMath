@@ -18,37 +18,9 @@
 \beamertemplatenavigationsymbolsempty
 
 % usepackage
-%\usepackage{template/dbt}
-\usepackage{listings}
+\usepackage{template/dbt}
+\input{template/packages}
 
-\usepackage{xfrac}
-
-\usepackage{tikz}
-
-\definecolor{comments}{RGB}{81,81,81}
-\definecolor{keywords}{RGB}{255,0,90}
-
-% lstlisting
-\lstset{
-    language=C,
-    basicstyle=\footnotesize\ttfamily,
-    keywordstyle=\color{keywords},
-    showspaces=false,
-    showstringspaces=false,
-    commentstyle=\color{blue}\emph
-    %frame=single,
-    %rulecolor=\color{comments},
-    %rulesepcolor=\color{comments},
-    %backgroundcolor = \color{lightgray}
-}
-
-\usetheme{default}
-
-\usepackage[
-    type={CC},
-    modifier={by-nc-nd},
-    version={4.0},
-]{doclicense} 
 
 \input{template/variables.tex}
 
@@ -56,7 +28,7 @@
 \title{\coursename}
 \subtitle{Lecture 2: Monte Carlo, Vectors, and Algorithms}
 
-%\author{\href{}{}}
+\author{\tiny Patrick Diehl \orcid{0000-0003-3922-8419}}
 %\institute {
 %    \href{}{\tt \scriptsize \today}
 %}
@@ -212,7 +184,7 @@ The areas can be approximated by using $N$ random samples $(x,y)$ and count the 
 \item Print result
 \end{enumerate}
 \vspace{0.25cm}
-\textcolor{blue}{Interactive question:} \\
+\textcolor{azure}{Interactive question:} \\
 \vspace{0.125cm}
 Which features of C++ do we need? \\
 \vspace{0.25cm}
@@ -224,13 +196,13 @@ Which features of C++ do we need? \\
 
 \begin{frame}{Random numbers\footnote{\tiny\url{https://en.cppreference.com/w/cpp/numeric/random/srand}}}
 
-\lstinputlisting{code/02/lecture2-random.cpp}
+\lstinputlisting{chapter2/lecture2-random.cpp}
 More details: Section~3.2~\cite{knuth1997art2}
 \end{frame}
 
 \begin{frame}{Uniform distributed random numbers\footnote{\tiny\url{https://en.cppreference.com/w/cpp/numeric/random/uniform_int_distribution}} \footnote{\tiny\url{https://en.cppreference.com/w/cpp/numeric/random/uniform_real_distribution}}}
 
-\lstinputlisting{code/02/lecture2-distrandom.cpp}
+\lstinputlisting{chapter2/lecture2-distrandom.cpp}
 
 \end{frame}
 
@@ -241,7 +213,7 @@ More details: Section~3.2~\cite{knuth1997art2}
 \begin{frame}{Computation of the average\footnote{\tiny\url{https://en.cppreference.com/w/cpp/io/manip/setprecision/}}}
 
 
-\lstinputlisting{code/02/lecture2-average.cpp}
+\lstinputlisting{chapter2/lecture2-average.cpp}
 
 \end{frame}
 
@@ -252,7 +224,7 @@ More details: Section~3.2~\cite{knuth1997art2}
 \end{block}
 
 \begin{block}{Reading multiple values}
-\lstinputlisting[firstline=7, lastline=13]{code/02/lecture2-average.cpp}
+\lstinputlisting[firstline=7, lastline=13]{chapter2/lecture2-average.cpp}
 \end{block}
 
 Note that the \lstinline|while| loops stops by inserting \lstinline|\n|
@@ -283,7 +255,7 @@ Note that the \lstinline|while| loops stops by inserting \lstinline|\n|
 
 \begin{frame}{Advanced computing of the average}
 
-\lstinputlisting{code/02/lecture2-averageContainers.cpp}
+\lstinputlisting{chapter2/lecture2-averageContainers.cpp}
 
 \end{frame}
 
@@ -384,7 +356,7 @@ for (auto& v : values)
 
 \begin{frame}{Recall: Advanced computing of the average}
 
-\lstinputlisting{code/02/lecture2-averageContainers.cpp}
+\lstinputlisting{chapter2/lecture2-averageContainers.cpp}
 
 \end{frame}
 
@@ -412,9 +384,9 @@ else
 \end{block}
 \end{frame}
 
-\begin{frame}{Example: Advanced computing of the average}
+\begin{frame}{Advanced computing of the average}
 
-\lstinputlisting{code/02/lecture2-median.cpp}
+\lstinputlisting{chapter2/lecture2-median.cpp}
 
 \end{frame}
 
