@@ -76,8 +76,9 @@ Note that this is a certified Communication-Intensive (C-I) course which meets a
 * [Lecture 18](lecture18.pdf)
 * [Lecture 19](lecture19.pdf)
 * [Lecture 20](lecture20.pdf)
-* [References](list.pdf)
 -->
+* [References](list.pdf)
+
 
 Note that all source code shown in the lecture slides and the course book are avialable [here](https://github.com/diehlpkteaching/ParallelComputationMathExamples). I recommend to downlod them and play around with the code to gain a better understanding of C++ code. 
 
