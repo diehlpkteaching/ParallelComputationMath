@@ -14,11 +14,13 @@
 %You should have received a copy of the GNU General Public License
 %along with this program.  If not, see <http://www.gnu.org/licenses/>.
 \documentclass[11pt,letterpaper]{article}
+\usepackage{csquotes}
+\usepackage[style=verbose]{biblatex}
+\addbibresource{../bib.bib}
 \usepackage[utf8]{inputenc}
 \usepackage[margin=1in]{geometry}
 \usepackage[hidelinks]{hyperref}
 \usepackage{lastpage}
-
 
 \input{../template/variables.tex}
 
@@ -44,12 +46,25 @@
 ]{doclicense}
 
 
+\defbibfilter{papers}{
+  type=article or
+  type=inproceedings
+}
 
 \begin{document}
 
+
 \nocite{*}
 
-\bibliographystyle{plain}
-\bibliography{../bib}
+\printbibliography[title={Books},type=book]
+
+\nocite{*}
+
+\printbibliography[title={Articles},filter=papers]
+
+
+
+%\bibliographystyle{plain}
+%\bibliography{../bib}
 
 \end{document}
