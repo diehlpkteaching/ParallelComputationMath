@@ -22,5 +22,5 @@ lectures: ${lectures}
 		find -maxdepth 1 -name "*.pdf" -exec cp "{}" webpage ";"
 
 clean:
-	rm *.bbl *.nav *.snm *.vrb *.out *.aux *.log *.toc 
+	rm *.bbl *.nav *.snm *.vrb *.out *.aux *.log *.toc *.blg
 	latexmk -pdf -CA
