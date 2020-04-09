@@ -7,11 +7,16 @@ jobs:
       - checkout
       - run: find -name "*.cpp" -exec g++ "{}" -o "{}".exec ";"
       - run: find -name "*.cpp" -exec cppcheck --enable=warning,performance "{}" ";"
-      - run: mkdir final 
+      - run: mkdir final
+      - run: git submodule update --init --remote ParallelComputationMathExamples/
       - run: 
           command: | 
             latexmk -pdflatex="lualatex --shell-escape %O %S" --jobname=lecture1-slides -pdf lecture1.tex
             latexmk -pdflatex="lualatex --shell-escape --synctex=1 %O '\def\classoption{12.pt,handout}\input{%S}'" --jobname=lecture1-handout -pdf lecture1.tex
+      - run: 
+          command: | 
+            latexmk -pdflatex="lualatex --shell-escape %O %S" --jobname=lecture2-slides -pdf lecture2.tex
+            latexmk -pdflatex="lualatex --shell-escape --synctex=1 %O '\def\classoption{12.pt,handout}\input{%S}'" --jobname=lecture2-handout -pdf lecture2.tex
       - run: cd syllabus && latexmk -pdflatex="lualatex" -pdf syllabus.tex && cp syllabus.pdf ../final
       - run: cd timetable && latexmk -pdflatex="lualatex" -pdf timetable.tex  && cp timetable.pdf ../final
       - run: cd poster && latexmk -pdflatex="lualatex" -pdf poster.tex  && cp poster.pdf ../final
