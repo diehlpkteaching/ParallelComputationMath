@@ -152,15 +152,15 @@ Note that we use these tools the first time for this course. We anticipate to do
 
 \begin{frame}{A small C++ program}
 
-\lstinputlisting{chapter2/lecture1-1.cpp}
+\lstinputlisting{chapter2/lecture1-main.cpp}
 
 \begin{block}{Compile}
-\lstinputlisting[language=bash,firstline=2, lastline=2]{chapter2/lecture1-1.sh}
+\lstinputlisting[language=bash,firstline=2, lastline=2]{chapter2/lecture1-main.sh}
 \end{block}
 
 
 \begin{block}{Run}
-\lstinputlisting[language=bash,firstline=3, lastline=3]{chapter2/lecture1-1.sh}
+\lstinputlisting[language=bash,firstline=3, lastline=3]{chapter2/lecture1-main.sh}
 \end{block}
 
 
@@ -169,7 +169,7 @@ Note that we use these tools the first time for this course. We anticipate to do
 
 \begin{frame}{Structure of a C++ program}
 
-\lstinputlisting{chapter2/lecture1-1.cpp}
+\lstinputlisting{chapter2/lecture1-main.cpp}
 
 \only<1>{
 \begin{block}{Comments~\cite{kernighan1974elements}}
@@ -365,11 +365,11 @@ for(size_t i = 1; r != 5; i++){
 
 \begin{frame}{Reading strings}
 \only<1>{
-\lstinputlisting{chapter2/lecture1-2.cpp}
+\lstinputlisting{chapter2/lecture1-string-io.cpp}
 }
 \only<2>{
-\lstinputlisting[firstline=3, lastline=3]{chapter2/lecture1-2.cpp}
-\lstinputlisting[firstline=9, lastline=9]{chapter2/lecture1-2.cpp}
+\lstinputlisting[firstline=3, lastline=3]{chapter2/lecture1-string-io.cpp}
+\lstinputlisting[firstline=9, lastline=9]{chapter2/lecture1-string-io.cpp}
 \begin{block}{Variables: Definition}
 \begin{itemize}
 \item Variables have a name (name) and a type (\lstinline|std::string|)
@@ -379,7 +379,7 @@ for(size_t i = 1; r != 5; i++){
 \end{block}
 }
 \only<3>{
-\lstinputlisting[firstline=10, lastline=10]{chapter2/lecture1-2.cpp}
+\lstinputlisting[firstline=10, lastline=10]{chapter2/lecture1-string-io.cpp}
 \begin{block}{Variables: Initialization}
 \begin{itemize}
 \item Now we initialize the string by reading from \lstinline|std::cin| and assigning the value to it
@@ -401,7 +401,9 @@ More details: \tiny\url{https://en.cppreference.com/w/cpp/string/basic_string}
 \end{frame}
 
 \begin{frame}[fragile]{More functionality of strings }
-\lstinputlisting[firstline=12, lastline=12]{chapter2/lecture1-3.cpp}
+\begin{lstlisting}
+const std::string greetings = "Hi," + name + "!";
+\end{lstlisting}
 \begin{block}{Concatenation}
 \lstinline|+| operator combines string
 \end{block}
