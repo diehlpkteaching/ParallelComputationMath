@@ -79,8 +79,13 @@ Note that this is a certified Communication-Intensive (C-I) course which meets a
 -->
 * [References](list.pdf)
 
+### Course notes
 
-Note that all source code shown in the lecture slides and the course book are avialable [here](https://github.com/diehlpkteaching/ParallelComputationMathExamples). I recommend to downlod them and play around with the code to gain a better understanding of C++ code. 
+This semester, I will develop [course notes](book.pdf) to provide extended details to the lecture slides. Note that this document will develop over the semster and new content will be added before each lecture. At least I will try to keep the document aligned with the lecture notes.  
+
+### Example code
+
+Note that all source code shown in the lecture slides and the course book are available [here](https://github.com/diehlpkteaching/ParallelComputationMathExamples). I recommend to downlod them and play around with the code to gain a better understanding of C++ code. 
 
 ## Project
 
