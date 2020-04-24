@@ -87,6 +87,10 @@ This semester, I will develop [course notes](book.pdf) to provide extended detai
 
 Note that all source code shown in the lecture slides and the course book are available [here](https://github.com/diehlpkteaching/ParallelComputationMathExamples). I recommend to downlod them and play around with the code to gain a better understanding of C++ code. 
 
+### Course materials
+
+This course is a open material course and the [lecture slides](https://github.com/diehlpkteaching/ParallelComputationMath), the [exercises](https://github.com/diehlpkteaching/ParallelComputationMathExercise), and the [course notes](https://github.com/diehlpkteaching/ParallelComputationMathScript) are available as LaTeX sources on Github. I would appreciate if you see some improvements or mistake in the material, to do a pull request, and help to improve the course material. 
+
 ## Project
 
 As a course project, we will implement bond-based peridyanmics ([PD](https://en.wikipedia.org/wiki/peridynamics)). We will cover the basic equations brielfy in [lecture 8](lecture8.pdf) and the template code is available [here](https://github.com/diehlpkteaching/PD).
