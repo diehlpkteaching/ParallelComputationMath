@@ -205,6 +205,95 @@ More details: Section~3.2~\cite{knuth1997art2} and \cite{matsumoto1998mersenne}
 
 \end{frame}
 
+\begin{frame}{Sketches for for various random numbers}
+\begin{figure}[ht]
+\begin{subfigure}{.3\textwidth}
+  \centering
+  % include first image
+\def\x{0}
+\def\y{0}
+\def\k{0}
+\def\radius{3}
+\begin{tikzpicture}
+    \draw[fill=cadetgrey, opacity=0.1] (\radius,0) arc(0:90:\radius) -- (0,0) -- cycle;
+    \draw[gray, opacity=0.25] (0,0) rectangle (\radius,\radius);
+    \draw[->] (0,0) -- (1.1*\radius,0);
+    \draw[->] (0,0) -- (0,1.1*\radius);
+    \foreach \i in {1,2,...,10}{%
+        \typeout{Point \i}%
+        \pgfmathsetmacro\x{\radius*rnd}%
+        \typeout{X \x}%
+        \pgfmathsetmacro\y{\radius*rnd}%
+        \typeout{Y \y}%
+        \pgfmathsetmacro\k{(pow(\x,2)+pow(\y,2)) <pow(\radius,2)}%
+        \typeout{im Kreis?: \k}%
+        \pgfmathparse{ifthenelse(\k==1,"awesome","azure")}%
+        \fill[\pgfmathresult] (\x,\y)circle(0.75pt);%
+    }
+\end{tikzpicture}
+  \caption{$N=10$}
+  \label{fig:sub-first}
+\end{subfigure}
+\hfill
+\begin{subfigure}{.3\textwidth}
+  \centering
+% include second image
+\def\x{0}
+\def\y{0}
+\def\k{0}
+\def\radius{3}
+\begin{tikzpicture}
+    \draw[fill=cadetgrey, opacity=0.1] (\radius,0) arc(0:90:\radius) -- (0,0) -- cycle;
+    \draw[gray, opacity=0.25] (0,0) rectangle (\radius,\radius);
+    \draw[->] (0,0) -- (1.1*\radius,0);
+    \draw[->] (0,0) -- (0,1.1*\radius);
+    \foreach \i in {1,2,...,100}{%
+        \typeout{Point \i}%
+        \pgfmathsetmacro\x{\radius*rnd}%
+        \typeout{X \x}%
+        \pgfmathsetmacro\y{\radius*rnd}%
+        \typeout{Y \y}%
+        \pgfmathsetmacro\k{(pow(\x,2)+pow(\y,2)) <pow(\radius,2)}%
+        \typeout{im Kreis?: \k}%
+        \pgfmathparse{ifthenelse(\k==1,"awesome","azure")}%
+        \fill[\pgfmathresult] (\x,\y)circle(0.75pt);%
+    }
+\end{tikzpicture}
+  \caption{$N=100$}
+\end{subfigure}
+\hfill
+\begin{subfigure}{.3\textwidth}
+  \centering
+  % include second image
+\def\x{0}
+\def\y{0}
+\def\k{0}
+\def\radius{3}
+\begin{tikzpicture}
+    \draw[fill=cadetgrey, opacity=0.1] (\radius,0) arc(0:90:\radius) -- (0,0) -- cycle;
+    \draw[gray, opacity=0.25] (0,0) rectangle (\radius,\radius);
+    \draw[->] (0,0) -- (1.1*\radius,0);
+    \draw[->] (0,0) -- (0,1.1*\radius);
+    \foreach \i in {1,2,...,1000}{%
+        \typeout{Point \i}%
+        \pgfmathsetmacro\x{\radius*rnd}%
+        \typeout{X \x}%
+        \pgfmathsetmacro\y{\radius*rnd}%
+        \typeout{Y \y}%
+        \pgfmathsetmacro\k{(pow(\x,2)+pow(\y,2)) <pow(\radius,2)}%
+        \typeout{im Kreis?: \k}%
+        \pgfmathparse{ifthenelse(\k==1,"awesome","azure")}%
+        \fill[\pgfmathresult] (\x,\y)circle(0.75pt);%
+    }
+\end{tikzpicture}
+  \caption{$N=1000$}
+  \label{fig:sub-second}
+\end{subfigure}
+\caption{Distribution of the point inside the circle (\textcolor{awesome}{red}) and outside of the circle (\textcolor{azure}{blue}) for $N=10$, $N=100$, and $N=1000$ random numbers.}
+\label{fig:monte:carlo:samples}
+\end{figure}
+\end{frame}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Containers \& Algorithms}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
