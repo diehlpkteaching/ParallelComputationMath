@@ -291,7 +291,58 @@ More details: Section~3.2~\cite{knuth1997art2} and \cite{matsumoto1998mersenne}
 \end{subfigure}
 \caption{Distribution of the point inside the circle (\textcolor{awesome}{red}) and outside of the circle (\textcolor{azure}{blue}) for $N=10$, $N=100$, and $N=1000$ random numbers.}
 \label{fig:monte:carlo:samples}
+% This example was adapted from https://tex.stackexchange.com/questions/244488/monte-carlo-method-drawing
 \end{figure}
+\end{frame}
+
+\newcommand\montecarlo[2]{
+\def\x{0}
+\def\y{0}
+\def\k{0}
+\def\n{0}
+\def\r{0}
+\def\pi{3.1415}
+\def\e{0}
+\def\radius{0.5}
+    \foreach \i in {1,2,...,#1}{%
+        \typeout{Point \i}%
+        \pgfmathsetmacro\x{abs(\radius*rnd)}%
+        \typeout{X \x}%
+        \pgfmathsetmacro\y{abs(\radius*rnd)}%
+        \typeout{Y \y}%
+        \pgfmathsetmacro\k{(pow(\x,2)+pow(\y,2)) <pow(\radius,2)}%
+        \typeout{im Kreis?: \k}%
+        \pgfmathparse{ifthenelse(\k==1,1,0)}%
+        \pgfmathparse{\n+\pgfmathresult}
+        \xdef\n{\pgfmathresult}
+        \typeout{N \n} 
+        }
+\pgfmathparse{4*\n/#1}
+\xdef\r{\pgfmathresult}
+\typeout{R \r}
+\pgfmathparse{(\r-\pi)/\pi*100}
+\xdef\e{abs(\pgfmathresult)}
+\typeout{E \e}
+\addplot [only marks,mark=*] coordinates { (#2,\e) };		        
+}
+\begin{frame}{How many random numbers are needed?}
+\begin{figure}[tb]
+\centering
+\begin{tikzpicture}
+\begin{axis}
+[
+	xmin=0,   xmax=4,
+	grid=major,
+	xlabel=Numer of random numbers $10^x$,
+	ylabel=Absolute Error (\%)
+]
+\montecarlo{10}{1}
+\montecarlo{100}{2}
+\montecarlo{1000}{3}
+\end{axis}
+\end{tikzpicture}
+\end{figure}
+
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
