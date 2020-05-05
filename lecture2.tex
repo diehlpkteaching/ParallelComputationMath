@@ -539,7 +539,7 @@ else
 \begin{lstlisting}
 int max(int a, int b)
 {
-return return a>b?a:b;
+return a>b?a:b;
 }
 
 \end{lstlisting}
@@ -563,17 +563,17 @@ double median(std::vector<double> values)
 {
 std::sort(values.begin(),values.end());
 vec_sz mid = values.size() / 2;
-double median = values.size() % 2 == 0 ? 
+double res = values.size() % 2 == 0 ? 
     0.5*(values[mid]+values[mid-1]) : values[mid];
     
-return median;
+return res;
 }
 \end{lstlisting}
 \end{block}
 
 \begin{block}{Example}
 
-\lstinline|double median = median(values)|
+\lstinline|double result = median(values)|
 
 \end{block}
 
