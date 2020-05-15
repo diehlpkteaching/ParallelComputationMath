@@ -499,13 +499,13 @@ int main () {
 #include <string>
 
 int main () {
-  string line;
-  ifstream myfile ("example.txt");
+  std::string line;
+  std::ifstream myfile ("example.txt");
   if (myfile.is_open())
   {
     while ( getline (myfile,line) )
     {
-      cout << line << '\n';
+      std::cout << line << '\n';
     }
     myfile.close();
   }
