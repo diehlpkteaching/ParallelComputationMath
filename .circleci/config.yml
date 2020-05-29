@@ -25,6 +25,10 @@ jobs:
           command: | 
             latexmk -pdflatex="lualatex --shell-escape %O %S" --jobname=lecture4-slides -pdf lecture4.tex
             latexmk -pdflatex="lualatex --shell-escape --synctex=1 %O '\def\classoption{12.pt,handout}\input{%S}'" --jobname=lecture4-handout -pdf lecture4.tex
+      - run: 
+          command: | 
+            latexmk -pdflatex="lualatex --shell-escape %O %S" --jobname=lecture5-slides -pdf lecture5.tex
+            latexmk -pdflatex="lualatex --shell-escape --synctex=1 %O '\def\classoption{12.pt,handout}\input{%S}'" --jobname=lecture5-handout -pdf lecture5.tex
       - run: cd syllabus && latexmk -pdflatex="lualatex" -pdf syllabus.tex && cp syllabus.pdf ../final
       - run: cd timetable && latexmk -pdflatex="lualatex" -pdf timetable.tex  && cp timetable.pdf ../final
       - run: cp lecture*.pdf final
