@@ -139,14 +139,14 @@ where $\mathbf{n}$ is the normal vector perpendicular to the plane containing $\
 \begin{frame}{Stepping back: Two-body problem}
 Let $m_i,m_j$ be the masses of two gravitational bodies at the positions $\mathbf{r}_i,\mathbf{r}_j\in\mathbb{R}^3$
 
-\begin{block}{Three key laws:}
+\begin{block}{Three definitions:}
 \begin{enumerate}
 \item The Law of Gravitation: The force of $m_i$ acting on $m_j$ is \\
-$\mathbf{F}_{ij}= G m_i m_j \frac{\mathbf{r}_j-\mathbf{i}_2}{\vert \mathbf{j}_1-\mathbf{r}_i \vert^3}$
+$\mathbf{F}_{ij}= G m_i m_j \frac{\mathbf{r}_j-\mathbf{r}_2}{\vert \mathbf{r}_1-\mathbf{r}_i \vert^3}$
 \item The Calculus: 
 \begin{enumerate}
 \item The velocity of $m_i$ is $\mathbf{v}_i = \frac{d \mathbf{r}_i}{dt}$
-\item The acceleration of $m_i$ is $\mathbf{a}_i \frac{d \mathbf{v}_i}{dt}$
+\item The acceleration of $m_i$ is $\mathbf{a}_i = \frac{d \mathbf{v}_i}{dt}$
 \end{enumerate}
 \item The second Law of Mechanics: \\
  $\mathbf{F}= m \mathbf{a}$ (Force is equal mass times acceleration)
@@ -163,7 +163,7 @@ Derivation for the first body:
 \begin{column}{0.5\textwidth}
 \begin{align*}
 \mathbf{F}_{ij}&=G m_i m_j \frac{\mathbf{r}_j-\mathbf{r}_i}{\vert \mathbf{r}_j-\mathbf{r}_i \vert^3}  \\
-m_1 \mathbf{a}_i &= G m_i m_j \frac{\mathbf{r}_j-\mathbf{r}_i}{\vert \mathbf{r}_i-\mathbf{r}_j \vert^3} \\
+m_i \mathbf{a}_i &= G m_i m_j \frac{\mathbf{r}_j-\mathbf{r}_i}{\vert \mathbf{r}_i-\mathbf{r}_j \vert^3} \\
 \frac{d \mathbf{v}_i}{dt} & = G m_j \frac{\mathbf{r}_j-\mathbf{r}_i}{\vert \mathbf{r}_j-\mathbf{r}_i \vert^3} \\
 \frac{d^2 \mathbf{r}_i}{dt^2} & = G m_j \frac{\mathbf{r}_j-\mathbf{r}_i}{\vert \mathbf{r}_j-\mathbf{r}_i \vert^3}
 \end{align*}
@@ -215,9 +215,9 @@ More details: Simulations~\cite{aarseth2003gravitational} and Astrophysics~\cite
 \begin{tikzpicture}
 \draw (-3.75,0) rectangle (2,1) node[pos=.5] {Compute the forces};
 \draw[->](-0.75,0) -- (-0.75,-1);
-\draw (-3.75,-2) rectangle (2,-1) node[pos=.5] {Update the posotions};
+\draw (-3.75,-2) rectangle (2,-1) node[pos=.5] {Update the positions};
 \draw[->](-0.75,-2) -- (-0.75,-3);
-\draw (-3.75,-4) rectangle (2,-3) node[pos=.5] {Collect statiscal information};
+\draw (-3.75,-4) rectangle (2,-3) node[pos=.5] {Collect statistical information};
 \draw[->] (2,-3.5) -- (3,-3.5) -- (3,0.5) -- (2,0.5);
 \end{tikzpicture}
 \end{figure}
