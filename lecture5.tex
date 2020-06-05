@@ -197,6 +197,8 @@ we have learned so far. A new opportunity is to split the code into different fi
 \vspace{0.25cm}
 Let us look into header files\footnote{\tiny\url{https://docs.microsoft.com/en-us/cpp/cpp/header-files-cpp?view=vs-2019}} first and later at classes to do this.
 
+More details~\cite{hunt1900pragmatic,sommerville2011software}.
+
 \end{frame}
 
 \begin{frame}[fragile]{Header file}
@@ -208,13 +210,13 @@ Let us look into header files\footnote{\tiny\url{https://docs.microsoft.com/en-u
 
 \begin{block}{Example of the average.h file}
 \begin{lstlisting}
-// Median of the elements of a vector
+// Utils for the vector container
 namespace util {
 
 }
 \end{lstlisting}
 \end{block}
-Namespaces\footnote{\tiny\url{https://en.cppreference.com/w/cpp/language/namespace}} \lstinline|namespace| are used to provide naming conflicts
+Namespaces\footnote{\tiny\url{https://en.cppreference.com/w/cpp/language/namespace}} \lstinline|namespace| are used to avoid naming conflicts
 and structure in large projects.
 \end{frame}
 
@@ -242,7 +244,7 @@ double res = util::average(vector);
 \end{frame}
 
 
-\begin{frame}[fragile]{Include gards}
+\begin{frame}[fragile]{Include guards}
 \begin{lstlisting}
 #ifndef UTIL_H // include guard
 #define UTIL_H
