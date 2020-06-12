@@ -13,40 +13,10 @@
 
 %You should have received a copy of the GNU General Public License
 %along with this program.  If not, see <http://www.gnu.org/licenses/>.
-\documentclass[12pt,t]{beamer}
+\providecommand\classoption{12pt}
+\documentclass[\classoption]{beamer}
 
-\beamertemplatenavigationsymbolsempty
-
-% usepackage
-%\usepackage{template/dbt}
-\usepackage{listings}
-
-\definecolor{comments}{RGB}{81,81,81}
-\definecolor{keywords}{RGB}{255,0,90}
-
-% lstlisting
-\lstset{
-    language=C,
-    basicstyle=\footnotesize\ttfamily,
-    keywordstyle=\color{keywords},
-    showspaces=false,
-    showstringspaces=false,
-    commentstyle=\color{blue}\emph
-    %frame=single,
-    %rulecolor=\color{comments},
-    %rulesepcolor=\color{comments},
-    %backgroundcolor = \color{lightgray}
-}
-
-\usetheme{default}
-
-\usepackage[
-    type={CC},
-    modifier={by-nc-nd},
-    version={4.0},
-]{doclicense} 
-
-\usepackage{tikz}
+\input{./template/packages}
 
 \input{template/variables.tex}
 
@@ -54,7 +24,7 @@
 \title{\coursename}
 \subtitle{Lecture 6: Shared memory  parallelism}
 
-%\author{\href{}{}}
+\author{\tiny Patrick Diehl \orcid{0000-0003-3922-8419}}
 %\institute {
 %    \href{}{\tt \scriptsize \today}
 %}
