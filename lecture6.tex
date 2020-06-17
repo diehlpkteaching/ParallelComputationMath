@@ -108,12 +108,46 @@ S = \frac{1}{(1-P) + \frac{P}{N}}
 where $S$ is the speed up, $P$ the proportion of parallel code, and $N$ the numbers of threads.
 
 \begin{block}{Example}
-A program took 20 hours using a single thread and only the part took one hour can be run in parallel, we will get $P=0.95$. So the theoretical speed up is $\frac{1}{(1-0.95)}=20$.
+A program took 20 hours using a single thread and only the part took one hour can not be run in parallel, we will get $P=0.95$. So the theoretical speed up is $\frac{1}{(1-0.95)}=20$.
 \end{block}
 \begin{center}
 \textcolor{blue}{Parallel computing with many threads is only beneficial for highly parallelizable programs.}
 \end{center}
 
+\end{frame}
+
+\begin{frame}{}
+\begin{figure}[tb]
+\centering
+ \begin{tikzpicture}
+        \begin{axis}[
+            no markers,
+            samples=100,
+            /pgf/declare function={
+            f(\x,\a) = 1. / ((1.-\a)+(\a/x));
+       		},
+       		grid=both,
+       		xlabel=$N$ number of threads,
+       		ylabel=$S$ speedup,
+       		legend pos=outer north east,
+       		legend style = {text=white,fill=background,draw=background}
+        ]
+            % ... and use it here
+            \addplot+ [domain=1:2048,azure,thick] {f(x,0)};
+            \addlegendentry{$P=0\%$}
+            \addplot+ [domain=1:2048,cadetgrey,thick] {f(x,0.5)};
+            \addlegendentry{$P=50\%$}
+            \addplot+ [domain=1:2048,asparagus,thick] {f(x,.75)};
+            \addlegendentry{$P=75\%$}
+            \addplot+ [domain=1:2048,awesome,thick] {f(x,.90)};
+            \addlegendentry{$P=90\%$}
+            \addplot+ [domain=1:2048,black,atomictangerine,thick] {f(x,.95)};
+            \addlegendentry{$P=95\%$}
+       \end{axis}
+    \end{tikzpicture}
+\caption{Plot of Amdahl's law for different parallel portions of the code.}
+\label{fig:amdals:law}
+\end{figure}
 \end{frame}
 
 
@@ -407,7 +441,7 @@ Only recently released compilers (gcc 9 and MSVC 19.14)\footnote{\tiny\url{https
 Some special compiler flags are needed to use these features:
 
 \begin{lstlisting}[language=bash]
-g++ -std=c++1z -ltbb lecture7-loops.cpp 
+g++ -std=c++1z -ltbb lecture6-loops.cpp 
 \end{lstlisting}
 \end{block}
 \end{frame}
@@ -415,7 +449,7 @@ g++ -std=c++1z -ltbb lecture7-loops.cpp
 \begin{frame}[fragile]{Example: Accumulate}
 
 \begin{lstlisting}
-std::vector<int> nums(1000000,0);
+std::vector<int> nums(1000000,1);
 \end{lstlisting}
 
 \begin{block}{Sequential\footnote{\tiny\url{https://en.cppreference.com/w/cpp/algorithm/accumulate}}}
@@ -442,10 +476,10 @@ Important: \lstinline|std::execution::par| from \lstinline|#include<execution>|\
 
 \begin{block}{Time measurements}
 \begin{lstlisting}[language=bash]
-g++ -std=c++1z -ltbb lecture7-loops.cpp 
+g++ -std=c++1z -ltbb lecture6-loops.cpp 
 ./a.out
-std::accumulate result 0.000000 took 8164.458818 ms
-std::reduce result 0.000000 took 584.451218 ms
+std::accumulate result 9e+08 took 10370.689498 ms
+std::reduce result 9.000000e+08 took 612.173647 ms
 \end{lstlisting}
 
 
