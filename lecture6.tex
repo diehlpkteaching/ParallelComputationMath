@@ -116,9 +116,11 @@ A program took 20 hours using a single thread and only the part took one hour ca
 
 \end{frame}
 
+
 \begin{frame}{}
 \begin{figure}[tb]
 \centering
+\mode<beamer>{
  \begin{tikzpicture}
         \begin{axis}[
             no markers,
@@ -128,9 +130,9 @@ A program took 20 hours using a single thread and only the part took one hour ca
        		},
        		grid=both,
        		xlabel=$N$ number of threads,
-       		ylabel=$S$ speedup,
+       		ylabel=$S$ speedup, 	
        		legend pos=outer north east,
-       		legend style = {text=white,fill=background,draw=background}
+			legend style = {text=white,fill=background,draw=background}
         ]
             % ... and use it here
             \addplot+ [domain=1:2048,azure,thick] {f(x,0)};
@@ -145,6 +147,34 @@ A program took 20 hours using a single thread and only the part took one hour ca
             \addlegendentry{$P=95\%$}
        \end{axis}
     \end{tikzpicture}
+    }
+ \mode<handout>{
+ \begin{tikzpicture}
+        \begin{axis}[
+            no markers,
+            samples=100,
+            /pgf/declare function={
+            f(\x,\a) = 1. / ((1.-\a)+(\a/x));
+       		},
+       		grid=both,
+       		xlabel=$N$ number of threads,
+       		ylabel=$S$ speedup, 	
+       		legend pos=outer north east
+        ]
+            % ... and use it here
+            \addplot+ [domain=1:2048,azure,thick] {f(x,0)};
+            \addlegendentry{$P=0\%$}
+            \addplot+ [domain=1:2048,cadetgrey,thick] {f(x,0.5)};
+            \addlegendentry{$P=50\%$}
+            \addplot+ [domain=1:2048,asparagus,thick] {f(x,.75)};
+            \addlegendentry{$P=75\%$}
+            \addplot+ [domain=1:2048,awesome,thick] {f(x,.90)};
+            \addlegendentry{$P=90\%$}
+            \addplot+ [domain=1:2048,black,atomictangerine,thick] {f(x,.95)};
+            \addlegendentry{$P=95\%$}
+       \end{axis}
+    \end{tikzpicture}
+    }
 \caption{Plot of Amdahl's law for different parallel portions of the code.}
 \label{fig:amdals:law}
 \end{figure}
