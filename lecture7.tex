@@ -13,42 +13,10 @@
 
 %You should have received a copy of the GNU General Public License
 %along with this program.  If not, see <http://www.gnu.org/licenses/>.
-\documentclass[12pt,t]{beamer}
+\providecommand\classoption{12pt}
+\documentclass[\classoption]{beamer}
 
-\beamertemplatenavigationsymbolsempty
-
-% usepackage
-%\usepackage{template/dbt}
-\usepackage{listings}
-\usepackage{tikz}
-\usetikzlibrary{shapes.geometric, arrows,matrix}
-\usetikzlibrary{calc}
-\usepackage{xfrac}
-
-\definecolor{comments}{RGB}{81,81,81}
-\definecolor{keywords}{RGB}{255,0,90}
-
-% lstlisting
-\lstset{
-    language=C,
-    basicstyle=\footnotesize\ttfamily,
-    keywordstyle=\color{keywords},
-    showspaces=false,
-    showstringspaces=false,
-    commentstyle=\color{blue}\emph
-    %frame=single,
-    %rulecolor=\color{comments},
-    %rulesepcolor=\color{comments},
-    %backgroundcolor = \color{lightgray}
-}
-
-\usetheme{default}
-
-\usepackage[
-    type={CC},
-    modifier={by-nc-nd},
-    version={4.0},
-]{doclicense} 
+\input{./template/packages}
 
 \input{template/variables.tex}
 
@@ -56,7 +24,7 @@
 \title{\coursename}
 \subtitle{Lecture 7: Asynchronous programming }
 
-%\author{\href{}{}}
+\author{\tiny Patrick Diehl \orcid{0000-0003-3922-8419}}
 %\institute {
 %    \href{}{\tt \scriptsize \today}
 %}
@@ -154,7 +122,7 @@ auto H = compute(P,X);
 \begin{itemize}
 \item The program is executed line by line
 \item Each time a function is called the code waits until the functions finishes
-\item We can not compute P and X at the same time, since the data is independent
+\item We can compute P and X at the same time, even if the data is independent
 \end{itemize}
 \end{frame}
 
@@ -296,7 +264,7 @@ More details about POSIX threads~\cite{butenhof1997programming,kleiman1996progra
 \begin{lstlisting}
 [ capture clause ] (parameters) -> return-type  
 {   
-   definition of method   
+   //definition of method   
 } 
 \end{lstlisting}
 \end{block}
@@ -348,7 +316,7 @@ std::for_each(v.begin(),v.end(),
 
 \begin{block}{\lstinline|find_if|\footnote{\tiny\url{https://en.cppreference.com/w/cpp/algorithm/find}}}
 \begin{lstlisting}
-    std::vector<int>:: iterator p = find_if(
+    std::vector<int>:: iterator p = std::find_if(
     v.begin(), 
     	v.end(), 
     	[](int i) 
