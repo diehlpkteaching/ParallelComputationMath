@@ -1,0 +1,66 @@
+\newcommand{\orcid}[1]{\href{https://orcid.org/#1}{\includegraphics[height=10pt]{images/orcid}}}
+
+\mode<beamer>{
+ \usetheme{default}
+}
+
+\mode<handout>{%
+	\usepackage{handoutWithNotes} 
+    \pgfpagesuselayout{4 on 1 with notes}[letterpaper] 
+    \setbeameroption{show notes}
+    \usetheme{default}
+}
+
+\beamertemplatenavigationsymbolsempty
+
+\setbeamertemplate{bibliography item}{\insertbiblabel}
+
+% usepackage
+\usepackage{subcaption}
+
+\definecolor{azure}{rgb}{0.0, 0.5, 1.0}
+\definecolor{awesome}{rgb}{1.0, 0.13, 0.32}
+\definecolor{cadetgrey}{rgb}{0.57, 0.64, 0.69}
+\definecolor{asparagus}{rgb}{0.53, 0.66, 0.42}
+\definecolor{atomictangerine}{rgb}{1.0, 0.6, 0.4}
+
+\usepackage{lstautodedent}
+% lstlisting
+\lstset{
+    language=C,
+    basicstyle=\footnotesize\ttfamily,
+    keywordstyle=\color{awesome},
+    showspaces=false,
+    showstringspaces=false,
+    commentstyle=\color{azure}\emph,
+	autodedent
+    %frame=single,
+    %rulecolor=\color{comments},
+    %rulesepcolor=\color{comments},
+    %backgroundcolor = \color{lightgray}
+}
+
+\lstset{inputpath=./ParallelComputationMathExamples/}
+
+\usepackage[
+    type={CC},
+    modifier={by-nc-nd},
+    version={4.0},
+]{doclicense} 
+
+\usepackage{ifxetex}
+
+\ifxetex
+\usepackage{fontspec}
+\setmainfont{Raleway}
+\fi
+
+\ifluatex
+\usepackage{fontspec}
+\setmainfont{Raleway}
+\fi
+
+\usepackage{xfrac}
+
+\usepackage{tikz}
+\usepackage{pgfplots}
