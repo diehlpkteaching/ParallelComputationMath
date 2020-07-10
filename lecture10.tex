@@ -16,13 +16,11 @@
 \providecommand\classoption{12pt}
 \documentclass[\classoption]{beamer}
 
-\mode<beamer>{
-    \usetheme{default}
-}
-
-\input{./template/packages_white}
+\input{./template/packages}
 
 \input{template/variables.tex}
+
+\pgfplotsset{compat=1.13}
 
 % frame slide
 \title{\coursename}
@@ -233,13 +231,12 @@ $f'(\mathbf{x})= \mathbf{A}\mathbf{x}-\mathbf{b}$
 }
 }
 
-\node[white] at (2,-2)  {$\mathbf{x}$};
+\node at (2,-2)  {$\mathbf{x}$};
 
 \draw[->,thin,gray] (0,-7) -- (0,5);
 \node[above] at (0,5) {\small $x_1$};
 \draw[->,thin,gray] (-5,0) -- (7,0);
-\node[above,white] at (7,0) {\small $x_2$};
-
+\node[above] at (7,0) {\small $x_2$};
 \end{tikzpicture}
 \end{center}
 \vspace{-0.25cm}
@@ -298,7 +295,7 @@ Defines how far away we are from the correct value for $\mathbf{b}$ in iteration
         splot [x=-4:6] x*(1.5*x+y)-2*x+y*(x+3*y)+8*y;
     };
 \addplot[mark=*] coordinates {(2,-2)};
-\node[below] at (2,-2) {\textcolor{white}{$\mathbf{x}$}};
+\node[below] at (2,-2) {\textcolor{black}{$\mathbf{x}$}};
 \addplot[mark=*] coordinates {(-2,-2)};
 \node[below] at (-2,-2) {$\mathbf{x}_0$};
 \draw (2,-2) -- (-2,-2);
