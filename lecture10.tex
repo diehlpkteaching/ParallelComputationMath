@@ -427,7 +427,7 @@ The gradient at $\mathbf{x}_1$ is orthogonal to $\mathbf{x}_{0}$.
 
 \begin{enumerate}
 \item $\mathbf{r}_0 = \mathbf{b} - \mathbf{A} \mathbf{x}_0$
-\item If $\mathbf{r}_0 < \epsilon$ return $\mathbf{x}_0$
+\item If $\vert \mathbf{r}_0 \vert < \epsilon$ return $\mathbf{x}_0$
 \item $\mathbf{r}_i = \mathbf{b} - \mathbf{A} \mathbf{x}_i$
 \item $\alpha_i = \frac{\mathbf{r}^T_0 \mathbf{r}_0}{\mathbf{r}^T_0 \mathbf{A}\mathbf{r}_0}$
 \item $\mathbf{x}_{i+1} = \mathbf{x}_i \alpha_i \mathbf{r}_i$
