@@ -49,6 +49,42 @@ jobs:
           command: | 
             latexmk -pdflatex="lualatex --shell-escape %O %S" --jobname=lecture10-slides -pdf lecture10.tex
             latexmk -pdflatex="lualatex --shell-escape --synctex=1 %O '\def\classoption{12.pt,handout}\input{%S}'" --jobname=lecture10-handout -pdf lecture10.tex
+      - run: 
+          command: | 
+            latexmk -pdflatex="lualatex --shell-escape %O %S" --jobname=lecture11-slides -pdf lecture11.tex
+            latexmk -pdflatex="lualatex --shell-escape --synctex=1 %O '\def\classoption{12.pt,handout}\input{%S}'" --jobname=lecture11-handout -pdf lecture11.tex
+      - run: 
+          command: | 
+            latexmk -pdflatex="lualatex --shell-escape %O %S" --jobname=lecture12-slides -pdf lecture12.tex
+            latexmk -pdflatex="lualatex --shell-escape --synctex=1 %O '\def\classoption{12.pt,handout}\input{%S}'" --jobname=lecture12-handout -pdf lecture12.tex
+      - run: 
+          command: | 
+            latexmk -pdflatex="lualatex --shell-escape %O %S" --jobname=lecture13-slides -pdf lecture13.tex
+            latexmk -pdflatex="lualatex --shell-escape --synctex=1 %O '\def\classoption{12.pt,handout}\input{%S}'" --jobname=lecture13-handout -pdf lecture13.tex
+      - run: 
+          command: | 
+            latexmk -pdflatex="lualatex --shell-escape %O %S" --jobname=lecture14-slides -pdf lecture14.tex
+            latexmk -pdflatex="lualatex --shell-escape --synctex=1 %O '\def\classoption{12.pt,handout}\input{%S}'" --jobname=lecture14-handout -pdf lecture14.tex
+      - run: 
+          command: | 
+            latexmk -pdflatex="lualatex --shell-escape %O %S" --jobname=lecture15-slides -pdf lecture15.tex
+            latexmk -pdflatex="lualatex --shell-escape --synctex=1 %O '\def\classoption{12.pt,handout}\input{%S}'" --jobname=lecture15-handout -pdf lecture15.tex
+      - run: 
+          command: | 
+            latexmk -pdflatex="lualatex --shell-escape %O %S" --jobname=lecture16-slides -pdf lecture16.tex
+            latexmk -pdflatex="lualatex --shell-escape --synctex=1 %O '\def\classoption{12.pt,handout}\input{%S}'" --jobname=lecture16-handout -pdf lecture16.tex
+      - run: 
+          command: | 
+            latexmk -pdflatex="lualatex --shell-escape %O %S" --jobname=lecture17-slides -pdf lecture17.tex
+            latexmk -pdflatex="lualatex --shell-escape --synctex=1 %O '\def\classoption{12.pt,handout}\input{%S}'" --jobname=lecture17-handout -pdf lecture17.tex
+      - run: 
+          command: | 
+            latexmk -pdflatex="lualatex --shell-escape %O %S" --jobname=lecture18-slides -pdf lecture18.tex
+            latexmk -pdflatex="lualatex --shell-escape --synctex=1 %O '\def\classoption{12.pt,handout}\input{%S}'" --jobname=lecture18-handout -pdf lecture18.tex
+      - run: 
+          command: | 
+            latexmk -pdflatex="lualatex --shell-escape %O %S" --jobname=lecture19-slides -pdf lecture19.tex
+            latexmk -pdflatex="lualatex --shell-escape --synctex=1 %O '\def\classoption{12.pt,handout}\input{%S}'" --jobname=lecture19-handout -pdf lecture19.tex
       - run: cd syllabus && latexmk -pdflatex="lualatex" -pdf syllabus.tex && cp syllabus.pdf ../final
       - run: cd timetable && latexmk -pdflatex="lualatex" -pdf timetable.tex  && cp timetable.pdf ../final
       - run: cp lecture*.pdf final
