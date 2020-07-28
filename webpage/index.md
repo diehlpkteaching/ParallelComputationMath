@@ -25,9 +25,7 @@ and I encourage you to visit my office and to discuss exercises and C++ related 
 Please find additional information here:
 
 * [Syllabus](syllabus.pdf)
-<!--
 * [Schedule](timetable.pdf)
--->
 
 ## C-I Certification
 
