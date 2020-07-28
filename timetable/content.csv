@@ -8,12 +8,12 @@ Lecture,Topic, Chapter(s)
 7,Asynchronous programming, --
 8,Bond-based peridynamics (Course project), -- 
 9,Linear Algebra using Blaze, --
-G1,Introduction to parallel programming I (Dr. Kaiser), --
 10,Solvers | Conjugate gradient method, --
-G2,Introduction to parallel programming II(Dr. Kaiser), --
+G1,Introduction to parallel programming I (Dr. Kaiser), --
 11,Introduction to HPX,--
-,Tricks with notebooks (Dr. Brandt), --
+Q1,Time for questions and discussion, --
 ,Midterm exam, --
+G3,Tricks with notebooks (Dr. Brandt), --
 12,One-dimensional heat equation,--
 13,Futurization of the heat equation,--
 14,Serial partition-based 1D heat equation,--
@@ -23,5 +23,4 @@ G2,Introduction to parallel programming II(Dr. Kaiser), --
 18,Distributed implementation of the heat equation I, --
 19,Distributed implementation of the heat equation II, --
 20,Managing memory and low-level data structures, 10
-21,Summary, --
 
