@@ -400,7 +400,7 @@ More details: \tiny\url{https://en.cppreference.com/w/cpp/string/basic_string}
 
 \begin{frame}[fragile]{More functionality of strings }
 \begin{lstlisting}
-const std::string greetings = "Hi," + name + "!";
+const std::string greetings = "Hi, " + name + "!";
 \end{lstlisting}
 \begin{block}{Concatenation}
 \lstinline|+| operator combines string
@@ -409,7 +409,7 @@ const std::string greetings = "Hi," + name + "!";
 \lstinline|const| operator to make the promise that we will not change the value later
 \end{block}
 \begin{lstlisting}
-const size_t length = greeting .size ();
+const size_t length = greetings.size();
 \end{lstlisting}
 \begin{block}{Getting the size}
 \lstinline|.size()| operator to get the string's size
