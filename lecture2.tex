@@ -473,7 +473,7 @@ Note that the \lstinline|while| loops stops by inserting \lstinline|\\n|
 \begin{lstlisting}
 for( size_t i = 0; i < value.size() ; i++)
 {
-	v[i] *= 2
+	values[i] *= 2;
 }
 \end{lstlisting}
 \end{block}
@@ -483,7 +483,7 @@ for( size_t i = 0; i < value.size() ; i++)
 \begin{lstlisting}
 for (auto& v : values)
 {
-	v *= 2
+	v *= 2;
 }
 \end{lstlisting}
 \end{block}
@@ -507,6 +507,7 @@ for (auto& v : values)
 typedef std::vector<double>::size_type vec_sz;
 vec_sz size = values.size();
 double median = 0;
+vec_sz mid = size/2;
 
 if( size % 2 == 0 ) 
 	median = 0.5*(values[mid] + values[mid-1]);
@@ -523,7 +524,7 @@ else
 \end{block}
 \end{frame}
 
-\begin{frame}{Advanced computing of the average}
+\begin{frame}{Advanced computing of the median}
 
 \lstinputlisting{chapter2/lecture2-median.cpp}
 
