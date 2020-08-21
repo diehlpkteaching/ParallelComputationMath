@@ -102,7 +102,7 @@ HPX (High Performance ParalleX) is a general purpose C++ runtime system for para
 \item HPX exposes a uniform, standards-oriented API for ease of programming parallel and \textcolor{blue}{distributed} applications.
 \item HPX provides unified syntax and semantics for \textcolor{blue}{local and remote} operations.
 \item HPX exposes a uniform, flexible, and extendable performance counter framework which can enable runtime adaptivity
-\item HPX has been designed and developed for systems of any scale, from hand-held devices to very large scale systems (Raspberry Pi, Android, Server, up to super computers.
+\item HPX has been designed and developed for systems of any scale, from hand-held devices to very large scale systems (Raspberry Pi, Android, Server, up to super computers).
 \end{itemize}
 \end{frame}
 
@@ -144,7 +144,7 @@ make
 \begin{lstlisting}
 int main()
 {
-    hpx::cout << "Hello World!\n" << hpx::flush;
+    std::cout << "Hello World!\n" << hpx::flush;
     return 0;
 }
 \end{lstlisting}
@@ -335,8 +335,6 @@ Loop iterations are divided into pieces of a given size and then assigned to thr
 Pieces are determined based on the first 1\% of the total loop iterations. 
 \item \lstinline|hpx::parallel::execution::dynamic_chunk_size| \\
 Dynamically scheduled among the cores and if one core finished it gets dynamically assigned a new chunk.
-
-
 \end{itemize}
 
 \end{frame}

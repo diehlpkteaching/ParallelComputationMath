@@ -77,7 +77,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Reminder}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Lecture X}
+\begin{frame}{Lecture 12}
 \begin{block}{What you should know from last lecture}
 \begin{itemize}
 \item One-dimensional heat equation 
@@ -233,13 +233,27 @@ Can be seen to be equal to \lstinline|std::unique_ptr| and \lstinline|std::share
 
 \begin{center}
 \begin{tikzpicture}
+\mode<beamer>{
+
+\begin{axis}[xlabel=Grid points,ylabel=Execution time, grid=both,title=1 CPU,legend style = {text=white,fill=background,draw=background}]
+\addplot+ table [x=Grid_Points, y=Execution_Time_sec, col sep=comma, azure] {./data/stencil_serial.dat};
+\addlegendentry{Serial}
+\addplot table [x=Grid_Points, y=Execution_Time_sec, col sep=comma, awesome] {./data/stencil_2_1.dat};
+\addlegendentry{Futurization}
+\end{axis}
+
+}
+\mode<handout>{
+
 \selectcolormodel{gray}
 \begin{axis}[xlabel=Grid points,ylabel=Execution time, grid=both,title=1 CPU]
 \addplot table [x=Grid_Points, y=Execution_Time_sec, col sep=comma] {./data/stencil_serial.dat};
 \addlegendentry{Serial}
 \addplot table [x=Grid_Points, y=Execution_Time_sec, col sep=comma] {./data/stencil_2_1.dat};
 \addlegendentry{Futurization}
-\end{axis}
+\end{axis} 
+
+}
 \end{tikzpicture}
 \end{center}
 \end{frame}
@@ -249,6 +263,21 @@ Can be seen to be equal to \lstinline|std::unique_ptr| and \lstinline|std::share
 
 \begin{center}
 \begin{tikzpicture}
+
+\mode<beamer>{
+\begin{axis}[xlabel=Grid points,ylabel=Execution time, grid=both,title= Stencil 2,legend pos=north west,legend style = {text=white,fill=black,draw=black}]
+\addplot table [x=Grid_Points, y=Execution_Time_sec, col sep=comma,azure] {./data/stencil_2_1.dat};
+\addlegendentry{1 CPU}
+\addplot table [x=Grid_Points, y=Execution_Time_sec, col sep=comma,awesome] {./data/stencil_2_2.dat};
+\addlegendentry{2 CPU}
+\addplot table [x=Grid_Points, y=Execution_Time_sec, col sep=comma, asparagus] {./data/stencil_2_4.dat};
+\addlegendentry{4 CPU}
+\addplot table [x=Grid_Points, y=Execution_Time_sec, col sep=comma,atomictangerine] {./data/stencil_2_6.dat};
+\addlegendentry{6 CPU}
+\end{axis}
+}
+
+\mode<handout>{
 \selectcolormodel{gray}
 \begin{axis}[xlabel=Grid points,ylabel=Execution time, grid=both,title= Stencil 2,legend pos=north west]
 \addplot table [x=Grid_Points, y=Execution_Time_sec, col sep=comma] {./data/stencil_2_1.dat};
@@ -260,6 +289,7 @@ Can be seen to be equal to \lstinline|std::unique_ptr| and \lstinline|std::share
 \addplot table [x=Grid_Points, y=Execution_Time_sec, col sep=comma] {./data/stencil_2_6.dat};
 \addlegendentry{6 CPU}
 \end{axis}
+}
 \end{tikzpicture}
 \end{center}
 \end{frame}
