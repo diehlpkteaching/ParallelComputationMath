@@ -142,7 +142,7 @@ Let $m_i,m_j$ be the masses of two gravitational bodies at the positions $\mathb
 \begin{block}{Three definitions:}
 \begin{enumerate}
 \item The Law of Gravitation: The force of $m_i$ acting on $m_j$ is \\
-$\mathbf{F}_{ij}= G m_i m_j \frac{\mathbf{r}_j-\mathbf{r}_2}{\vert \mathbf{r}_1-\mathbf{r}_i \vert^3}$
+$\mathbf{F}_{ij}= G m_i m_j \frac{\mathbf{r}_j-\mathbf{r}_i}{\vert \mathbf{r}_j-\mathbf{r}_i \vert^3}$
 \item The Calculus: 
 \begin{enumerate}
 \item The velocity of $m_i$ is $\mathbf{v}_i = \frac{d \mathbf{r}_i}{dt}$
@@ -173,19 +173,19 @@ m_i \mathbf{a}_i &= G m_i m_j \frac{\mathbf{r}_j-\mathbf{r}_i}{\vert \mathbf{r}_
     \begin{tikzpicture}
 \draw (-2,0) circle (0.5cm);
 \draw (2,0) circle (0.275cm);
-\node at (-2,0) {$m_1$};
-\node at (2,0) {$m_2$};
+\node at (-2,0) {$m_i$};
+\node at (2,0) {$m_j$};
 \draw[->] (-1.5,0)--(-1,0);
 \draw[->] (1.7,0)--(1,0);
-\node[below] at (-1,0) {$\mathbf{F}_1$};
-\node[below] at (1,0) {$\mathbf{F}_2$};
+\node[below] at (-1,0) {$\mathbf{F}_i$};
+\node[below] at (1,0) {$\mathbf{F}_j$};
 \end{tikzpicture}
      \end{center}
 \end{column}
 \end{columns} 
 \vspace{0.5cm}
 For the second body follows:
-$\frac{d^2 \mathbf{r}_2}{dt^2}  = G m_1 \frac{\mathbf{r}_1-\mathbf{r}_2}{\vert \mathbf{r}_1-\mathbf{r}_2 \vert^3}$ \\
+$\frac{d^2 \mathbf{r}_j}{dt^2}  = G m_j \frac{\mathbf{r}_1-\mathbf{r}_j}{\vert \mathbf{r}_i-\mathbf{r}_j \vert^3}$ \\
 \vspace{0.5cm}
 Note that we used Newton's law of universal gravitation~\cite{newton1833philosophiae}.
 
@@ -373,7 +373,7 @@ double norm(){ return std::sqrt(x*x+y*y+z*z);}
 \begin{block}{Usage}
 %\vspace{-0.5cm}
 \begin{lstlisting}
-struct vector v;
+struct vector2 v;
 std::cout << v.norm() << std::endl;
 \end{lstlisting}
 \end{block}
@@ -389,11 +389,11 @@ std::cout << v.norm() << std::endl;
 \begin{block}{Example}
 \begin{lstlisting}
 //Compute the sum of two double values
-double add(double a, double x) {
+double add(double a, double b) {
 return a + b;
 }
 //Compute the sum of two float values
-float add(float a, float x) {
+float add(float a, float b) {
 return a + b;
 }
 \end{lstlisting}
@@ -452,8 +452,8 @@ T z;
 
 \begin{block}{Using a generic vector type}
 \begin{lstlisting}
-struct vector<double> vd = {1,2,3};
-struct vector<float> vf = {1,2,3};
+struct vector<double> vd = {1.5,2.0,3.25};
+struct vector<float> vf = {1.25,2.0,3.5};
 struct vector<int> vi = {1,2,3};
 \end{lstlisting}
 \end{block}
