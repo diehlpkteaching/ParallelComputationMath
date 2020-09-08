@@ -33,8 +33,8 @@ Note that this is a certified Communication-Intensive (C-I) course which meets a
 
 * [Exercise 1](exercise1.pdf)
 * [Exercise 2](exercise2.pdf)
-<!--
 * [Exercise 3](exercise3.pdf), [Template Code](https://github.com/diehlpkteaching/N-Body)
+<!--
 * [Exercise 4](exercise4.pdf)
 * [Exercise 5](exercise5.pdf)
 * [Exercise 6](exercise6.pdf)
