@@ -35,7 +35,7 @@
   
 }
 
-
+\pgfplotsset{compat=1.16}
 
 \usepackage{ifxetex}
 
@@ -93,6 +93,26 @@
 \begin{frame}{Scaling results from previous example}
 \begin{center}
 \begin{tikzpicture}[scale=0.75]
+
+\mode<beamer>{
+
+\begin{axis}[xlabel=Grid points,ylabel=Execution time, grid=both,title= Stencil 2,legend pos=north west,legend style = {text=white,fill=background,draw=background}]
+\addplot[azure] table [x=Grid_Points, y=Execution_Time_sec, col sep=comma] {./data/stencil_2_1.dat};
+\addlegendentry{1 CPU}
+\addplot[awesome] table [x=Grid_Points, y=Execution_Time_sec, col sep=comma] {./data/stencil_2_2.dat};
+\addlegendentry{2 CPU}
+\addplot[asparagus] table [x=Grid_Points, y=Execution_Time_sec, col sep=comma] {./data/stencil_2_4.dat};
+\addlegendentry{4 CPU}
+\addplot[ atomictangerine] table [x=Grid_Points, y=Execution_Time_sec, col sep=comma] {./data/stencil_2_6.dat};
+\addlegendentry{6 CPU}
+\end{axis}
+
+}
+
+
+\mode<handout>{
+
+
 \selectcolormodel{gray}
 \begin{axis}[xlabel=Grid points,ylabel=Execution time, grid=both,title= Stencil 2,legend pos=north west]
 \addplot table [x=Grid_Points, y=Execution_Time_sec, col sep=comma] {./data/stencil_2_1.dat};
@@ -104,7 +124,11 @@
 \addplot table [x=Grid_Points, y=Execution_Time_sec, col sep=comma] {./data/stencil_2_6.dat};
 \addlegendentry{6 CPU}
 \end{axis}
+
+}
+
 \end{tikzpicture}
+
 \end{center}
 Note that we need to control the grain size (the amount of work) to get better scalabilty. 
 \end{frame}
@@ -133,7 +157,7 @@ Note that before, we had exact one discrete mesh point handle per \lstinline|hpx
 \begin{tikzpicture}
 
 \foreach \i in {1,...,9}{
-	\node[color=black] at (\i,0) {\pgfuseplotmark{square*}};
+	\node at (\i,0) {\pgfuseplotmark{square*}};
 }
 \foreach \i in {1,...,9}{
 	\node[below] at (\i,-0.1) {$x_\i$};	
@@ -219,16 +243,16 @@ struct partition_data
 
 
 \foreach \i in {1,...,4}{
-	\node[color=black] at (\j*5+\i,1.5) {\pgfuseplotmark{square*}};
+	\node at (\j*5+\i,1.5) {\pgfuseplotmark{square*}};
 }
 
 \foreach \i in {1,...,4}{
-	\node[color=black] at (\j*5+\i,0.75) {\pgfuseplotmark{square*}};
+	\node at (\j*5+\i,0.75) {\pgfuseplotmark{square*}};
 }
 
 
 \foreach \i in {1,...,4}{
-	\node[color=black] at (\j*5+\i,0) {\pgfuseplotmark{square*}};
+	\node at (\j*5+\i,0) {\pgfuseplotmark{square*}};
 }
 \foreach \i in {1,...,4}{
 	\node[below] at (\j*5+\i,-0.1) {$x_\i$};	
