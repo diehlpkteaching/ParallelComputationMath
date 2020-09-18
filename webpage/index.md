@@ -59,6 +59,7 @@ Note that this is a certified Communication-Intensive (C-I) course which meets a
 * [Lecture 11](lecture11-slides.pdf), [Handout](lecture11-handout.pdf)
 * [Lecture 12](lecture12-slides.pdf), [Handout](lecture12-handout.pdf)
 * [Lecture 13](lecture13-slides.pdf), [Handout](lecture13-handout.pdf)
+* [Lecture 14](lecture14-slides.pdf), [Handout](lecture14-handout.pdf)
 * [Lecture 20](lecture20-slides.pdf), [Handout](lecture20-handout.pdf)
 
 <!--
