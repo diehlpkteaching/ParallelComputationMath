@@ -35,8 +35,8 @@ Note that this is a certified Communication-Intensive (C-I) course which meets a
 * [Exercise 2](exercise2.pdf)
 * [Exercise 3](exercise3.pdf), [Template Code](https://github.com/diehlpkteaching/N-Body)
 * [Exercise 4](exercise4.pdf)
-<!--
 * [Exercise 5](exercise5.pdf)
+<!--
 * [Exercise 6](exercise6.pdf)
 * [Exercise 7](exercise7.pdf)
 * [Exercise 8](exercise8.pdf), [Template Code](https://github.com/diehlpkteaching/StencilLocaltoRemote/blob/master/Stencil2.ipynb)
@@ -53,7 +53,7 @@ Note that this is a certified Communication-Intensive (C-I) course which meets a
 * [Lecture 5](lecture5-slides.pdf), [Handout](lecture5-handout.pdf)
 * [Lecture 6](lecture6-slides.pdf), [Handout](lecture6-handout.pdf)
 * [Lecture 7](lecture7-slides.pdf), [Handout](lecture7-handout.pdf)
-* [Lecture 8](lecture8-slides.pdf), [Handout](lecture8-handout.pdf)
+* [Lecture 8](lecture8-slides.pdf), [Handout](lecture8-handout.pdf), [Template](https://github.com/diehlpkteaching/PD)
 * [Lecture 9](lecture9-slides.pdf), [Handout](lecture9-handout.pdf)
 * [Lecture 10](lecture10-slides.pdf), [Handout](lecture10-handout.pdf)
 * [Lecture 11](lecture11-slides.pdf), [Handout](lecture11-handout.pdf)
