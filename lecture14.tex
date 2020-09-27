@@ -338,7 +338,7 @@ str.back() //Undefined behavior if size()==0
 \begin{frame}{Semaphore}
 
 \begin{block}{Analogy}
-Imagine a public library lending books with no late fee. The have X copies of the Hitchhiker's Guide to the Galaxy~\cite{adams2017hitchhiker} to borrow. Five people can borrow these copies and the library does not care to get them back in a feasible amount of time, since they avoided to introduce late fees. If one is waiting for a copy the copy will be assigned to this person, but if none is waiting the copy just goes back to the shelf until one asks for it. 
+Imagine a public library lending books with no late fee. The have 5 copies of the Hitchhiker's Guide to the Galaxy~\cite{adams2017hitchhiker} to borrow. Five people can borrow these copies and the library does not care to get them back in a feasible amount of time, since they avoided to introduce late fees. If one is waiting for a copy the copy will be assigned to this person, but if none is waiting the copy just goes back to the shelf until one asks for it. 
 \end{block}
 \vspace{0.5cm}
 The concept of semaphores was introduced by E. Dijkstra~\cite{dijkstra1962over}. More details~\cite{downey2008little}.
@@ -365,7 +365,7 @@ The concept of semaphores was introduced by E. Dijkstra~\cite{dijkstra1962over}.
 \begin{frame}{More details}
 
 \begin{block}{$P$-Operation}
-If the \lstinline|wait| function is called, the current count is decreased. If the count is $\leq$ zero then the decrement just happens and the function will return. If the count is zero the function will wait until one other thread called the  \lstinline|signal| function.
+If the \lstinline|wait| function is called, the current count is decreased. If the count is $\geq$ zero then the decrement just happens and the function will return. If the count is zero the function will wait until one other thread called the  \lstinline|signal| function.
 \end{block}
 
 \begin{block}{$V$-Operation}
