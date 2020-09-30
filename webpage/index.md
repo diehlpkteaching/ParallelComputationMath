@@ -60,10 +60,13 @@ Note that this is a certified Communication-Intensive (C-I) course which meets a
 * [Lecture 12](lecture12-slides.pdf), [Handout](lecture12-handout.pdf)
 * [Lecture 13](lecture13-slides.pdf), [Handout](lecture13-handout.pdf)
 * [Lecture 14](lecture14-slides.pdf), [Handout](lecture14-handout.pdf)
+* [Lecture 15](lecture15-slides.pdf), [Handout](lecture15-handout.pdf)
+* [Lecture 16](lecture16-slides.pdf), [Handout](lecture16-handout.pdf)
+* [Lecture 17](lecture17-slides.pdf), [Handout](lecture17-handout.pdf)
+* [Lecture 18](lecture18-slides.pdf), [Handout](lecture18-handout.pdf)
+* [Lecture 19](lecture19-slides.pdf), [Handout](lecture19-handout.pdf)
 * [Lecture 20](lecture20-slides.pdf), [Handout](lecture20-handout.pdf)
-
 <!--
-* [Lecture 8 (Course project)](lecture8.pdf) 
 * [Guest 1](Parallelism\ in\ C++\ \(lecture\ 1\).pdf)
 * [Guest 2](Parallelism\ in\ C++\ \(lecture\ 2\).pdf)
 -->
