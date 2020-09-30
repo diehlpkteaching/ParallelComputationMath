@@ -382,6 +382,21 @@ next[i] = dataflow(
 
 \begin{center}
 \begin{tikzpicture}
+
+
+\mode<beamer>{
+
+\begin{axis}[xlabel=Grid points,ylabel=Execution time, grid=both,title= Stencil 2,legend pos=north west,legend style = {text=white,fill=background,draw=background}]
+\addplot table [x=Partitions, y=Execution_Time_sec, col sep=comma] {./data/stencil_5_1cpu_1000000.dat};
+\addlegendentry{1 CPU}
+\addplot table [x=Partitions, y=Execution_Time_sec, col sep=comma] {./data/stencil_5_2cpu_1000000.dat};
+\addlegendentry{2 CPU}
+\end{axis}
+
+}
+
+\mode<handout>{
+
 \selectcolormodel{gray}
 \begin{axis}[xlabel=Partitions,ylabel=Execution time, grid=both,title=Stencil 5,legend style={at={(0.5,0.5)},anchor=west}]
 \addplot table [x=Partitions, y=Execution_Time_sec, col sep=comma] {./data/stencil_5_1cpu_1000000.dat};
@@ -389,6 +404,10 @@ next[i] = dataflow(
 \addplot table [x=Partitions, y=Execution_Time_sec, col sep=comma] {./data/stencil_5_2cpu_1000000.dat};
 \addlegendentry{2 CPU}
 \end{axis}
+
+}
+
+
 \end{tikzpicture}
 \end{center}
 \end{frame}
@@ -397,6 +416,24 @@ next[i] = dataflow(
 
 \begin{center}
 \begin{tikzpicture}
+
+
+
+\mode<beamer>{
+
+\begin{axis}[xlabel=Grid points,ylabel=Execution time, grid=both,title= Stencil 2,legend pos=north west,legend style = {text=white,fill=background,draw=background}]
+\addplot table [x=Partitions, y=Execution_Time_sec, col sep=comma] {./data/stencil_5_1cpu_scaling.dat};
+\addlegendentry{1 CPU}
+\addplot table [x=Partitions, y=Execution_Time_sec, col sep=comma] {./data/stencil_5_2cpu_scaling.dat};
+\addlegendentry{2 CPU}
+\addplot table [x=Partitions, y=Execution_Time_sec, col sep=comma] {./data/stencil_5_4cpu_scaling.dat};
+\addlegendentry{4 CPU};
+\end{axis}
+
+}
+
+\mode<handout>{
+
 \selectcolormodel{gray}
 \begin{axis}[xlabel=Partitions,ylabel=Execution time, grid=both,title=Stencil 5,legend pos=north west]
 \addplot table [x=Partitions, y=Execution_Time_sec, col sep=comma] {./data/stencil_5_1cpu_scaling.dat};
@@ -406,6 +443,11 @@ next[i] = dataflow(
 \addplot table [x=Partitions, y=Execution_Time_sec, col sep=comma] {./data/stencil_5_4cpu_scaling.dat};
 \addlegendentry{4 CPU};
 \end{axis}
+
+
+}
+
+
 \end{tikzpicture}
 \end{center}
 \end{frame}

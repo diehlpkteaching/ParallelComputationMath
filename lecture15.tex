@@ -294,6 +294,21 @@ for (std::size_t t = 0; t != nt; ++t)
 
 \begin{center}
 \begin{tikzpicture}
+
+\mode<beamer>{
+
+\begin{axis}[xlabel=Grid points,ylabel=Execution time, grid=both,title= Stencil 2,legend pos=north west,legend style = {text=white,fill=background,draw=background}]
+\addplot table [x=Partitions, y=Execution_Time_sec, col sep=comma] {./data/stencil_4_1cpu_1000000.dat};
+\addlegendentry{1 CPU}
+\addplot table [x=Partitions, y=Execution_Time_sec, col sep=comma] {./data/stencil_4_2cpu_1000000.dat};
+\addlegendentry{2 CPU}
+\end{axis}
+
+}
+
+
+\mode<handout>{
+
 \selectcolormodel{gray}
 \begin{axis}[xlabel=Partitions,ylabel=Execution time, grid=both,title=Stencil 4,legend pos=north west]
 \addplot table [x=Partitions, y=Execution_Time_sec, col sep=comma] {./data/stencil_4_1cpu_1000000.dat};
@@ -301,6 +316,9 @@ for (std::size_t t = 0; t != nt; ++t)
 \addplot table [x=Partitions, y=Execution_Time_sec, col sep=comma] {./data/stencil_4_2cpu_1000000.dat};
 \addlegendentry{2 CPU}
 \end{axis}
+
+}
+
 \end{tikzpicture}
 \end{center}
 \end{frame}
@@ -310,6 +328,22 @@ for (std::size_t t = 0; t != nt; ++t)
 
 \begin{center}
 \begin{tikzpicture}
+
+\mode<beamer>{
+
+\begin{axis}[xlabel=Grid points,ylabel=Execution time, grid=both,title= Stencil 2,legend pos=north west,legend style = {text=white,fill=background,draw=background}]
+\addplot table [x=Partitions, y=Execution_Time_sec, col sep=comma] {./data/stencil_4_1cpu_scaling.dat};
+\addlegendentry{1 CPU}
+\addplot table [x=Partitions, y=Execution_Time_sec, col sep=comma] {./data/stencil_4_2cpu_scaling.dat};
+\addlegendentry{2 CPU}
+\addplot table [x=Partitions, y=Execution_Time_sec, col sep=comma] {./data/stencil_4_4cpu_scaling.dat};
+\addlegendentry{4 CPU};
+\end{axis}
+
+}
+
+\mode<handout>{
+
 \selectcolormodel{gray}
 \begin{axis}[xlabel=Partitions,ylabel=Execution time, grid=both,title=Stencil 4,legend pos=north west]
 \addplot table [x=Partitions, y=Execution_Time_sec, col sep=comma] {./data/stencil_4_1cpu_scaling.dat};
@@ -319,6 +353,9 @@ for (std::size_t t = 0; t != nt; ++t)
 \addplot table [x=Partitions, y=Execution_Time_sec, col sep=comma] {./data/stencil_4_4cpu_scaling.dat};
 \addlegendentry{4 CPU};
 \end{axis}
+
+}
+
 \end{tikzpicture}
 \end{center}
 \end{frame}
