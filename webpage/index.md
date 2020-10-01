@@ -36,8 +36,8 @@ Note that this is a certified Communication-Intensive (C-I) course which meets a
 * [Exercise 3](exercise3.pdf), [Template Code](https://github.com/diehlpkteaching/N-Body)
 * [Exercise 4](exercise4.pdf)
 * [Exercise 5](exercise5.pdf)
-<!--
 * [Exercise 6](exercise6.pdf)
+<!--
 * [Exercise 7](exercise7.pdf)
 * [Exercise 8](exercise8.pdf), [Template Code](https://github.com/diehlpkteaching/StencilLocaltoRemote/blob/master/Stencil2.ipynb)
 * [Exercise 9](exercise9.pdf), [Template Code](https://github.com/diehlpkteaching/StencilLocaltoRemote/blob/master/Stencil4.ipynb)
