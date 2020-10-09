@@ -171,10 +171,10 @@ $ \frac{\partial u}{\partial x} \approx \frac{u_{i+1}-u_{i}}{2h}$
 
 \begin{block}{Approximation of the second derivative}
 \begin{center}
-$ \frac{\partial u}{\partial x^2} \approx \frac{u_{i-1}-2u_{i}+u_{i+1}}{2h}$
+$ \frac{\partial u}{\partial x^2} \approx \frac{u_{i-1}-2u_{i}+u_{i+1}}{h^2}$
 \end{center}
 \end{block}
-Note that a central difference scheme is applied. More details~\cite{strikwerda2004finite,leveque2007finite}.
+Note that a second-order central difference scheme is applied. More details~\cite{strikwerda2004finite,leveque2007finite}.
 \end{frame}
 
 
@@ -281,7 +281,7 @@ static double heat(double left,
                    double right)
 {
     return middle + 
-           (k*dt/(dx*dx)) * (left - 2*middle + right);
+           (alpha*dt/(h*h)) * (left - 2*middle + right);
 }    
 \end{lstlisting}
 \end{block}
