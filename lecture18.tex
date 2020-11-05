@@ -382,7 +382,7 @@ srun 1d_stencil_6 --nx=1000000 --np=10
 
 \mode<beamer>{
 
-\begin{axis}[xlabel=Grid points,ylabel=Execution time, grid=both,title= Stencil 2,legend pos=north west,legend style = {text=white,fill=background,draw=background}]
+\begin{axis}[xlabel=Localities,ylabel=Execution time, grid=both,title= Stencil 2,legend pos=north west,legend style = {text=white,fill=background,draw=background}]
 \addplot[azure] table [x=Localities, y=Execution_Time_sec, col sep=comma] {./data/stencil_6.dat};
 \end{axis}
 
