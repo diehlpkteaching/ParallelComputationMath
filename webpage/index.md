@@ -66,10 +66,7 @@ Note that this is a certified Communication-Intensive (C-I) course which meets a
 * [Lecture 18](lecture18-slides.pdf), [Handout](lecture18-handout.pdf)
 * [Lecture 19](lecture19-slides.pdf), [Handout](lecture19-handout.pdf)
 * [Lecture 20](lecture20-slides.pdf), [Handout](lecture20-handout.pdf)
-<!--
-* [Guest 1](Parallelism\ in\ C++\ \(lecture\ 1\).pdf)
-* [Guest 2](Parallelism\ in\ C++\ \(lecture\ 2\).pdf)
--->
+* [Lecture 21](https://www.cct.lsu.edu/~pdiehl/teaching/2020/4997/LinkedList.slides.html#/)
 * [References](list.pdf)
 
 ### Course notes
