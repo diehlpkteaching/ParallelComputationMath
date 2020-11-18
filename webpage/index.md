@@ -41,6 +41,7 @@ Note that this is a certified Communication-Intensive (C-I) course which meets a
 * [Exercise 8](exercise8.pdf), [Code](https://github.com/diehlpkteaching/StencilLocaltoRemote/blob/master/Stencil2.ipynb)
 * [Exercise 9](exercise9.pdf), [Code](https://github.com/diehlpkteaching/StencilLocaltoRemote/blob/master/Stencil4.ipynb)
 * [Exercise 10](exercise10.pdf)
+* [Exercise 11](https://www.diehlpk.de/blog/compiling-hpx-rostam/)
 
 ### Slides
 
