@@ -190,6 +190,33 @@ Note that each of two lines to get the pointer or call the function are equivale
 
 \end{frame}
 
+
+\begin{frame}[fragile]{Pointer to classes and structures}
+
+\begin{lstlisting}
+struct A {
+
+public: 
+
+A(double in)
+{
+	value = in;
+}
+
+double value;
+};
+
+A* a = new A();
+double val = a->value;
+
+\end{lstlisting}
+
+Note that we use \lstinline|->| expression to access the variable of a struct \lstinline|a|
+using its pointer.
+
+
+\end{frame}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Arrays}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
