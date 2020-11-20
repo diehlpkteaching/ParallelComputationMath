@@ -357,6 +357,71 @@ Now \lstinline|struct A a;| is equivalent to \lstinline|struct A a = {1}|;
 \end{frame}
 
 
+\begin{frame}[fragile]{Access specifiers\footnote{\tiny\url{https://en.cppreference.com/w/cpp/language/operator_member_access}}}
+
+\begin{lstlisting}
+struct A
+{
+    public:
+    A(int x = 1): x(x) {};
+    
+    private:
+    int x;
+};
+\end{lstlisting}
+
+\begin{itemize}
+\item \lstinline|public| - The function and members have public access
+\item \lstinline|private| - The function and members are only accessible within the struct
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]{Access specifiers\footnote{\tiny\url{https://en.cppreference.com/w/cpp/language/operator_member_access}}: Example}
+
+\begin{lstlisting}
+struct A
+{
+    public:
+    A(int x = 1): x(x) {};
+    
+    private:
+    int x;
+};
+
+A a = A(10);
+// Will not work since x is declared private
+A.x = 1;
+
+\end{lstlisting}
+
+Solution: Providing \lstinline|public| method to read and write the varibale \lstinline|a|.
+\end{frame}
+
+\begin{frame}[fragile]{Access specifiers\footnote{\tiny\url{https://en.cppreference.com/w/cpp/language/operator_member_access}}: Access methods}
+
+\begin{lstlisting}
+struct A
+{
+    public:
+    A(int x = 1): x(x) {};
+    
+    // So-called get method
+    int getX(){ return x;}
+    
+    // So-called set method
+    void setX(int value){ x = vlaue;}
+    
+    private:
+    int x;
+};
+
+\end{lstlisting}
+
+\end{frame}
+
+
+
 \begin{frame}[fragile]{Functions\footnote{\tiny\url{https://en.cppreference.com/w/cpp/language/functions}}}
 \begin{block}{Compute the norm of the vector}
 \begin{lstlisting}
