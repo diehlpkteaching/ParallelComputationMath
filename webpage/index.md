@@ -67,6 +67,7 @@ Note that this is a certified Communication-Intensive (C-I) course which meets a
 * [Lecture 19](lecture19-slides.pdf), [Handout](lecture19-handout.pdf)
 * [Lecture 20](lecture20-slides.pdf), [Handout](lecture20-handout.pdf)
 * [Lecture 21](https://www.cct.lsu.edu/~pdiehl/teaching/2020/4997/LinkedList.slides.html#/)
+* [Lecture 22](https://www.cct.lsu.edu/~pdiehl/teaching/2020/4997/Lecture22.slides.html#/)
 * [References](list.pdf)
 
 ### Course notes
