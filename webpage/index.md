@@ -1,5 +1,5 @@
 ---
-title: "Course: Math 4997-1 Parallel computational mathematics"
+title: "Course: Math 4997-3 Parallel computational mathematics"
 output:
   html_document:
     toc: yes
@@ -9,13 +9,9 @@ output:
 
 Welcome to an exciting semester about accerlerated C++ for computational mathematics. Classes meet
 
-<center>Tuesday and Thursday, 09:00 to 10:20, on LSU's Zoom</center>
+<center>Tuesday and Thursday, 09:00 to 10:20</center>
 
 and I hope you are able to attend. I will try to be available for discussion after classes, so you can get the most out of the class. 
-
-Office hours will be online using LSU's Zoom. Please check my [calendar](https://www.diehlpk.de/calendar/) for my availability from 09:00 to 3:00
-and send me an email 24 hours in advance to schedule your one to one Zoom office hour up to one hour. If you have specific questions to discuss,
-please send me these questions in that email as well. I encourage you to visit my virtual office and to discuss exercises and C++ related questions. 
 
 Please find additional information here:
 
