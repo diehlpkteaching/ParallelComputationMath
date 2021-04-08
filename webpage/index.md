@@ -25,6 +25,8 @@ Note that this is a certified Communication-Intensive (C-I) course which meets a
 
 ## Materials
 
+Note that the materials are from the last fall semester and will be updated before the semester. There are just there for you to get some overview of the course's content.
+
 ### Homework
 
 * [Exercise 1](exercise1.pdf)
@@ -69,7 +71,7 @@ Note that this is a certified Communication-Intensive (C-I) course which meets a
 
 ### Course notes
 
-This semester, I will develop [course notes](book.pdf) to provide extended details to the lecture slides. Note that this document will develop over the semster and new content will be added before each lecture. At least I will try to keep the document aligned with the lecture notes.  
+Last semester, I developed [course notes](book.pdf) to provide extended details to the lecture slides. Note that this document will develop over this semseter semster again.  
 
 ### Example code
 
