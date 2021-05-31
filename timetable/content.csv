@@ -9,18 +9,18 @@ Lecture,Topic, Chapter(s)
 8,Bond-based peridynamics (Course project), -- 
 9,Linear Algebra using Blaze, --
 10,Solvers | Conjugate gradient method, --
-G1,Introduction to parallel programming I (Dr. Kaiser), --
-11,Introduction to HPX,--
-Q1,Time for questions and discussion, --
-,Midterm exam, --
-G3,Tricks with notebooks (Dr. Brandt), --
-12,One-dimensional heat equation,--
-13,Futurization of the heat equation,--
-14,Serial partition-based 1D heat equation,--
-15,Parallel partition-based 1D heat equation,--
-16,Preparation for distributed computing, --
-17,Distributed implementation of the 1D heat equation, --
-18,Distributed implementation of the heat equation I, --
-19,Distributed implementation of the heat equation II, --
-20,Managing memory and low-level data structures, 10
+11,Introduction to parallel programming I (Dr. Kaiser), --
+12,Introduction to HPX,--
+13,One-dimensional heat equation,--
+14,Tricks with notebooks (Dr. Brandt), --
+15,Futurization of the heat equation,--
+16,Serial partition-based 1D heat equation,--
+17,Time for questions and discussion, --
+18,Midterm exam, --
+19,Parallel partition-based 1D heat equation,--
+20,Preparation for distributed computing, --
+21,Distributed implementation of the 1D heat equation, --
+22,Distributed implementation of the heat equation I, --
+23,Distributed implementation of the heat equation II, --
+24,Managing memory and low-level data structures, 10
 
