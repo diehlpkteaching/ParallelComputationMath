@@ -9,7 +9,7 @@ output:
 
 Welcome to an exciting semester about accerlerated C++ for computational mathematics. Classes meet
 
-<center>Tuesday and Thursday, 09:00 to 10:20</center>
+<center>Tuesday and Thursday, 09:00 to 10:20, 0128 [Allen Hall](https://www.google.com/maps/place/Allen+Hall/@30.4138983,-91.1808389,15z/data=!4m5!3m4!1s0x0:0x2b97007833b18933!8m2!3d30.4138983!4d-91.1808389)</center>
 
 and I hope you are able to attend. I will try to be available for discussion after classes, so you can get the most out of the class. 
 
@@ -17,6 +17,10 @@ Please find additional information here:
 
 * [Syllabus](syllabus.pdf)
 * [Schedule](timetable.pdf)
+
+### Office hours
+
+The office hours will be every Tuesday 11:00 to 12:00 at the Center of Computation & Technology. The room will be annoucned atthe first weke of the course.
 
 ## C-I Certification
 
