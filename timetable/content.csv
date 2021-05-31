@@ -23,4 +23,5 @@ Lecture,Topic, Chapter(s)
 22,Distributed implementation of the heat equation I, --
 23,Distributed implementation of the heat equation II, --
 24,Managing memory and low-level data structures, 10
+25,Implementing a single-linked list, --
 
