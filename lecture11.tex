@@ -350,7 +350,7 @@ Dynamically scheduled among the cores and if one core finished it gets dynamical
 
 std::vector<double> values = {1,2,3,4,5,6,7,8,9};
 
-hpx::parallel::for_loop(
+hpx::for_loop(
 	hpx::execution::par, 
 	0, 
 	values.size();
