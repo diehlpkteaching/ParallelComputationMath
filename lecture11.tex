@@ -281,8 +281,8 @@ std::reduce(std::execution::par,
 #include<hpx/include/parallel_reduce.hpp>
 #include<vector>
 
-hpx::parallel::v1::reduce(
-	hpx::parallel::execution::par,
+hpx::ranges::reduce(
+	hpx::execution::par,
 		values.begin(),values.end(),0);
 
 \end{lstlisting}
@@ -297,9 +297,9 @@ hpx::parallel::v1::reduce(
 \begin{lstlisting}
 auto f =
 
-hpx::parallel::v1::reduce(
-	hpx::parallel::execution::par(
-		hpx::parallel::execution::task),
+hpx::ranges::reduce(
+	hpx::execution::par(
+		hpx::execution::task),
 	values.begin(),
 	values.end(),0);
 
@@ -307,9 +307,9 @@ std::cout<< f.get();
 \end{lstlisting}
 
 \begin{itemize}
-\item \lstinline|hpx::parallel::execution::par| Parallel execution
-\item \lstinline|hpx::parallel::execution::seq| Sequential execution
-\item \lstinline|hpx::parallel::execution::task| Task-based execution
+\item \lstinline|hpx::execution::par| Parallel execution
+\item \lstinline|hpx::execution::seq| Sequential execution
+\item \lstinline|hpx::execution::task| Task-based execution
 \end{itemize}
 
 \end{frame}
@@ -321,19 +321,19 @@ std::cout<< f.get();
 \begin{lstlisting}
 #include<hpx/include/parallel_executor_parameters.hpp>
 
-hpx::parallel::execution::static_chunk_size scs(10);
-hpx::parallel::v1::reduce(
-	hpx::parallel::execution::par.with(scs),
+hpx::execution::static_chunk_size scs(10);
+hpx::ranges::reduce(
+	hpx::execution::par.with(scs),
 	values.begin(),
 	values.end(),0);
 \end{lstlisting}
 
 \begin{itemize}
-\item \lstinline|hpx::parallel::execution::static_chunk_size| \\
+\item \lstinline|hpx::execution::static_chunk_size| \\
 Loop iterations are divided into pieces of a given size and then assigned to threads.
-\item \lstinline|hpx::parallel::execution::auto_chunk_size| \\
+\item \lstinline|hpx::execution::auto_chunk_size| \\
 Pieces are determined based on the first 1\% of the total loop iterations. 
-\item \lstinline|hpx::parallel::execution::dynamic_chunk_size| \\
+\item \lstinline|hpx::execution::dynamic_chunk_size| \\
 Dynamically scheduled among the cores and if one core finished it gets dynamically assigned a new chunk.
 \end{itemize}
 
@@ -351,7 +351,7 @@ Dynamically scheduled among the cores and if one core finished it gets dynamical
 std::vector<double> values = {1,2,3,4,5,6,7,8,9};
 
 hpx::parallel::for_loop(
-	hpx::parallel::execution::par, 
+	hpx::execution::par, 
 	0, 
 	values.size();
 	[](boost::uint64_t i)

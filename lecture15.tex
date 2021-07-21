@@ -249,7 +249,7 @@ hpx::future<space> do_work(std::size_t np,
 {
 // Set the boundary conditions in parallel
 auto range = boost::irange(b, np);
-using hpx::parallel::execution::par;
+using hpx::execution::par;
 hpx::parallel::for_each(par, std::begin(range), 
     std::end(range),[&U, nx](std::size_t i)
     {
