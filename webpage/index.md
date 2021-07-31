@@ -20,7 +20,7 @@ Please find additional information here:
 
 ### Office hours
 
-The office hours will be every Tuesday 11:00 to 12:00 at the Center of Computation & Technology. The room will be annoucned atthe first weke of the course.
+The office hours will be every Tuesday 11:00 to 12:00 at the Center of Computation & Technology. The room will be annoucned atthe first week of the course.
 
 ## C-I Certification
 
