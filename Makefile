@@ -16,7 +16,7 @@ timetable.pdf: timetable/timetable.tex timetable/content.csv
 lectures=$(ls *.tex)
 
 lectures: ${lectures}
-		git submodule update --init --remote ParallelComputationMathExamples/
+		git submodule foreach git pull origin main
 		@for f in $(shell ls *.tex); do name=$$(basename $${f} .tex); latexmk -pdflatex="lualatex --shell-escape %O %S" --jobname=$${name}-slides -pdf $${f};  done
 		@for f in $(shell ls *.tex); do name=$$(basename $${f} .tex); latexmk -pdflatex="lualatex -shell-escape --synctex=1 %O '\def\classoption{12.pt,handout}\input{%S}'" --jobname=$${name}-handout -pdf $${f};  done
 		find -maxdepth 1 -name "*.pdf" -exec cp "{}" webpage ";"

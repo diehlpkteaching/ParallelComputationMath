@@ -195,13 +195,13 @@ Which features of C++ do we need? \\
 
 \begin{frame}{Random numbers\footnote{\tiny\url{https://en.cppreference.com/w/cpp/numeric/random/srand}}}
 
-\lstinputlisting{chapter2/lecture2-random.cpp}
+\lstinputlisting{cpp/lecture2-random.cpp}
 More details: Section~3.2~\cite{knuth1997art2} and \cite{matsumoto1998mersenne}
 \end{frame}
 
 \begin{frame}{Uniform distributed random numbers\footnote{\tiny\url{https://en.cppreference.com/w/cpp/numeric/random/uniform_int_distribution}} \footnote{\tiny\url{https://en.cppreference.com/w/cpp/numeric/random/uniform_real_distribution}}}
 
-\lstinputlisting{chapter2/lecture2-distrandom.cpp}
+\lstinputlisting{cpp/lecture2-distrandom.cpp}
 
 \end{frame}
 
@@ -220,13 +220,13 @@ More details: Section~3.2~\cite{knuth1997art2} and \cite{matsumoto1998mersenne}
     \draw[->] (0,0) -- (1.1*\radius,0);
     \draw[->] (0,0) -- (0,1.1*\radius);
     \foreach \i in {1,2,...,10}{%
-        \typeout{Point \i}%
+        %\typeout{Point \i}%
         \pgfmathsetmacro\x{\radius*rnd}%
-        \typeout{X \x}%
+        %\typeout{X \x}%
         \pgfmathsetmacro\y{\radius*rnd}%
-        \typeout{Y \y}%
+        %\typeout{Y \y}%
         \pgfmathsetmacro\k{(pow(\x,2)+pow(\y,2)) <pow(\radius,2)}%
-        \typeout{im Kreis?: \k}%
+        %\typeout{im Kreis?: \k}%
         \pgfmathparse{ifthenelse(\k==1,"awesome","azure")}%
         \fill[\pgfmathresult] (\x,\y)circle(0.75pt);%
     }
@@ -248,13 +248,13 @@ More details: Section~3.2~\cite{knuth1997art2} and \cite{matsumoto1998mersenne}
     \draw[->] (0,0) -- (1.1*\radius,0);
     \draw[->] (0,0) -- (0,1.1*\radius);
     \foreach \i in {1,2,...,100}{%
-        \typeout{Point \i}%
+        %\typeout{Point \i}%
         \pgfmathsetmacro\x{\radius*rnd}%
-        \typeout{X \x}%
+        %\typeout{X \x}%
         \pgfmathsetmacro\y{\radius*rnd}%
-        \typeout{Y \y}%
+        %\typeout{Y \y}%
         \pgfmathsetmacro\k{(pow(\x,2)+pow(\y,2)) <pow(\radius,2)}%
-        \typeout{im Kreis?: \k}%
+        %\typeout{im Kreis?: \k}%
         \pgfmathparse{ifthenelse(\k==1,"awesome","azure")}%
         \fill[\pgfmathresult] (\x,\y)circle(0.75pt);%
     }
@@ -275,13 +275,13 @@ More details: Section~3.2~\cite{knuth1997art2} and \cite{matsumoto1998mersenne}
     \draw[->] (0,0) -- (1.1*\radius,0);
     \draw[->] (0,0) -- (0,1.1*\radius);
     \foreach \i in {1,2,...,1000}{%
-        \typeout{Point \i}%
+        %\typeout{Point \i}%
         \pgfmathsetmacro\x{\radius*rnd}%
-        \typeout{X \x}%
+        %\typeout{X \x}%
         \pgfmathsetmacro\y{\radius*rnd}%
-        \typeout{Y \y}%
+        %\typeout{Y \y}%
         \pgfmathsetmacro\k{(pow(\x,2)+pow(\y,2)) <pow(\radius,2)}%
-        \typeout{im Kreis?: \k}%
+        %\typeout{im Kreis?: \k}%
         \pgfmathparse{ifthenelse(\k==1,"awesome","azure")}%
         \fill[\pgfmathresult] (\x,\y)circle(0.75pt);%
     }
@@ -305,24 +305,24 @@ More details: Section~3.2~\cite{knuth1997art2} and \cite{matsumoto1998mersenne}
 \def\e{0}
 \def\radius{0.5}
     \foreach \i in {1,2,...,#1}{%
-        \typeout{Point \i}%
+        %\typeout{Point \i}%
         \pgfmathsetmacro\x{abs(\radius*rnd)}%
-        \typeout{X \x}%
+        %\typeout{X \x}%
         \pgfmathsetmacro\y{abs(\radius*rnd)}%
-        \typeout{Y \y}%
+        %\typeout{Y \y}%
         \pgfmathsetmacro\k{(pow(\x,2)+pow(\y,2)) <pow(\radius,2)}%
-        \typeout{im Kreis?: \k}%
+        %\typeout{im Kreis?: \k}%
         \pgfmathparse{ifthenelse(\k==1,1,0)}%
         \pgfmathparse{\n+\pgfmathresult}
         \xdef\n{\pgfmathresult}
-        \typeout{N \n} 
+        %\typeout{N \n} 
         }
 \pgfmathparse{4*\n/#1}
 \xdef\r{\pgfmathresult}
-\typeout{R \r}
+%\typeout{R \r}
 \pgfmathparse{(\r-\pi)/\pi*100}
 \xdef\e{abs(\pgfmathresult)}
-\typeout{E \e}
+%\typeout{E \e}
 \addplot [only marks,mark=*] coordinates { (#2,\e) };		        
 }
 \begin{frame}{How many random numbers are needed?}
@@ -352,7 +352,7 @@ More details: Section~3.2~\cite{knuth1997art2} and \cite{matsumoto1998mersenne}
 \begin{frame}{Computation of the average\footnote{\tiny\url{https://en.cppreference.com/w/cpp/io/manip/setprecision}}}
 
 
-\lstinputlisting{chapter2/lecture2-average.cpp}
+\lstinputlisting{cpp/lecture2-average.cpp}
 
 \end{frame}
 
@@ -363,7 +363,7 @@ More details: Section~3.2~\cite{knuth1997art2} and \cite{matsumoto1998mersenne}
 \end{block}
 
 \begin{block}{Reading multiple values}
-\lstinputlisting[firstline=7, lastline=13]{chapter2/lecture2-average.cpp}
+\lstinputlisting[firstline=7, lastline=13]{cpp/lecture2-average.cpp}
 \end{block}
 
 Note that the \lstinline|while| loops stops by inserting \lstinline|\\n|
@@ -394,7 +394,7 @@ Note that the \lstinline|while| loops stops by inserting \lstinline|\\n|
 
 \begin{frame}{Advanced computing of the average}
 
-\lstinputlisting{chapter2/lecture2-averageContainers.cpp}
+\lstinputlisting{cpp/lecture2-averageContainers.cpp}
 
 \end{frame}
 
@@ -495,7 +495,7 @@ for (auto& v : values)
 
 \begin{frame}{Recall: Advanced computing of the average}
 
-\lstinputlisting{chapter2/lecture2-averageContainers.cpp}
+\lstinputlisting{cpp/lecture2-averageContainers.cpp}
 
 \end{frame}
 
@@ -526,7 +526,7 @@ else
 
 \begin{frame}{Advanced computing of the median}
 
-\lstinputlisting{chapter2/lecture2-median.cpp}
+\lstinputlisting{cpp/lecture2-median.cpp}
 
 \end{frame}
 
