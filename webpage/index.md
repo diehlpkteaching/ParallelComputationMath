@@ -108,6 +108,7 @@ As a course project, we will implement bond-based peridyanmics ([PD](https://en.
 * [C++ summer lecture](https://www.diehlpk.de/blog/cpp-lectures/)
 * [Lecture material](https://github.com/diehlpkteaching/ParallelComputationMath)
 * [Additional information C-I Certification](https://www.lsu.edu/academicaffairs/cxc/files/ci-student-resources.pdf)
+* [Some discussion about AMTs](tbaa.pdf)
 
 <p style="text-align:center;"> <img src="https://mirrors.creativecommons.org/presskit/buttons/80x15/svg/by-nc-nd.svg" alt="CC"> </p>
 
