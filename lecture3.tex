@@ -404,9 +404,9 @@ std::fill_n(v1.begin(), 5, -1);
 \end{lstlisting}
 \end{block}
 
-\begin{block}{Replacing the last 5 elements\footnote{\tiny\url{https://en.cppreference.com/w/cpp/iterator/back_inserter}}}
+\begin{block}{Appending 5 elements\footnote{\tiny\url{https://en.cppreference.com/w/cpp/iterator/back_inserter}}}
 \begin{lstlisting}
-//Replace the first 5 elements by -1
+//Appending 5 elements 
 std::fill_n(std::back_inserter(v), 5, -1);
 \end{lstlisting}
 \end{block}
