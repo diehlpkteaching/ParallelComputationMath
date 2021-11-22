@@ -70,6 +70,7 @@ Note that the materials are from the last fall semester and will be updated befo
 * [Lecture 20](lecture20-slides.pdf), [Handout](lecture20-handout.pdf)
 * [Lecture 21](https://www.cct.lsu.edu/~pdiehl/teaching/2020/4997/LinkedList.slides.html#/)
 * [Lecture 22](https://www.cct.lsu.edu/~pdiehl/teaching/2020/4997/Lecture22.slides.html#/)
+* [Lecture 23](https://www.cct.lsu.edu/~pdiehl/teaching/2020/4997/Lecture23.slides.html#/)
 * [References](list.pdf)
 * [Mind map](map.pdf)
 
